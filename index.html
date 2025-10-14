@@ -76,64 +76,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-
-        .abstimmung {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 20px;
-            border-radius: 12px;
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        .abstimmung h3 {
-            color: #0077cc;
-        }
-
-        .abstimmung form {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-top: 15px;
-        }
-
-        .abstimmung label {
-            margin: 5px 0;
-        }
-
-        #voteBtn {
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #0077cc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #voteBtn:hover {
-            background-color: #005fa3;
-        }
-
-        #pollResult {
-            margin-top: 25px;
-            text-align: left;
-        }
-
-        .result-bar {
-            height: 25px;
-            margin: 8px 0;
-            border-radius: 5px;
-            background-color: #0077cc;
-            color: white;
-            line-height: 25px;
-            padding-left: 10px;
-            transition: width 0.5s;
-        }
     </style>
 </head>
 
@@ -179,27 +121,10 @@
     </section>
     <h3>(* = Nur im PayTV)</h3>
 
-
-    <div class="abstimmung">
-        <h3>⚽ Bundesliga Torschützenkönig 2025/26</h3>
-        <p>Wer wird diese Bundesliga Saison Torschützenkönig?</p>
-        <form id="bundesligaPoll">
-            <label><input type="radio" name="player" value="Harry Kane (FC Bayern München)"> Harry Kane (FC Bayern
-                München)</label>
-            <label><input type="radio" name="player" value="Mohamed Amoura (VfL Wolfsburg)"> Mohamed Amoura (VfL
-                Wolfsburg)</label>
-            <label><input type="radio" name="player" value="Serhou Guirassy (Borussia Dortmund)"> Serhou Guirassy
-                (Borussia Dortmund)</label>
-            <label><input type="radio" name="player" value="Patrick Schick (Bayer Leverkusen)"> Patrick Schick (Bayer
-                Leverkusen)</label>
-            <label><input type="radio" name="player" value="Can Uzun (Eintracht Frankfurt)"> Can Uzun (Eintracht
-                Frankfurt)</label>
-            <label><input type="radio" name="player" value="Ermedin Demirovic (VfB Stuttgart)"> Ermedin Demirovic (VfB
-                Stuttgart)</label>
-            <button type="button" id="voteBtn">Abstimmen</button>
-        </form>
-        <div id="pollResult"></div>
-    </div>
+    <p class="links">
+        <a href="https://strawpoll.com/wAg3QmA3My8"><button>Zur Abstimmung</button>
+        </a>
+    </p>
 
 
     <!-- ======== JAVASCRIPT COUNTDOWN ======== -->
@@ -226,48 +151,6 @@
                 }
             }, 1000);
         });
-
-
-        const results = {
-            "Harry Kane (FC Bayern München)": 0,
-            "Mohamed Amoura (VfL Wolfsburg)": 0,
-            "Serhou Guirassy (Borussia Dortmund)": 0,
-            "Patrick Schick (Bayer Leverkusen)": 0,
-            "Can Uzun (Eintracht Frankfurt)": 0,
-            "Ermedin Demirovic (VfB Stuttgart)": 0
-        };
-
-        const voteBtn = document.getElementById('voteBtn');
-        const form = document.getElementById('bundesligaPoll');
-        const pollResult = document.getElementById('pollResult');
-
-        voteBtn.addEventListener('click', () => {
-            const choice = form.player.value;
-            if (!choice) {
-                alert('Bitte wähle einen Spieler!');
-                return;
-            }
-            results[choice]++;
-
-            // Gesamtstimmen berechnen
-            const totalVotes = Object.values(results).reduce((a, b) => a + b, 0);
-
-            // Ergebnisse mit Balken anzeigen
-            let resultHTML = '<h4>Ergebnisse:</h4>';
-            for (let player in results) {
-                const percent = totalVotes ? Math.round((results[player] / totalVotes) * 100) : 0;
-                resultHTML += `
-      <div>${player} (${percent}%)</div>
-      <div class="result-bar" style="width:${percent}%;"></div>
-    `;
-            }
-            pollResult.innerHTML = resultHTML;
-
-            // Formular nach Abstimmung deaktivieren
-            form.querySelectorAll('input').forEach(input => input.disabled = true);
-            voteBtn.disabled = true;
-        });
-
 
     </script>
 </body>
