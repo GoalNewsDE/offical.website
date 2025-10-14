@@ -107,7 +107,7 @@
         /* Animation */
         @keyframes scroll {
             0% {
-                transform: translateX(100%);
+                transform: translateX(0%);
             }
 
             100% {
@@ -200,6 +200,7 @@
             }, 1000);
         });
 
+
         const results = [
             "Deutschland 1:0 Nordirland",
             "Schweden 0:1 Kosovo",
@@ -208,21 +209,21 @@
             "Ukraine 2:1 Aserbaidschan",
             "Island 2:2 Frankreich",
             "Wales 2:4 Belgien",
-            "Nordmazedonien 1:1 Kasachstan",
+            "Nordmazedonien 1:1 Kasachstan"
         ];
 
-        const ticker = document.getElementById("ticker");
+        window.addEventListener("DOMContentLoaded", () => {
+            const ticker = document.getElementById("ticker");
 
-        // Ergebnisse einfügen
-        results.forEach(result => {
-            const span = document.createElement("span");
-            span.textContent = result;
-            ticker.appendChild(span);
+            // Ergebnisse doppelt einfügen für flüssiges, endloses Scrollen
+            [...results, ...results].forEach(result => {
+                const span = document.createElement("span");
+                span.textContent = result;
+                ticker.appendChild(span);
+            });
+
+            ticker.classList.add("scrolling");
         });
-
-        // Scroll-Klasse hinzufügen, nachdem alles eingefügt ist
-        ticker.classList.add("scrolling");
-
 
     </script>
 </body>
