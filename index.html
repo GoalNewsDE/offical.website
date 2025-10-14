@@ -4,10 +4,43 @@
 <head>
     <meta charset="utf-8">
     <title>GoalNewsDE</title>
+
     <style>
+        /* ======== ALLGEMEINES STYLING ======== */
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(180deg, #065348, #6a88ad);
+            background-attachment: fixed;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
         h1 {
             text-align: center;
             font-size: 100px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        h3 {
+            text-align: center;
+            font-size: small;
+        }
+
+        span {
+            font-size: small;
+        }
+
+        .middle {
+            text-align: center;
+            font-size: xx-large;
+            font-weight: 600;
+        }
+
+        .links {
+            text-align: center;
         }
 
         button {
@@ -17,44 +50,16 @@
             font-size: x-large;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        body {
-            margin: 0;
-            height: 100vh;
-            background: linear-gradient(180deg, #065348, #6a88ad);
-            background-attachment: fixed;
-            font-family: Arial, Helvetica, sans-serif;
-
-
-        }
-
-
-        .middle {
-            text-align: center;
-            font-size: xx-large;
-            font-weight: 600;
-
-        }
-
-        .links {
-            text-align: center;
+            transition: all 0.3s ease;
         }
 
         button:hover {
             animation: glow 1s infinite alternate;
             cursor: pointer;
-            /* Sagt dem Nutzer es ist klickbar */
             transform: scale(1.05);
-            /* Button wächst ein biischen */
         }
 
-
-
-        @keyframes glow
-
-        /* Lässt den Button beim Hover lebendig sein */
-            {
+        @keyframes glow {
             from {
                 text-shadow: 0 0 5px #0f6d30;
             }
@@ -62,61 +67,95 @@
             to {
                 text-shadow: 0 0 5px #1db954;
             }
+        }
 
-
-
+        /* ======== COUNTDOWN STYLING ======== */
+        #countdown {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #e63946;
+            text-align: center;
+            margin-bottom: 30px;
         }
     </style>
 </head>
 
 <body>
+    <!-- ======== HEADER ======== -->
     <header>
         <h1>GoalNewsDE</h1>
+
         <p class="links">
             <a href="https://www.tiktok.com/@goal.news25">
                 <button>Tiktok</button>
-
             </a>
         </p>
     </header>
 
+    <!-- ======== COUNTDOWN ZUM NÄCHSTEN SPIELTAG ======== -->
+    <h2>Countdown zum nächsten Spieltag</h2>
+    <div id="countdown"></div>
+    <!-- ======== ENDE COUNTDOWN ======== -->
 
-
-
+    <!-- ======== WHATSAPP BUTTON ======== -->
     <p class="links">
         <a href="https://www.whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y">
             <button>WhatsApp</button>
         </a>
     </p>
 
+    <!-- ======== LOGO ======== -->
     <div style="text-align: center;">
-        <img decoding="async" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Image Description" width="250">
+        <img decoding="async" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
     </div>
+
+    <!-- ======== BESCHREIBUNG ======== -->
     <p class="middle">
-        Dies ist die offizielle Website von GoalNewsDE!<br> Wir würden uns freuen wenn ihr ein Abo auf unserem Whatsapp
-        Channel da lasst!🙏
+        Dies ist die offizielle Website von GoalNewsDE!<br>
+        Wir würden uns freuen, wenn ihr ein Abo auf unserem Whatsapp Channel da lasst! 🙏
     </p>
 
-
-
-    <section style="margin-top: 50px;
-    text-align: center;">
-        <h2>
-            <p Aktueller Liveticker: <br><br>
-                Heute:<br><br>
-                Spanien - Bulgarien<br>20:45 Uhr<br><br>
-                Türkei - Georgien<br> 20:45 Uhr<br><br>
-                Portugal - Ungarn<br>20:45 Uhr<br><br>
-                Italien - Israel<br>20:45 Uhr<br><br>
-                Lettland - England<br>20:45 Uhr<br><br>
-
-
-        </h2>
+    <!-- ======== HEUTIGE SPIELE ======== -->
+    <section style="margin-top: 70px; text-align: center;">
+        <h2>Heute:</h2>
+        <p>
+            Spanien - Bulgarien<span>*</span><br>20:45 Uhr<br><br>
+            Türkei - Georgien<span>*</span><br>20:45 Uhr<br><br>
+            Portugal - Ungarn<span>*</span><br>20:45 Uhr<br><br>
+            Italien - Israel<span>*</span><br>20:45 Uhr<br><br>
+            Lettland - England<span>*</span><br>20:45 Uhr<br>
+        </p>
     </section>
 
+    <h3>(* = Nur im PayTV)</h3>
 
 
+    <script>
+        // Datum des nächsten Spieltags (Datum anpassen!)
+        const matchDate = new Date("October 19, 2025 15:30:00").getTime();
 
+        // Countdown-Intervall (jede Sekunde)
+        const timer = setInterval(function () {
+            const now = new Date().getTime();
+            const distance = matchDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Countdown im HTML anzeigen
+            document.getElementById("countdown").innerHTML =
+                `${days}T ${hours}h ${minutes}m ${seconds}s`;
+
+            // Wenn Zeit abgelaufen -> Text ändern
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").innerHTML = "Anpfiff!";
+            }
+        }, 1000);
+    </script>
+    <!-- ======== ENDE COUNTDOWN SCRIPT ======== -->
+</body>
 
 </html>
-</body>
