@@ -82,6 +82,43 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        .ticker-wrapper {
+            width: 100%;
+            overflow: hidden;
+            background-color: ();
+            color: white;
+            border-radius: 10px;
+            padding: 10px 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .ticker span {
+            display: inline-block;
+            margin: 0 50px;
+            font-weight: bold;
+        }
+
+        /* Animation */
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .ticker.scrolling {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+        }
     </style>
 </head>
 
@@ -132,9 +169,11 @@
         </a>
     </p>
 
-
-
-
+    <div class="ticker-wrapper">
+        <div class="ticker" id="ticker">
+            <!-- Ergebnisse werden per JS eingefügt -->
+        </div>
+    </div>
 
     <!-- ======== JAVASCRIPT COUNTDOWN ======== -->
     <script>
@@ -160,6 +199,31 @@
                 }
             }, 1000);
         });
+
+        const results = [
+            "Deutschland 1:0 Nordirland"
+            "Schweden 0:1 Kosovo"
+            "Slowenien 0:0 Schweiz"
+            "Slowakei 2:0 Luxemburg"
+            "Ukraine 2:1 Aserbaidschan"
+            "Island 2:2 Frankreich"
+            "Wales 2:4 Belgien"
+            "Nordmazedonien 1:1 Kasachstan"
+        ];
+
+        const ticker = document.getElementById("ticker");
+
+        // Ergebnisse einfügen
+        results.forEach(result => {
+            const span = document.createElement("span");
+            span.textContent = result;
+            ticker.appendChild(span);
+        });
+
+        // Scroll-Klasse hinzufügen, nachdem alles eingefügt ist
+        ticker.classList.add("scrolling");
+
+
     </script>
 </body>
 
