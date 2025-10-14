@@ -3,13 +3,14 @@
 
 <head>
     <meta charset="utf-8">
-    <title>GoalNewsDe</title>
+    <title>GoalNewsDE</title>
 
     <style>
         /* ======== ALLGEMEINES STYLING ======== */
         body {
             margin: 0;
             min-height: 100vh;
+            /* Höhe anpassen, damit alles sichtbar ist */
             background: linear-gradient(180deg, #065348, #6a88ad);
             background-attachment: fixed;
             font-family: Arial, Helvetica, sans-serif;
@@ -17,14 +18,7 @@
         }
 
         h1 {
-
             font-size: 100px;
-            margin: 20px 0;
-            background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 300%;
-
         }
 
         h2 {
@@ -75,12 +69,32 @@
         #countdown {
             font-size: 1.5em;
             font-weight: bold;
-            text-align: center;
+            color: #e63946;
             margin-bottom: 30px;
-            background: linear-gradient(to right, #1db954, #3498db);
-            /* grün → blau */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        }
+
+        #theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #fff;
+            color: #065348;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .dark-mode {
+            background: linear-gradient(180deg, #121212, #1e1e1e);
+            color: white;
+        }
+
+        .dark-mode button {
+            background-color: #333;
+            color: white;
         }
     </style>
 </head>
@@ -92,6 +106,13 @@
         <p class="links">
             <a href="https://www.tiktok.com/@goal.news25"><button>Tiktok</button></a>
         </p>
+
+        <button id="theme-toggle">🌙</button>
+
+
+
+
+
     </header>
 
     <!-- ======== COUNTDOWN ZUM NÄCHSTEN SPIELTAG ======== -->
@@ -115,7 +136,7 @@
     </p>
 
     <!-- ======== HEUTIGE SPIELE ======== -->
-    <section>
+    <section style="margin-top: 50px;">
         <h2>Heute:</h2>
         <p>
             Spanien - Bulgarien<span>*</span><br>20:45 Uhr<br><br>
@@ -127,20 +148,11 @@
     </section>
     <h3>(* = Nur im PayTV)</h3>
 
-    <p class="links">
-        <a href="https://strawpoll.com/wAg3QmA3My8"><button>Zur Abstimmung</button>
-        </a>
-    </p>
-
-
-
-
-
     <!-- ======== JAVASCRIPT COUNTDOWN ======== -->
     <script>
         window.addEventListener('DOMContentLoaded', function () {
-            // Datum des nächsten Spieltags: 18. Oktober 2025, 15:30 Uhr
-            const matchDate = new Date("October 18, 2025 15:30:00").getTime();
+            // Testdatum: 5 Minuten ab jetzt
+            const matchDate = new Date(new Date().getTime() + 5 * 60 * 1000).getTime();
 
             const timer = setInterval(function () {
                 const now = new Date().getTime();
@@ -152,7 +164,7 @@
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 document.getElementById("countdown").innerHTML =
-                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                    `${days}T ${hours}h ${minutes}m ${seconds}s`;
 
                 if (distance < 0) {
                     clearInterval(timer);
@@ -160,6 +172,16 @@
                 }
             }, 1000);
         });
+
+        document.getElementById("theme-toggle").addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+        });
+
+
+
+
+
+
     </script>
 </body>
 
