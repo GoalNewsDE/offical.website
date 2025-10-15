@@ -4,65 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin-Dashboard - GoalNewsDE</title>
+    <title>Admin Dashboard - GoalNewsDE</title>
     <style>
         html,
         body {
             margin: 0;
             padding: 0;
-            height: 100%;
+            height: 100vh;
+            /* volle Höhe */
+            display: flex;
+            justify-content: center;
+            /* horizontal zentriert */
+            align-items: center;
+            /* vertikal zentriert */
             font-family: Arial, sans-serif;
             background: linear-gradient(180deg, #065348, #6a88ad);
             color: white;
-            display: grid;
-            place-items: center;
         }
 
         .dashboard {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 40px;
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            padding: 40px;
             width: 350px;
+            max-width: 90%;
             text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Inhalte horizontal zentrieren */
         }
 
-        .dashboard h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .counter {
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: linear-gradient(to right, #1db954, #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 10px 0;
+        h1 {
+            margin-bottom: 30px;
         }
 
         .label {
+            margin-top: 15px;
             font-size: 1rem;
-            margin-bottom: 5px;
         }
 
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            background-color: #1db954;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 20px;
-            width: 80%;
+        .counter {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 5px 0;
+            background: linear-gradient(to right, #1db954, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: 100%;
             text-align: center;
         }
 
-        .btn:hover {
+        button {
+            margin-top: 25px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background: #1db954;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 80%;
+        }
+
+        button:hover {
             transform: scale(1.05);
             transition: 0.2s;
         }
@@ -74,7 +80,11 @@
             }
 
             .counter {
-                font-size: 2rem;
+                font-size: 1.5rem;
+            }
+
+            button {
+                width: 100%;
             }
         }
     </style>
@@ -85,52 +95,28 @@
         <h1>Besucherzahlen</h1>
 
         <div class="label">Heute</div>
-        <div class="counter" id="heuteCount">Lade...</div>
+        <div class="counter" id="heuteCount">0</div>
 
         <div class="label">Gestern</div>
-        <div class="counter" id="gesternCount">Lade...</div>
-
-        <div class="label">Diese Woche</div>
-        <div class="counter" id="wocheCount">Lade...</div>
+        <div class="counter" id="gesternCount">0</div>
 
         <div class="label">Gesamt</div>
-        <div class="counter" id="gesamtCount">Lade...</div>
+        <div class="counter" id="gesamtCount">0</div>
 
-        <button class="btn" onclick="window.location.href='mainwebsite.html'">Zurück zur Hauptseite</button>
+        <button onclick="window.location.href='index.html'">Zurück zur Hauptseite</button>
     </div>
 
     <script>
-        const gnrcounterUrl = 'https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e';
+        const heuteKey = 'visits_' + new Date().toISOString().slice(0, 10);
+        const gesternKey = 'visits_' + new Date(Date.now() - 86400000).toISOString().slice(0, 10);
 
-        fetch(gnrcounterUrl)
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                let count = 0;
-                const img = doc.querySelector('img');
-                if (img && img.alt) {
-                    count = img.alt.replace(/\D/g, ''); // nur Zahlen behalten
-                }
+        const heuteCount = parseInt(localStorage.getItem(heuteKey)) || 0;
+        const gesternCount = parseInt(localStorage.getItem(gesternKey)) || 0;
+        const gesamtCount = parseInt(localStorage.getItem('gesamt')) || 0;
 
-                // Zahlen setzen
-                const gesamt = parseInt(count) || 0;
-                const heute = Math.floor(gesamt * 0.2);    // Beispiel: 20% heute
-                const gestern = Math.floor(gesamt * 0.1);  // Beispiel: 10% gestern
-                const woche = Math.floor(gesamt * 0.5);    // Beispiel: 50% diese Woche
-
-                document.getElementById('heuteCount').textContent = heute;
-                document.getElementById('gesternCount').textContent = gestern;
-                document.getElementById('wocheCount').textContent = woche;
-                document.getElementById('gesamtCount').textContent = gesamt;
-            })
-            .catch(err => {
-                console.error('Fehler beim Laden des Counters:', err);
-                document.getElementById('heuteCount').textContent = 'Fehler';
-                document.getElementById('gesternCount').textContent = 'Fehler';
-                document.getElementById('wocheCount').textContent = 'Fehler';
-                document.getElementById('gesamtCount').textContent = 'Fehler';
-            });
+        document.getElementById('heuteCount').textContent = heuteCount;
+        document.getElementById('gesternCount').textContent = gesternCount;
+        document.getElementById('gesamtCount').textContent = gesamtCount;
     </script>
 </body>
 
