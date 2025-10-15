@@ -17,14 +17,12 @@
         }
 
         h1 {
-
             font-size: 100px;
             margin: 20px 0;
             background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-size: 300%;
-
         }
 
         h2 {
@@ -42,17 +40,23 @@
         }
 
         .links {
-            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
         }
 
         button {
             background-color: #065348;
+            color: white;
             height: 50px;
             width: 200px;
             font-size: x-large;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
+            border: none;
         }
 
         button:hover {
@@ -78,7 +82,6 @@
             text-align: center;
             margin-bottom: 30px;
             background: linear-gradient(to right, #1db954, #3498db);
-            /* grün → blau */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -86,7 +89,6 @@
         .ticker-wrapper {
             width: 100%;
             overflow: hidden;
-            background-color: ();
             color: white;
             border-radius: 10px;
             padding: 10px 0;
@@ -126,23 +128,16 @@
     <!-- ======== HEADER ======== -->
     <header>
         <h1>GoalNewsDE</h1>
-        <p class="links">
+        <div class="links">
             <a href="https://www.tiktok.com/@goal.news25"><button>Tiktok</button></a>
-        </p>
+            <a href="https://www.whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y"><button>WhatsApp</button></a>
+            <button onclick="window.location.href='seite2.html'">Teamstatistiken</button>
+        </div>
     </header>
-
-    <button class="Statistiken" onclick="window.location.href='seite2.html'">
-        Teams (DE)
-    </button>
 
     <!-- ======== COUNTDOWN ZUM NÄCHSTEN SPIELTAG ======== -->
     <h2>Countdown zum nächsten Spieltag</h2>
     <div id="countdown"></div>
-
-    <!-- ======== WHATSAPP BUTTON ======== -->
-    <p class="links">
-        <a href="https://www.whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y"><button>WhatsApp</button></a>
-    </p>
 
     <!-- ======== LOGO ======== -->
     <div>
@@ -157,20 +152,18 @@
 
     <!-- ======== HEUTIGE SPIELE ======== -->
     <section>
-        <h2>Heute:</h2>
+        <h2>Heutige Spiele</h2>
         <p>
-            Spanien - Bulgarien<span>*</span><br>20:45 Uhr<br><br>
-            Türkei - Georgien<span>*</span><br>20:45 Uhr<br><br>
-            Portugal - Ungarn<span>*</span><br>20:45 Uhr<br><br>
-            Italien - Israel<span>*</span><br>20:45 Uhr<br><br>
-            Lettland - England<span>*</span><br>20:45 Uhr<br>
+            U-20 Weltmeisterschaft, Halbfinale<br>22:00 Uhr
+            Marokko - Frankreich<br><br>
+            Landespokal Westfalen, 3. Spieltag<br>
+            BSV Schüren - FC Güthersloh<span>*</span><br>19:00 Uhr<br><br>
+            SV Schermbeck - 1. FC Gievenbeck<br>19:45 Uhr<br>
         </p>
     </section>
-    <h3>(* = Nur im PayTV)</h3>
 
     <p class="links">
-        <a href="https://strawpoll.com/wAg3QmA3My8"><button>Zur Abstimmung</button>
-        </a>
+        <a href="https://strawpoll.com/wAg3QmA3My8"><button>Zur Abstimmung</button></a>
     </p>
 
     <div class="ticker-wrapper">
@@ -178,12 +171,6 @@
             <!-- Ergebnisse werden per JS eingefügt -->
         </div>
     </div>
-
-
-
-
-
-
 
     <!-- ======== JAVASCRIPT COUNTDOWN ======== -->
     <script>
@@ -210,22 +197,19 @@
             }, 1000);
         });
 
-
         const results = [
-            "Deutschland 1:0 Nordirland",
-            "Schweden 0:1 Kosovo",
-            "Slowenien 0:0 Schweiz",
-            "Slowakei 2:0 Luxemburg",
-            "Ukraine 2:1 Aserbaidschan",
-            "Island 2:2 Frankreich",
-            "Wales 2:4 Belgien",
-            "Nordmazedonien 1:1 Kasachstan"
+            "Lettland 0:5 England",
+            "Portugal 2:2 Ungarn",
+            "Spanien 4:0 Bulgarien",
+            "Italien 3:0 Israel",
+            "Türkei 4:1 Georgien",
+            "Andorra 1:3 Serbien",
+            "Irland 1:0 Armenien"
         ];
 
         window.addEventListener("DOMContentLoaded", () => {
             const ticker = document.getElementById("ticker");
 
-            // Ergebnisse doppelt einfügen für flüssiges, endloses Scrollen
             [...results, ...results].forEach(result => {
                 const span = document.createElement("span");
                 span.textContent = result;
@@ -234,7 +218,6 @@
 
             ticker.classList.add("scrolling");
         });
-
     </script>
 </body>
 
