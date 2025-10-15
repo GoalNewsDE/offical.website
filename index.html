@@ -7,7 +7,7 @@
     <title>GoalNewsDE</title>
 
     <style>
-        /* ======== BASIS ======== */
+        /* ===== BASIS ===== */
         body {
             margin: 0;
             min-height: 100vh;
@@ -16,6 +16,7 @@
             font-family: Arial, Helvetica, sans-serif;
             text-align: center;
             transition: background 0.3s, color 0.3s;
+            color: white;
         }
 
         body.light {
@@ -80,7 +81,7 @@
             }
         }
 
-        /* ======== COUNTDOWN ======== */
+        /* ===== COUNTDOWN ===== */
         #countdown {
             font-size: 1.5rem;
             font-weight: bold;
@@ -91,7 +92,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* ======== TICKER ======== */
+        /* ===== TICKER ===== */
         .ticker-wrapper {
             width: 100%;
             overflow: hidden;
@@ -129,7 +130,7 @@
             }
         }
 
-        /* ======== DARK-MODE-BUTTON (rund!) ======== */
+        /* ===== DARK/LIGHT BUTTON ===== */
         #themeToggle {
             position: fixed;
             top: 20px;
@@ -137,7 +138,6 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            /* rund */
             background-color: #065348;
             color: white;
             border: none;
@@ -147,7 +147,6 @@
             align-items: center;
             justify-content: center;
             padding: 0;
-            /* kein extra padding */
             line-height: 1;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s, background-color 0.3s;
@@ -157,7 +156,13 @@
             transform: scale(1.1);
         }
 
-        /* ======== RESPONSIVE ======== */
+        /* ===== VISITOR COUNTER ===== */
+        .visitor-counter {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media(max-width: 768px) {
             h1 {
                 font-size: 10vw;
@@ -188,36 +193,38 @@
 </head>
 
 <body>
-    <!-- ======== DARK/LIGHT BUTTON ======== -->
+    <!-- ===== DARK/LIGHT BUTTON ===== -->
     <button id="themeToggle">🌙</button>
 
-    <!-- ======== HEADER ======== -->
+    <!-- ===== HEADER ===== -->
     <header>
         <h1>GoalNewsDE</h1>
         <div class="links">
             <a href="http://tiktok.com/@goal.news25"><button class="main-btn">Tiktok</button></a>
             <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y"><button
                     class="main-btn">WhatsApp</button></a>
-            <button class="main-btn" onclick="window.location.href='statistics.html'">Statistiken</button>
+            <button class="main-btn" onclick="window.location.href='statistics/'">Statistiken</button>
+            <button class="main-btn" onclick="window.location.href='admin.html'">Admin</button>
         </div>
     </header>
 
-    <!-- ======== COUNTDOWN ======== -->
+    <!-- ===== COUNTDOWN ===== -->
     <h2>Countdown zum nächsten Spieltag</h2>
     <div id="countdown"></div>
 
-    <!-- ======== LOGO ======== -->
+    <!-- ===== LOGO ===== -->
     <div>
         <img decoding="async" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
     </div>
 
-    <!-- ======== BESCHREIBUNG ======== -->
+    <!-- ===== BESCHREIBUNG ===== -->
     <p class="middle">
         Dies ist die offizielle Website von GoalNewsDE!<br>
         Wir würden uns freuen, wenn ihr ein Abo auf unserem WhatsApp-Channel da lasst! 🙏
     </p>
 
-    <!-- ======== HEUTIGE SPIELE ======== -->
+
+    <!-- ===== HEUTIGE SPIELE ===== -->
     <section>
         <h2>Heutige Spiele</h2>
         <p>
@@ -231,12 +238,12 @@
         <a href="https://strawpoll.com/wAg3QmA3My8"><button class="main-btn">Zur Abstimmung</button></a>
     </p>
 
-    <!-- ======== TICKER ======== -->
+    <!-- ===== TICKER ===== -->
     <div class="ticker-wrapper">
         <div class="ticker scrolling" id="ticker"></div>
     </div>
 
-    <!-- ======== SCRIPT ======== -->
+    <!-- ===== SCRIPT ===== -->
     <script>
         // Countdown
         window.addEventListener('DOMContentLoaded', function () {
