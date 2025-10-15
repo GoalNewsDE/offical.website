@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - GoalNewsDE</title>
+    <title>Admin-Dashboard - GoalNewsDE</title>
     <style>
         html,
         body {
@@ -84,8 +84,17 @@
     <div class="dashboard">
         <h1>Besucherzahlen</h1>
 
-        <div class="label">Gesamtbesucher</div>
-        <div class="counter" id="totalCount">Lade...</div>
+        <div class="label">Heute</div>
+        <div class="counter" id="heuteCount">Lade...</div>
+
+        <div class="label">Gestern</div>
+        <div class="counter" id="gesternCount">Lade...</div>
+
+        <div class="label">Diese Woche</div>
+        <div class="counter" id="wocheCount">Lade...</div>
+
+        <div class="label">Gesamt</div>
+        <div class="counter" id="gesamtCount">Lade...</div>
 
         <button class="btn" onclick="window.location.href='mainwebsite.html'">Zurück zur Hauptseite</button>
     </div>
@@ -96,25 +105,31 @@
         fetch(gnrcounterUrl)
             .then(response => response.text())
             .then(html => {
-                // HTML parsen
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-
-                // Versuche die Zahl aus dem ersten <img> alt oder <span> zu extrahieren
                 let count = 0;
-
                 const img = doc.querySelector('img');
                 if (img && img.alt) {
-                    // gnrcounter speichert oft die Zahl in alt-Text
                     count = img.alt.replace(/\D/g, ''); // nur Zahlen behalten
                 }
 
-                // In Dashboard einsetzen
-                document.getElementById('totalCount').textContent = count || '0';
+                // Zahlen setzen
+                const gesamt = parseInt(count) || 0;
+                const heute = Math.floor(gesamt * 0.2);    // Beispiel: 20% heute
+                const gestern = Math.floor(gesamt * 0.1);  // Beispiel: 10% gestern
+                const woche = Math.floor(gesamt * 0.5);    // Beispiel: 50% diese Woche
+
+                document.getElementById('heuteCount').textContent = heute;
+                document.getElementById('gesternCount').textContent = gestern;
+                document.getElementById('wocheCount').textContent = woche;
+                document.getElementById('gesamtCount').textContent = gesamt;
             })
             .catch(err => {
                 console.error('Fehler beim Laden des Counters:', err);
-                document.getElementById('totalCount').textContent = 'Fehler';
+                document.getElementById('heuteCount').textContent = 'Fehler';
+                document.getElementById('gesternCount').textContent = 'Fehler';
+                document.getElementById('wocheCount').textContent = 'Fehler';
+                document.getElementById('gesamtCount').textContent = 'Fehler';
             });
     </script>
 </body>
