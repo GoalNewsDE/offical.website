@@ -34,7 +34,6 @@
             margin: 0 auto;
             padding: 0 15px;
             align-items: stretch;
-            /* Alle Blöcke gleich hoch */
         }
 
         /* ======== Team-Karten ======== */
@@ -85,15 +84,17 @@
             /* Flüssige Breitenanimation */
         }
 
-        /* ======== Zurück-Button ======== */
-        .back-btn {
+        /* ======== Buttons ======== */
+        .back-btn,
+        .button,
+        a button {
             background-color: #065348;
             height: 50px;
             width: 90%;
             max-width: 180px;
             font-size: 1rem;
             border-radius: 20px;
-            margin: 30px auto;
+            margin: 15px auto;
             display: block;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -101,19 +102,28 @@
             transition: all 0.3s;
         }
 
-        .back-btn:hover {
-            transform: scale(1.05);
-            animation: glow 1s infinite alternate;
+        /* ======== Puls-Animation für Buttons ======== */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 5px #0f6d30;
-            }
-
-            to {
-                text-shadow: 0 0 5px #1db954;
-            }
+        /* ======== Hover-Effekt für Buttons ======== */
+        .back-btn:hover,
+        .button:hover,
+        a button:hover {
+            animation: pulse 1s infinite;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            transform: scale(1.05);
         }
 
         /* ======== Responsive Anpassungen ======== */
@@ -174,6 +184,7 @@
 
     <!-- Grid mit allen 18 Teams -->
     <div class="stats-dashboard">
+        <!-- Team-Beispiel: 18 Teams wie folgt -->
         <div class="team">
             <div class="team-name">1. Bayern München</div>
             <div class="team-stats">6 Spiele | 25:3 Tore | 18 Punkte</div>
