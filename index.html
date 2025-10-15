@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE</title>
 
     <style>
@@ -17,7 +18,7 @@
         }
 
         h1 {
-            font-size: 100px;
+            font-size: 6vw;
             margin: 20px 0;
             background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
             -webkit-background-clip: text;
@@ -27,6 +28,7 @@
 
         h2 {
             margin: 20px 0;
+            font-size: 2.5vw;
         }
 
         h3 {
@@ -34,7 +36,7 @@
         }
 
         .middle {
-            font-size: xx-large;
+            font-size: 1.5rem;
             font-weight: 600;
             margin: 20px 0;
         }
@@ -42,7 +44,7 @@
         .links {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
             margin: 20px 0;
         }
@@ -51,8 +53,9 @@
             background-color: #065348;
             color: white;
             height: 50px;
-            width: 200px;
-            font-size: x-large;
+            min-width: 150px;
+            padding: 0 15px;
+            font-size: 1rem;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
@@ -77,7 +80,7 @@
 
         /* ======== COUNTDOWN ======== */
         #countdown {
-            font-size: 1.5em;
+            font-size: 1.5rem;
             font-weight: bold;
             text-align: center;
             margin-bottom: 30px;
@@ -86,6 +89,7 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* ======== TICKER ======== */
         .ticker-wrapper {
             width: 100%;
             overflow: hidden;
@@ -93,6 +97,7 @@
             border-radius: 10px;
             padding: 10px 0;
             font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
         .ticker {
@@ -104,22 +109,66 @@
             display: inline-block;
             margin: 0 50px;
             font-weight: bold;
+            font-size: 1rem;
         }
 
-        /* Animation */
+        .scrolling {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scroll 40s linear infinite;
+        }
+
         @keyframes scroll {
             0% {
-                transform: translateX(0%);
+                transform: translateX(0);
             }
 
             100% {
-                transform: translateX(-100%);
+                transform: translateX(-50%);
             }
         }
 
-        .ticker.scrolling {
-            display: inline-block;
-            animation: scroll 20s linear infinite;
+        /* ======== RESPONSIVE ======== */
+        @media(max-width: 768px) {
+            h1 {
+                font-size: 10vw;
+            }
+
+            h2 {
+                font-size: 4vw;
+            }
+
+            button {
+                font-size: 0.9rem;
+                min-width: 120px;
+                height: 45px;
+            }
+
+            .ticker span {
+                font-size: 0.9rem;
+                margin: 0 30px;
+            }
+        }
+
+        @media(max-width: 480px) {
+            h1 {
+                font-size: 12vw;
+            }
+
+            h2 {
+                font-size: 5vw;
+            }
+
+            button {
+                font-size: 0.8rem;
+                min-width: 100px;
+                height: 40px;
+            }
+
+            .ticker span {
+                font-size: 0.8rem;
+                margin: 0 20px;
+            }
         }
     </style>
 </head>
@@ -135,7 +184,7 @@
         </div>
     </header>
 
-    <!-- ======== COUNTDOWN ZUM NÄCHSTEN SPIELTAG ======== -->
+    <!-- ======== COUNTDOWN ======== -->
     <h2>Countdown zum nächsten Spieltag</h2>
     <div id="countdown"></div>
 
@@ -154,10 +203,8 @@
     <section>
         <h2>Heutige Spiele</h2>
         <p>
-            U-20 Weltmeisterschaft, Halbfinale<br>22:00 Uhr
-            Marokko - Frankreich<br><br>
-            Landespokal Westfalen, 3. Spieltag<br>
-            BSV Schüren - FC Güthersloh<span>*</span><br>19:00 Uhr<br><br>
+            U-20 Weltmeisterschaft, Halbfinale<br>22:00 Uhr Marokko - Frankreich<br><br>
+            Landespokal Westfalen, 3. Spieltag<br>BSV Schüren - FC Güthersloh<br>19:00 Uhr<br><br>
             SV Schermbeck - 1. FC Gievenbeck<br>19:45 Uhr<br>
         </p>
     </section>
@@ -166,30 +213,25 @@
         <a href="https://strawpoll.com/wAg3QmA3My8"><button>Zur Abstimmung</button></a>
     </p>
 
+    <!-- ======== TICKER ======== -->
     <div class="ticker-wrapper">
-        <div class="ticker" id="ticker">
-            <!-- Ergebnisse werden per JS eingefügt -->
-        </div>
+        <div class="ticker scrolling" id="ticker"></div>
     </div>
 
-    <!-- ======== JAVASCRIPT COUNTDOWN ======== -->
+    <!-- ======== JAVASCRIPT ======== -->
     <script>
+        // Countdown
         window.addEventListener('DOMContentLoaded', function () {
-            // Datum des nächsten Spieltags: 18. Oktober 2025, 15:30 Uhr
             const matchDate = new Date("October 18, 2025 15:30:00").getTime();
-
             const timer = setInterval(function () {
                 const now = new Date().getTime();
                 const distance = matchDate - now;
-
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
                 document.getElementById("countdown").innerHTML =
                     `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
                 if (distance < 0) {
                     clearInterval(timer);
                     document.getElementById("countdown").innerHTML = "Anpfiff!";
@@ -197,6 +239,7 @@
             }, 1000);
         });
 
+        // Liveticker
         const results = [
             "Letzte Spiele:",
             "Lettland 0:5 England",
@@ -208,16 +251,13 @@
             "Irland 1:0 Armenien"
         ];
 
-        window.addEventListener("DOMContentLoaded", () => {
-            const ticker = document.getElementById("ticker");
+        const ticker = document.getElementById("ticker");
 
-            [...results, ...results].forEach(result => {
-                const span = document.createElement("span");
-                span.textContent = result;
-                ticker.appendChild(span);
-            });
-
-            ticker.classList.add("scrolling");
+        // Inhalte doppelt für smooth loop
+        [...results, ...results].forEach(result => {
+            const span = document.createElement("span");
+            span.textContent = result;
+            ticker.appendChild(span);
         });
     </script>
 </body>
