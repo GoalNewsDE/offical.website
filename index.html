@@ -2,35 +2,32 @@
 <html lang="de">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE</title>
-
     <style>
-        /* ======== VARIABLEN ======== */
         :root {
-            --bg: linear-gradient(180deg, #065348, #6a88ad);
-            --text: white;
-            --button-bg: #065348;
-            --button-text: white;
+            --bg-dark: linear-gradient(180deg, #065348, #6a88ad);
+            --bg-light: linear-gradient(180deg, #e2f1ee, #e8f4ff);
+            --text-dark: white;
+            --text-light: #111;
+            --button-dark: #065348;
+            --button-light: #1db954;
         }
 
-        [data-theme="light"] {
-            --bg: linear-gradient(180deg, #e2f1ee, #e8f4ff);
-            --text: #111;
-            --button-bg: #1db954;
-            --button-text: white;
-        }
-
-        /* ======== GLOBAL ======== */
         body {
             margin: 0;
+            font-family: Arial, sans-serif;
             min-height: 100vh;
-            background: var(--bg);
-            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-dark);
             text-align: center;
-            color: var(--text);
-            transition: all 0.3s ease;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        body[data-theme="light"] {
+            background: var(--bg-light);
+            color: var(--text-light);
         }
 
         h1 {
@@ -42,17 +39,6 @@
             background-size: 300%;
         }
 
-        h2 {
-            margin: 20px 0;
-            font-size: 2.5vw;
-        }
-
-        .middle {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 20px 0;
-        }
-
         .links {
             display: flex;
             justify-content: center;
@@ -62,24 +48,28 @@
         }
 
         button.normal-btn {
-            background-color: var(--button-bg);
-            color: var(--button-text);
+            background-color: var(--button-dark);
+            color: var(--text-dark);
+            border: none;
+            border-radius: 20px;
+            padding: 0 15px;
             height: 50px;
             min-width: 150px;
-            padding: 0 15px;
             font-size: 1rem;
-            border-radius: 20px;
-            border: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             transition: all 0.3s ease;
+        }
+
+        body[data-theme="light"] button.normal-btn {
+            background-color: var(--button-light);
+            color: var(--text-light);
         }
 
         button.normal-btn:hover {
             transform: scale(1.05);
         }
 
-        /* ======== DARK/LIGHT TOGGLE ======== */
+        /* Dark/Light Toggle */
         #themeToggle {
             position: fixed;
             top: 20px;
@@ -87,24 +77,37 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.25);
-            color: var(--text);
-            font-size: 1.8rem;
             border: none;
+            font-size: 1.8rem;
+            background-color: rgba(0, 0, 0, 0.25);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
             z-index: 9999;
-            transition: transform 0.2s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
         }
 
         #themeToggle:hover {
             transform: scale(1.1);
         }
 
-        /* ======== LIVE COUNTER ======== */
+        body[data-theme="light"] #themeToggle {
+            background-color: rgba(255, 255, 255, 0.25);
+            color: #111;
+        }
+
+        #countdown {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #1db954, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         #live-counter {
             margin: 30px auto;
             padding: 10px 20px;
@@ -112,28 +115,21 @@
             background-color: rgba(0, 0, 0, 0.2);
             font-weight: bold;
             width: fit-content;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* ======== COUNTDOWN ======== */
-        #countdown {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 30px;
-            background: linear-gradient(to right, #1db954, #3498db);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        body[data-theme="light"] #live-counter {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #111;
         }
 
-        /* ======== TICKER ======== */
         .ticker-wrapper {
             width: 100%;
             overflow: hidden;
-            color: white;
             border-radius: 10px;
             padding: 10px 0;
-            font-family: Arial, sans-serif;
             background-color: rgba(0, 0, 0, 0.1);
+            font-weight: bold;
         }
 
         .ticker {
@@ -144,8 +140,6 @@
         .ticker span {
             display: inline-block;
             margin: 0 50px;
-            font-weight: bold;
-            font-size: 1rem;
         }
 
         .scrolling {
@@ -164,14 +158,9 @@
             }
         }
 
-        /* ======== RESPONSIVE ======== */
-        @media(max-width: 768px) {
+        @media(max-width:768px) {
             h1 {
                 font-size: 10vw;
-            }
-
-            h2 {
-                font-size: 4vw;
             }
 
             button.normal-btn {
@@ -181,18 +170,13 @@
             }
 
             .ticker span {
-                font-size: 0.9rem;
                 margin: 0 30px;
             }
         }
 
-        @media(max-width: 480px) {
+        @media(max-width:480px) {
             h1 {
                 font-size: 12vw;
-            }
-
-            h2 {
-                font-size: 5vw;
             }
 
             button.normal-btn {
@@ -202,7 +186,6 @@
             }
 
             .ticker span {
-                font-size: 0.8rem;
                 margin: 0 20px;
             }
         }
@@ -210,39 +193,28 @@
 </head>
 
 <body>
-    <!-- DARK/LIGHT TOGGLE -->
+
     <button id="themeToggle">🌙</button>
 
-    <!-- HEADER -->
     <header>
         <h1>GoalNewsDE</h1>
         <div class="links">
-            <a href="https://www.tiktok.com/@goal.news25"><button class="normal-btn">Tiktok</button></a>
-            <a href="https://www.whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y"><button
-                    class="normal-btn">WhatsApp</button></a>
-            <button class="normal-btn" onclick="window.location.href='team.html'">Teamstatistiken</button>
+            <a href="#"><button class="normal-btn">Tiktok</button></a>
+            <a href="#"><button class="normal-btn">WhatsApp</button></a>
+            <button class="normal-btn">Teamstatistiken</button>
         </div>
     </header>
 
-    <!-- COUNTDOWN -->
     <h2>Countdown zum nächsten Spieltag</h2>
     <div id="countdown">Lädt...</div>
 
-    <!-- LIVE COUNTER -->
     <div id="live-counter">📱 Follower auf WhatsApp: <span id="followerCount">14</span></div>
 
-    <!-- LOGO -->
-    <div>
-        <img decoding="async" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
-    </div>
+    <img src="https://i.ibb.co/21R6p75W/Logo-1.jpg" width="250" alt="Logo">
 
-    <!-- BESCHREIBUNG -->
-    <p class="middle">
-        Dies ist die offizielle Website von GoalNewsDE!<br>
-        Wir würden uns freuen, wenn ihr ein Abo auf unserem WhatsApp Channel da lasst! 🙏
-    </p>
+    <p class="middle">Dies ist die offizielle Website von GoalNewsDE!<br>Wir würden uns freuen, wenn ihr ein Abo auf
+        unserem WhatsApp Channel da lasst! 🙏</p>
 
-    <!-- HEUTIGE SPIELE -->
     <section>
         <h2>Heutige Spiele</h2>
         <p>
@@ -252,78 +224,43 @@
         </p>
     </section>
 
-    <p class="links">
-        <a href="https://strawpoll.com/wAg3QmA3My8"><button class="normal-btn">Zur Abstimmung</button></a>
-    </p>
+    <p class="links"><a href="#"><button class="normal-btn">Zur Abstimmung</button></a></p>
 
-    <!-- TICKER -->
     <div class="ticker-wrapper">
         <div class="ticker scrolling" id="ticker"></div>
     </div>
 
     <script>
-        // Countdown
-        window.addEventListener('DOMContentLoaded', function () {
-            const matchDate = new Date("October 18, 2025 15:30:00").getTime();
-            const countdownEl = document.getElementById("countdown");
-
-            const timer = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = matchDate - now;
-
-                if (distance < 0) {
-                    clearInterval(timer);
-                    countdownEl.innerHTML = "Anpfiff!";
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-            }, 1000);
-        });
-
-        // Liveticker
-        const results = [
-            "Letzte Spiele:",
-            "Lettland 0:5 England",
-            "Portugal 2:2 Ungarn",
-            "Spanien 4:0 Bulgarien",
-            "Italien 3:0 Israel",
-            "Türkei 4:1 Georgien",
-            "Andorra 1:3 Serbien",
-            "Irland 1:0 Armenien"
-        ];
+        const countdownEl = document.getElementById("countdown");
+        const matchDate = new Date("October 18,2025 15:30:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const dist = matchDate - now;
+            if (dist < 0) { countdownEl.innerHTML = "Anpfiff!"; return; }
+            const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+            const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((dist % (1000 * 60)) / 1000);
+            countdownEl.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+        }, 1000);
 
         const ticker = document.getElementById("ticker");
+        const results = ["Letzte Spiele:", "Lettland 0:5 England", "Portugal 2:2 Ungarn", "Spanien 4:0 Bulgarien", "Italien 3:0 Israel", "Türkei 4:1 Georgien", "Andorra 1:3 Serbien", "Irland 1:0 Armenien"];
         [...results, ...results].forEach(r => {
             const span = document.createElement("span");
             span.textContent = r;
             ticker.appendChild(span);
         });
 
-        // Live Counter
         const countEl = document.getElementById("followerCount");
         let followers = 14;
-        setInterval(() => {
-            followers += Math.floor(Math.random() * 2); // optional kleine Steigerung
-            countEl.textContent = followers.toLocaleString("de-DE");
-        }, 4000);
+        setInterval(() => { followers += Math.floor(Math.random() * 2); countEl.textContent = followers.toLocaleString("de-DE"); }, 4000);
 
-        // Dark/Light Toggle
         const toggleBtn = document.getElementById("themeToggle");
         toggleBtn.addEventListener("click", () => {
             const isLight = document.body.getAttribute("data-theme") === "light";
-            if (isLight) {
-                document.body.removeAttribute("data-theme");
-                toggleBtn.textContent = "🌙";
-            } else {
-                document.body.setAttribute("data-theme", "light");
-                toggleBtn.textContent = "☀️";
-            }
+            if (isLight) { document.body.removeAttribute("data-theme"); toggleBtn.textContent = "🌙"; }
+            else { document.body.setAttribute("data-theme", "light"); toggleBtn.textContent = "☀️"; }
         });
     </script>
 </body>
