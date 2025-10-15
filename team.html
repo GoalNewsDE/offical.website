@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE – Teamstatistiken</title>
     <style>
-        /* ======== Grundlayout ======== */
         body {
             margin: 0;
             min-height: 100vh;
@@ -16,7 +15,6 @@
             color: #fff;
         }
 
-        /* ======== Überschrift ======== */
         h1 {
             font-size: 6vw;
             margin: 20px 0;
@@ -25,7 +23,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* ======== Grid für Team-Karten ======== */
         .stats-dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -36,7 +33,6 @@
             align-items: stretch;
         }
 
-        /* ======== Team-Karten ======== */
         .team {
             background-color: rgba(0, 0, 0, 0.2);
             border-radius: 10px;
@@ -45,7 +41,6 @@
             flex-direction: column;
             justify-content: space-between;
             height: 200px;
-            /* Alle gleich hoch */
         }
 
         @media (hover: hover) {
@@ -55,7 +50,6 @@
             }
         }
 
-        /* ======== Teamname und Stats ======== */
         .team-name {
             font-weight: bold;
             font-size: 1.2rem;
@@ -65,7 +59,6 @@
             font-size: 0.9rem;
         }
 
-        /* ======== Balkencontainer ======== */
         .bar-container {
             width: 100%;
             background-color: rgba(255, 255, 255, 0.2);
@@ -74,20 +67,14 @@
             overflow: hidden;
         }
 
-        /* ======== Balken ======== */
         .bar {
             height: 100%;
             width: 0;
-            /* Startwert für Animation */
             border-radius: 10px;
             transition: width 1.5s ease-in-out;
-            /* Flüssige Breitenanimation */
         }
 
-        /* ======== Buttons ======== */
-        .back-btn,
-        .button,
-        a button {
+        .back-btn {
             background-color: #065348;
             height: 50px;
             width: 90%;
@@ -102,7 +89,6 @@
             transition: all 0.3s;
         }
 
-        /* ======== Puls-Animation für Buttons ======== */
         @keyframes pulse {
             0% {
                 transform: scale(1);
@@ -117,16 +103,12 @@
             }
         }
 
-        /* ======== Hover-Effekt für Buttons ======== */
-        .back-btn:hover,
-        .button:hover,
-        a button:hover {
+        .back-btn:hover {
             animation: pulse 1s infinite;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
             transform: scale(1.05);
         }
 
-        /* ======== Responsive Anpassungen ======== */
         @media (max-width: 768px) {
             h1 {
                 font-size: 8vw;
@@ -175,16 +157,55 @@
                 padding: 0 10px;
             }
         }
+
+        /* ======== Scorer-Liste ======== */
+        .scorer-box {
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            text-align: left;
+        }
+
+        .scorer-box h2 {
+            text-align: center;
+            color: #1db954;
+            margin-bottom: 15px;
+        }
+
+        .scorer-list li {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            transition: background 0.3s;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .scorer-list li:hover {
+            background-color: rgba(29, 185, 84, 0.3);
+        }
+
+        .scorer-list .points {
+            font-weight: bold;
+            color: #1db954;
+        }
+
+        .scorer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #ccc;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Überschrift -->
     <h1>Bundesliga 25/26 – Teamstatistiken</h1>
 
-    <!-- Grid mit allen 18 Teams -->
     <div class="stats-dashboard">
-        <!-- Team-Beispiel: 18 Teams wie folgt -->
         <div class="team">
             <div class="team-name">1. Bayern München</div>
             <div class="team-stats">6 Spiele | 25:3 Tore | 18 Punkte</div>
@@ -313,10 +334,25 @@
         </div>
     </div>
 
-    <!-- Zurück-Button -->
+    <div class="scorer-box">
+        <h2>Bundesliga Top Scorer</h2>
+        <ol class="scorer-list">
+            <li>Harry Kane <span class="points">11</span></li>
+            <li>Luis Díaz <span class="points">9</span></li>
+            <li>Can Uzun <span class="points">8</span></li>
+            <li>Serge Gnabry <span class="points">6</span></li>
+            <li>Michael Olise<span class="points">6</span></li>
+            <li>Fisnik Asllani<span class="points">5</span></li>
+            <li>Ermedin Demirovic <span class="points">5</span></li>
+            <li>Ritsu Doan<span class="points">5</span></li>
+            <li>Serhou Guirassy <span class="points">5</span></li>
+            <li>Andrej Ilic <span class="points">5</span></li>
+        </ol>
+
+    </div>
+
     <button class="back-btn" onclick="window.location.href='index.html'">Zur Hauptseite</button>
 
-    <!-- ======== JavaScript für Balkenanimation ======== -->
     <script>
         window.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll(".bar").forEach(bar => {
@@ -325,7 +361,6 @@
                 const percent = (points / max) * 100;
                 setTimeout(() => { bar.style.width = percent + "%"; }, 100);
 
-                // Balkenfarbe abhängig von Punkten
                 if (points >= 14) {
                     bar.style.background = "linear-gradient(90deg, #1db954, #00d4ff)";
                 } else if (points >= 8) {
