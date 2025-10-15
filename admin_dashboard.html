@@ -6,41 +6,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - GoalNewsDE</title>
     <style>
+        html,
         body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
             font-family: Arial, sans-serif;
             background: linear-gradient(180deg, #065348, #6a88ad);
             color: white;
+            display: grid;
+            place-items: center;
+        }
+
+        .dashboard {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            width: 350px;
+            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
         }
 
-        h1 {
-            font-size: 3rem;
+        .dashboard h1 {
+            font-size: 2rem;
             margin-bottom: 20px;
         }
 
-        .counter-container {
-            font-size: 2rem;
+        .counter {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #1db954, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+        }
+
+        .label {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #1db954;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
             margin-top: 20px;
+            width: 80%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            transition: 0.2s;
+        }
+
+        @media(max-width:400px) {
+            .dashboard {
+                width: 90%;
+                padding: 30px;
+            }
+
+            .counter {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <h1>Admin Dashboard</h1>
-    <p>Besucherzähler:</p>
-    <div class="counter-container">
-        <!-- gnrcounter einfügen -->
-        <script language="JavaScript" type="text/javascript"
-            src="https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e"></script>
-        <noscript>
-            <a href="https://gnrcounter.com" title="Web Analytics">Web Analytics</a>
-        </noscript>
+    <div class="dashboard">
+        <h1>Besucherzahlen</h1>
+
+        <div class="label">Gesamtbesucher</div>
+        <div class="counter" id="totalCount">Lade...</div>
+
+        <button class="btn" onclick="window.location.href='mainwebsite.html'">Zurück zur Hauptseite</button>
     </div>
+
+    <script>
+        const gnrcounterUrl = 'https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e';
+
+        fetch(gnrcounterUrl)
+            .then(response => response.text())
+            .then(html => {
+                // HTML parsen
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Versuche die Zahl aus dem ersten <img> alt oder <span> zu extrahieren
+                let count = 0;
+
+                const img = doc.querySelector('img');
+                if (img && img.alt) {
+                    // gnrcounter speichert oft die Zahl in alt-Text
+                    count = img.alt.replace(/\D/g, ''); // nur Zahlen behalten
+                }
+
+                // In Dashboard einsetzen
+                document.getElementById('totalCount').textContent = count || '0';
+            })
+            .catch(err => {
+                console.error('Fehler beim Laden des Counters:', err);
+                document.getElementById('totalCount').textContent = 'Fehler';
+            });
+    </script>
 </body>
 
 </html>
