@@ -31,6 +31,8 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 15px;
+            align-items: stretch;
+            /* sorgt dafür, dass alle Blöcke gleich hoch werden */
         }
 
         .team {
@@ -38,6 +40,10 @@
             border-radius: 10px;
             padding: 15px;
             transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* verteilt Inhalt gleichmäßig */
         }
 
         @media (hover: hover) {
@@ -151,6 +157,7 @@
     <h1>Bundesliga 25/26 – Teamstatistiken</h1>
 
     <div class="stats-dashboard">
+        <!-- Alle 18 Teams -->
         <div class="team">
             <div class="team-name">1. Bayern München</div>
             <div class="team-stats">6 Spiele | 25:3 Tore | 18 Punkte</div>
@@ -291,11 +298,11 @@
 
                 // Farbskala nach Punkten
                 if (points >= 14) {
-                    bar.style.background = "linear-gradient(90deg, #1db954, #00d4ff)"; // grün/blau
+                    bar.style.background = "linear-gradient(90deg, #1db954, #00d4ff)";
                 } else if (points >= 8) {
-                    bar.style.background = "linear-gradient(90deg, #f5d742, #f59e42)"; // gelb/orange
+                    bar.style.background = "linear-gradient(90deg, #f5d742, #f59e42)";
                 } else {
-                    bar.style.background = "linear-gradient(90deg, #ff4c4c, #ff0000)"; // rot
+                    bar.style.background = "linear-gradient(90deg, #ff4c4c, #ff0000)";
                 }
             });
         });
