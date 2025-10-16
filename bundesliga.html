@@ -6,210 +6,311 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bundesliga Tabelle - GoalNewsDE</title>
     <style>
-        html,
         body {
-            height: 100%;
-            margin: 0;
             font-family: Arial, sans-serif;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(180deg, #065348, #6a88ad);
-            color: #fff;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
         }
 
-        body.light {
-            background: linear-gradient(180deg, #fff, #d3d3d3);
-            color: #000;
+        h1 {
+            color: #065348;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
         }
 
         table {
             border-collapse: collapse;
-            width: 90%;
-            max-width: 800px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        table,
-        th,
-        td {
-            border: 1px solid #fff;
+            margin: 0 auto;
+            width: 95%;
+            max-width: 1200px;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         th,
         td {
-            padding: 10px;
-        }
-
-        h1 {
+            padding: 12px;
             text-align: center;
-            font-size: 2rem;
-            margin: 20px 0;
-            background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        #themeToggle {
-            position: fixed;
-            top: 18px;
-            right: 18px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: #1db954;
+        th {
+            background: linear-gradient(90deg, #1db954, #065348);
             color: #fff;
-            border: 0;
-            font-size: 18px;
+            font-size: 1rem;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        tbody tr:hover {
+            background: #d0f0d0;
+            transform: scale(1.02);
+            transition: all 0.2s ease;
+        }
+
+        button {
+            margin: 20px 0;
+            padding: 10px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: #065348;
+            color: #fff;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #1db954;
+            transform: scale(1.05);
         }
     </style>
 </head>
 
 <body>
 
-    <button id="themeToggle">🌙</button>
     <h1>Bundesliga Tabelle</h1>
+    <button onclick="window.location.href='index.html'">Zur Startseite</button>
 
-    <table id="bundesligaTable">
+    <table>
         <thead>
             <tr>
-                <th>#</th>
-                <th>Mannschaft</th>
-                <th>Punkte</th>
+                <th>Platz</th>
+                <th>Verein</th>
                 <th>Spiele</th>
+                <th>S</th>
+                <th>U</th>
+                <th>N</th>
+                <th>Tore</th>
+                <th>Gegentore</th>
+                <th>Tordiff</th>
+                <th>Punkte</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>1</td>
-                <td>Bayern München</td>
-                <td>68</td>
-                <td>28</td>
+                <td>Bayern</td>
+                <td>6</td>
+                <td>6</td>
+                <td>0</td>
+                <td>0</td>
+                <td>25</td>
+                <td>3</td>
+                <td>22</td>
+                <td>18</td>
             </tr>
             <tr>
                 <td>2</td>
-                <td>Borussia Dortmund</td>
-                <td>61</td>
-                <td>28</td>
+                <td>Dortmund</td>
+                <td>6</td>
+                <td>4</td>
+                <td>2</td>
+                <td>0</td>
+                <td>12</td>
+                <td>4</td>
+                <td>8</td>
+                <td>14</td>
             </tr>
             <tr>
                 <td>3</td>
                 <td>RB Leipzig</td>
-                <td>55</td>
-                <td>28</td>
+                <td>6</td>
+                <td>4</td>
+                <td>1</td>
+                <td>1</td>
+                <td>8</td>
+                <td>8</td>
+                <td>0</td>
+                <td>13</td>
             </tr>
             <tr>
                 <td>4</td>
-                <td>Bayer Leverkusen</td>
-                <td>52</td>
-                <td>28</td>
+                <td>VfB Stuttgart</td>
+                <td>6</td>
+                <td>4</td>
+                <td>0</td>
+                <td>2</td>
+                <td>8</td>
+                <td>6</td>
+                <td>2</td>
+                <td>12</td>
             </tr>
             <tr>
                 <td>5</td>
-                <td>Eintracht Frankfurt</td>
-                <td>50</td>
-                <td>28</td>
+                <td>Leverkusen</td>
+                <td>6</td>
+                <td>3</td>
+                <td>2</td>
+                <td>1</td>
+                <td>12</td>
+                <td>8</td>
+                <td>4</td>
+                <td>11</td>
             </tr>
             <tr>
                 <td>6</td>
-                <td>Union Berlin</td>
-                <td>48</td>
-                <td>28</td>
+                <td>Köln</td>
+                <td>6</td>
+                <td>3</td>
+                <td>1</td>
+                <td>2</td>
+                <td>11</td>
+                <td>9</td>
+                <td>2</td>
+                <td>10</td>
             </tr>
             <tr>
                 <td>7</td>
-                <td>VfL Wolfsburg</td>
-                <td>45</td>
-                <td>28</td>
+                <td>Eintracht Frankfurt</td>
+                <td>6</td>
+                <td>3</td>
+                <td>0</td>
+                <td>3</td>
+                <td>17</td>
+                <td>16</td>
+                <td>1</td>
+                <td>9</td>
             </tr>
             <tr>
                 <td>8</td>
-                <td>Borussia M'gladbach</td>
-                <td>42</td>
-                <td>28</td>
+                <td>Freiburg</td>
+                <td>6</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>9</td>
+                <td>9</td>
+                <td>0</td>
+                <td>8</td>
             </tr>
             <tr>
                 <td>9</td>
-                <td>SC Freiburg</td>
-                <td>40</td>
-                <td>28</td>
+                <td>HSV</td>
+                <td>6</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>6</td>
+                <td>8</td>
+                <td>-2</td>
+                <td>8</td>
             </tr>
             <tr>
                 <td>10</td>
-                <td>VfB Stuttgart</td>
-                <td>39</td>
-                <td>28</td>
+                <td>St. Pauli</td>
+                <td>6</td>
+                <td>2</td>
+                <td>1</td>
+                <td>3</td>
+                <td>8</td>
+                <td>9</td>
+                <td>-1</td>
+                <td>7</td>
             </tr>
             <tr>
                 <td>11</td>
-                <td>1. FC Köln</td>
-                <td>36</td>
-                <td>28</td>
+                <td>Hoffenheim</td>
+                <td>6</td>
+                <td>2</td>
+                <td>1</td>
+                <td>3</td>
+                <td>9</td>
+                <td>12</td>
+                <td>-3</td>
+                <td>7</td>
             </tr>
             <tr>
                 <td>12</td>
-                <td>TSG Hoffenheim</td>
-                <td>34</td>
-                <td>28</td>
+                <td>Werder Bremen</td>
+                <td>6</td>
+                <td>2</td>
+                <td>1</td>
+                <td>3</td>
+                <td>9</td>
+                <td>14</td>
+                <td>-5</td>
+                <td>7</td>
             </tr>
             <tr>
                 <td>13</td>
-                <td>FC Augsburg</td>
-                <td>32</td>
-                <td>28</td>
+                <td>Union Berlin</td>
+                <td>6</td>
+                <td>2</td>
+                <td>1</td>
+                <td>3</td>
+                <td>8</td>
+                <td>13</td>
+                <td>-5</td>
+                <td>7</td>
             </tr>
             <tr>
                 <td>14</td>
-                <td>VfL Bochum</td>
-                <td>30</td>
-                <td>28</td>
+                <td>Augsburg</td>
+                <td>6</td>
+                <td>2</td>
+                <td>0</td>
+                <td>4</td>
+                <td>11</td>
+                <td>13</td>
+                <td>-2</td>
+                <td>6</td>
             </tr>
             <tr>
                 <td>15</td>
-                <td>FC Schalke 04</td>
-                <td>28</td>
-                <td>28</td>
+                <td>Wolfsburg</td>
+                <td>6</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>8</td>
+                <td>10</td>
+                <td>-2</td>
+                <td>5</td>
             </tr>
             <tr>
                 <td>16</td>
-                <td>1. FSV Mainz 05</td>
-                <td>26</td>
-                <td>28</td>
+                <td>Mainz</td>
+                <td>6</td>
+                <td>1</td>
+                <td>1</td>
+                <td>4</td>
+                <td>5</td>
+                <td>10</td>
+                <td>-5</td>
+                <td>4</td>
             </tr>
             <tr>
                 <td>17</td>
-                <td>Arminia Bielefeld</td>
-                <td>24</td>
-                <td>28</td>
+                <td>Mönchengladbach</td>
+                <td>6</td>
+                <td>0</td>
+                <td>3</td>
+                <td>3</td>
+                <td>5</td>
+                <td>12</td>
+                <td>-7</td>
+                <td>3</td>
             </tr>
             <tr>
                 <td>18</td>
-                <td>SpVgg Greuther Fürth</td>
-                <td>20</td>
-                <td>28</td>
+                <td>Heidenheim</td>
+                <td>6</td>
+                <td>1</td>
+                <td>0</td>
+                <td>5</td>
+                <td>4</td>
+                <td>11</td>
+                <td>-7</td>
+                <td>3</td>
             </tr>
         </tbody>
     </table>
-
-    <script>
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light');
-            themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
-        });
-
-        // Tabellenwerte aus localStorage laden, falls Admin gespeichert hat
-        window.addEventListener('DOMContentLoaded', () => {
-            const saved = localStorage.getItem('bundesligaTable');
-            if (saved) {
-                document.getElementById('bundesligaTable').innerHTML = saved;
-            }
-        });
-    </script>
 
 </body>
 
