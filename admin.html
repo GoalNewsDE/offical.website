@@ -8,50 +8,46 @@
     <style>
         body {
             margin: 0;
+            min-height: 100vh;
             font-family: Arial, sans-serif;
             background: linear-gradient(180deg, #065348, #6a88ad);
-            color: white;
-            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            text-align: center;
+            color: white;
         }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        body.light {
+            background: linear-gradient(180deg, #fff, #d3d3d3);
+            color: #000;
         }
 
         .login-box {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 40px 30px;
             border-radius: 20px;
-            padding: 30px 50px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
         input {
             margin: 10px 0;
             padding: 10px;
+            width: 250px;
             border-radius: 10px;
             border: none;
-            width: 200px;
             font-size: 1rem;
         }
 
         button {
-            margin-top: 15px;
+            margin-top: 20px;
             padding: 10px 20px;
             border: none;
             border-radius: 10px;
-            background: #1db954;
+            background-color: #1db954;
             color: white;
             font-size: 1rem;
             cursor: pointer;
@@ -59,51 +55,44 @@
         }
 
         button:hover {
-            background: #0f6d30;
+            background-color: #0f6d30;
             transform: scale(1.05);
         }
 
-        #error {
-            margin-top: 10px;
-            color: #ff5555;
+        h1 {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Admin Login</h1>
     <div class="login-box">
+        <h1>Admin Login</h1>
         <input type="text" id="username" placeholder="Benutzername">
         <input type="password" id="password" placeholder="Passwort">
-        <button onclick="login()">Login</button>
-        <div id="error"></div>
+        <button onclick="login()">Einloggen</button>
     </div>
 
     <script>
+        // Accounts festlegen
         const accounts = [
-            { user: "pokepiet", pass: "pass123" },
+            { user: "pokepiet", pass: "passwort1" },
             { user: "luki", pass: "luke777" }
         ];
 
         function login() {
             const u = document.getElementById('username').value;
             const p = document.getElementById('password').value;
-            const match = accounts.find(a => a.user === u && a.pass === p);
-            if (match) {
-                localStorage.setItem('adminLoggedIn', 'true');
+            const valid = accounts.some(acc => acc.user === u && acc.pass === p);
+            if (valid) {
+                sessionStorage.setItem('adminLoggedIn', 'true');
                 window.location.href = 'admin_dashboard.html';
             } else {
-                document.getElementById('error').textContent = 'Benutzername oder Passwort falsch!';
+                alert('Falscher Benutzername oder Passwort!');
             }
         }
-
-        // Schon eingeloggt -> direkt weiter
-        if (localStorage.getItem('adminLoggedIn') === 'true') {
-            window.location.href = 'admin_dashboard.html';
-        }
     </script>
-
 </body>
 
 </html>

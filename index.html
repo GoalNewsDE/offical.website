@@ -209,7 +209,9 @@
     <section>
         <h2>Heutige Spiele</h2>
         <p>
-            Leider keine😢
+            U-20 Weltmeisterschaft, Halbfinale<br>22:00 Uhr Marokko - Frankreich<br><br>
+            Landespokal Westfalen, 3. Spieltag<br>BSV Schüren - FC Gütersloh<br>19:00 Uhr<br><br>
+            SV Schermbeck - 1. FC Gievenbeck<br>19:45 Uhr
         </p>
     </section>
 
@@ -244,7 +246,7 @@
         });
 
         // Liveticker
-        const results = ["SV Schermbeck 1:5 1. FC Gievenbeck", "BSV Schüren 1:7 FC Gütersloh", "Marokko 5:4 i.E. Frankreich"];
+        const results = ["Letzte Spiele:", "SV Schermbeck 1:5 !. FC Gievenbeck", "BSV Schüren 1:7 FC Gütersloh", "Marokko 5:4 i.E. Frankreich"];
         const ticker = document.getElementById("ticker");
         [...results, ...results].forEach(r => { const s = document.createElement("span"); s.textContent = r; ticker.appendChild(s); });
 
@@ -255,7 +257,7 @@
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
 
-        // LocalStorage Besuchertracking
+        // LocalStorage Besuchertracking (nur hier)
         let today = new Date().toISOString().slice(0, 10);
         let visits = JSON.parse(localStorage.getItem('visits')) || {};
         visits[today] = visits[today] ? visits[today] + 1 : 1;
