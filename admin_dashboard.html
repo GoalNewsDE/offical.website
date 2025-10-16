@@ -5,119 +5,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - GoalNewsDE</title>
+
     <style>
-        html,
         body {
             margin: 0;
-            padding: 0;
-            height: 100vh;
-            /* volle Höhe */
-            display: flex;
-            justify-content: center;
-            /* horizontal zentriert */
-            align-items: center;
-            /* vertikal zentriert */
             font-family: Arial, sans-serif;
             background: linear-gradient(180deg, #065348, #6a88ad);
             color: white;
-        }
-
-        .dashboard {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 12px;
-            padding: 40px;
-            width: 350px;
-            max-width: 90%;
-            text-align: center;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            /* Inhalte horizontal zentrieren */
+            flex-direction: column;
+            text-align: center;
         }
 
         h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.2rem;
             margin-bottom: 30px;
         }
 
-        .label {
-            margin-top: 15px;
-            font-size: 1rem;
+        .counter-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px 50px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
         }
 
-        .counter {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 5px 0;
-            background: linear-gradient(to right, #1db954, #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            width: 100%;
-            text-align: center;
-        }
-
-        button {
-            margin-top: 25px;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            background: #1db954;
+        .back-btn {
+            margin-top: 40px;
+            background-color: #1db954;
             color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
             font-size: 1rem;
             cursor: pointer;
-            width: 80%;
+            transition: 0.3s;
         }
 
-        button:hover {
+        .back-btn:hover {
+            background-color: #0f6d30;
             transform: scale(1.05);
-            transition: 0.2s;
         }
 
-        @media(max-width:400px) {
-            .dashboard {
-                width: 90%;
-                padding: 30px;
+        @media(max-width: 768px) {
+            h1 {
+                font-size: 2.3rem;
             }
 
-            .counter {
-                font-size: 1.5rem;
+            p {
+                font-size: 1rem;
             }
 
-            button {
-                width: 100%;
+            .counter-box {
+                width: 85%;
+                padding: 20px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="dashboard">
-        <h1>Besucherzahlen</h1>
+    <h1>Admin Dashboard</h1>
+    <p>Hier kannst du deine Besucherzahlen sehen 👇</p>
 
-        <div class="label">Heute</div>
-        <div class="counter" id="heuteCount">0</div>
-
-        <div class="label">Gestern</div>
-        <div class="counter" id="gesternCount">0</div>
-
-        <div class="label">Gesamt</div>
-        <div class="counter" id="gesamtCount">0</div>
-
-        <button onclick="window.location.href='index.html'">Zurück zur Hauptseite</button>
+    <div class="counter-box">
+        <!-- gnrcounter sichtbarer Besucherzähler -->
+        <script language="JavaScript" type="text/javascript"
+            src="https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e"></script>
+        <noscript>
+            <a href="https://gnrcounter.com" title="Web Analytics">Web Analytics</a>
+        </noscript>
     </div>
 
-    <script>
-        const heuteKey = 'visits_' + new Date().toISOString().slice(0, 10);
-        const gesternKey = 'visits_' + new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-
-        const heuteCount = parseInt(localStorage.getItem(heuteKey)) || 0;
-        const gesternCount = parseInt(localStorage.getItem(gesternKey)) || 0;
-        const gesamtCount = parseInt(localStorage.getItem('gesamt')) || 0;
-
-        document.getElementById('heuteCount').textContent = heuteCount;
-        document.getElementById('gesternCount').textContent = gesternCount;
-        document.getElementById('gesamtCount').textContent = gesamtCount;
-    </script>
+    <button class="back-btn" onclick="window.location.href='index.html'">Zurück zur Hauptseite</button>
 </body>
 
 </html>
