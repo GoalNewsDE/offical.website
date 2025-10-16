@@ -187,9 +187,10 @@
             <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y"><button
                     class="main-btn">WhatsApp</button></a>
             <button class="main-btn" onclick="window.location.href='statistics.html'">Statistiken</button>
-            <button class="main-btn" onclick="window.location.href='admin.html'">Admin</button>
+            <!-- Admin-Button setzt Session für geschützten Zugriff -->
+            <button class="main-btn"
+                onclick="sessionStorage.setItem('allowAdmin','true'); window.location.href='admin.html'">Admin</button>
             <button class="main-btn" onclick="window.location.href='bundesliga.html'">Bundesliga</button>
-
         </div>
     </header>
 
@@ -222,8 +223,6 @@
         <div class="ticker scrolling" id="ticker"></div>
     </div>
 
-    
-
     <script>
         // Countdown
         window.addEventListener('DOMContentLoaded', function () {
@@ -243,7 +242,11 @@
         // Liveticker
         const results = ["Letzte Spiele:", "Lettland 0:5 England", "Portugal 2:2 Ungarn", "Spanien 4:0 Bulgarien", "Italien 3:0 Israel", "Türkei 4:1 Georgien", "Andorra 1:3 Serbien", "Irland 1:0 Armenien"];
         const ticker = document.getElementById("ticker");
-        [...results, ...results].forEach(r => { const s = document.createElement("span"); s.textContent = r; ticker.appendChild(s); });
+        [...results, ...results].forEach(r => {
+            const s = document.createElement("span");
+            s.textContent = r;
+            ticker.appendChild(s);
+        });
 
         // Dark/Light Mode
         const themeToggle = document.getElementById('themeToggle');
@@ -251,14 +254,8 @@
             document.body.classList.toggle('light');
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
-
-        // LocalStorage Besuchertracking
-        let today = new Date().toISOString().slice(0, 10);
-        let visits = JSON.parse(localStorage.getItem('visits')) || {};
-        visits[today] = visits[today] ? visits[today] + 1 : 1;
-        visits.total = visits.total ? visits.total + 1 : 1;
-        localStorage.setItem('visits', JSON.stringify(visits));
     </script>
+
 </body>
 
 </html>

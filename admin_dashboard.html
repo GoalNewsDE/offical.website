@@ -4,74 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - GoalNewsDE</title>
+    <title>GoalNewsDE Admin Dashboard</title>
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(180deg, #065348, #6a88ad);
-            color: white;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            font-family: Arial, sans-serif;
             text-align: center;
+            color: white;
+            background: linear-gradient(180deg, #065348, #6a88ad);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.light {
+            background: linear-gradient(180deg, #fff, #d3d3d3);
+            color: #000;
         }
 
         h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
+            font-size: 6vw;
+            margin: 20px 0;
             background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .counter-box {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 30px 50px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        h2 {
+            margin: 20px 0;
+            font-size: 2.5vw;
         }
 
-        .counter-box div {
-            margin: 15px 0;
+        .middle {
             font-size: 1.5rem;
+            font-weight: 600;
+            margin: 20px 0;
         }
 
-        .back-btn {
-            margin-top: 40px;
-            background-color: #1db954;
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #065348;
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1rem;
+            font-size: 24px;
             cursor: pointer;
-            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, background-color 0.3s;
         }
 
-        .back-btn:hover {
-            background-color: #0f6d30;
+        #themeToggle:hover {
+            transform: scale(1.1);
+        }
+
+        .links {
+            margin: 20px 0;
+        }
+
+        button.main-btn {
+            background-color: #065348;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button.main-btn:hover {
             transform: scale(1.05);
         }
 
         @media(max-width:768px) {
             h1 {
-                font-size: 2.3rem;
+                font-size: 10vw;
             }
 
-            .counter-box {
-                width: 85%;
-                padding: 20px;
+            h2 {
+                font-size: 4vw;
             }
 
-            .counter-box div {
-                font-size: 1.2rem;
+            #themeToggle {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
             }
         }
     </style>
@@ -79,50 +102,34 @@
 
 <body>
 
-    <h1>Admin Dashboard</h1>
-    <p>Besucherzahlen von GoalNewsDE 👇</p>
+    <button id="themeToggle">🌙</button>
 
-    <div class="counter-box">
-        <div id="today">Heutige Besucher: 0</div>
-        <div id="week">Besucher diese Woche: 0</div>
-        <div id="total">Gesamtbesucher: 0</div>
-    </div>
+    <header>
+        <h1>GoalNewsDE Admin Dashboard</h1>
+        <div class="links">
+            <button class="main-btn" onclick="window.location.href='index.html'">Zur Startseite</button>
+        </div>
+    </header>
 
-    <button class="back-btn" onclick="logout()">Zurück zur Hauptseite</button>
+    <section>
+        <h2>Admin-Funktionen</h2>
+        <p class="middle">Hier kannst du z.B. die Bundesliga-Tabelle bearbeiten oder andere Admin-Aufgaben durchführen.
+        </p>
+        <!-- Hier können deine Admin-Formulare oder Buttons eingefügt werden -->
+    </section>
 
     <script>
-        // Prüfen ob eingeloggt
-        if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
-            window.location.href = 'admin.html';
+        // 🔒 Zugriffsschutz Admin
+        if (!sessionStorage.getItem('allowAdmin')) {
+            window.location.href = "fehler.html";
         }
 
-        // Besucherzahlen aus LocalStorage
-        const visits = JSON.parse(localStorage.getItem('visits')) || {};
-        const todayKey = new Date().toISOString().slice(0, 10);
-
-        // Heute
-        document.getElementById('today').textContent = `Heutige Besucher: ${visits[todayKey] || 0}`;
-
-        // Gesamt
-        document.getElementById('total').textContent = `Gesamtbesucher: ${visits.total || 0}`;
-
-        // Woche
-        const weekStart = new Date();
-        weekStart.setDate(weekStart.getDate() - weekStart.getDay());
-        let weekCount = 0;
-        for (let i = 0; i < 7; i++) {
-            const d = new Date(weekStart);
-            d.setDate(d.getDate() + i);
-            const key = d.toISOString().slice(0, 10);
-            if (visits[key]) weekCount += visits[key];
-        }
-        document.getElementById('week').textContent = `Besucher diese Woche: ${weekCount}`;
-
-        // Logout
-        function logout() {
-            sessionStorage.removeItem('adminLoggedIn');
-            window.location.href = 'index.html';
-        }
+        // Dark/Light Mode
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+            themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+        });
     </script>
 
 </body>
