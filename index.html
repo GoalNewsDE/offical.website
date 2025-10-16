@@ -187,10 +187,9 @@
             <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y"><button
                     class="main-btn">WhatsApp</button></a>
             <button class="main-btn" onclick="window.location.href='statistics.html'">Statistiken</button>
-            <!-- Admin-Button: setzt Session, damit admin.html geschützt ist -->
-            <button class="main-btn"
-                onclick="sessionStorage.setItem('allowAdmin','true'); window.location.href='admin.html'">Admin</button>
+            <button class="main-btn" onclick="window.location.href='admin.html'">Admin</button>
             <button class="main-btn" onclick="window.location.href='bundesliga.html'">Bundesliga</button>
+
         </div>
     </header>
 
@@ -223,6 +222,8 @@
         <div class="ticker scrolling" id="ticker"></div>
     </div>
 
+    
+
     <script>
         // Countdown
         window.addEventListener('DOMContentLoaded', function () {
@@ -250,8 +251,14 @@
             document.body.classList.toggle('light');
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
-    </script>
 
+        // LocalStorage Besuchertracking
+        let today = new Date().toISOString().slice(0, 10);
+        let visits = JSON.parse(localStorage.getItem('visits')) || {};
+        visits[today] = visits[today] ? visits[today] + 1 : 1;
+        visits.total = visits.total ? visits.total + 1 : 1;
+        localStorage.setItem('visits', JSON.stringify(visits));
+    </script>
 </body>
 
 </html>
