@@ -2,128 +2,140 @@
 <html lang="de">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Admin Dashboard - GoalNewsDE</title>
+
+    <!-- WICHTIG: sofortige Prüfung vor Styles/Content -->
+    <script>
+        (function () {
+            // Name des SessionKeys (muss mit dem Login übereinstimmen)
+            const KEY = 'adminLoggedIn';
+
+            try {
+                const ok = sessionStorage.getItem(KEY) === 'true';
+                if (!ok) {
+                    // Wenn kein Login, sofort weiterleiten — kein Inhalt wird gezeigt
+                    location.replace('fehler.html');
+                } else {
+                    // Zugriff erlaubt — Session entfernen, damit erneuter Direktaufruf fehlschlägt
+                    // Verzögerung 0ms ist ok; wir sind bereits auf der Seite
+                    sessionStorage.removeItem(KEY);
+                }
+            } catch (e) {
+                // Falls sessionStorage geblockt ist -> besser weg
+                location.replace('fehler.html');
+            }
+        })();
+    </script>
+
     <style>
+        /* Design passend zur Startseite */
         html,
         body {
             height: 100%;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif
         }
 
         body {
             background: linear-gradient(180deg, #065348, #6a88ad);
-            color: white;
+            color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            transition: background 0.3s, color 0.3s;
+            transition: background .3s, color .3s
         }
 
         body.light {
             background: linear-gradient(180deg, #fff, #d3d3d3);
-            color: black;
+            color: #000
         }
 
         header {
-            margin-top: 30px;
+            margin-top: 28px
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2.4rem;
+            margin: 0 0 8px;
             background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-text-fill-color: transparent
+        }
+
+        p {
+            margin: 0 0 18px
         }
 
         .btn {
-            background-color: #065348;
-            color: white;
+            background: #065348;
+            color: #fff;
             border: none;
-            padding: 12px 24px;
-            border-radius: 20px;
-            font-size: 1rem;
-            margin: 10px;
+            padding: 12px 22px;
+            border-radius: 18px;
+            margin: 8px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all .2s
         }
 
         .btn:hover {
-            transform: scale(1.05);
-            background-color: #1db954;
+            transform: scale(1.03);
+            background: #1db954
         }
 
         #themeToggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
+            top: 18px;
+            right: 18px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background-color: #065348;
-            color: white;
-            border: none;
-            font-size: 24px;
+            background: #065348;
+            color: #fff;
+            border: 0;
+            font-size: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, background-color 0.3s;
-        }
-
-        #themeToggle:hover {
-            transform: scale(1.1);
+            justify-content: center
         }
 
         main {
             flex: 1;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: 100%
         }
 
         .card {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            width: 80%;
-            max-width: 500px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.28);
+            padding: 26px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 560px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25)
         }
 
-        input,
         textarea {
             width: 100%;
-            margin: 10px 0;
-            padding: 10px;
+            height: 140px;
+            padding: 12px;
             border-radius: 10px;
             border: none;
-            font-size: 1rem;
-        }
-
-        textarea {
             resize: vertical;
+            font-size: 1rem
         }
 
-        @media (max-width: 600px) {
+        @media(max-width:600px) {
             h1 {
-                font-size: 2rem;
-            }
-
-            .btn {
-                width: 100%;
-                font-size: 0.9rem;
+                font-size: 1.6rem
             }
 
             .card {
-                width: 90%;
-                padding: 20px;
+                padding: 18px
             }
         }
     </style>
@@ -131,53 +143,53 @@
 
 <body>
 
-    <button id="themeToggle">🌙</button>
+    <button id="themeToggle" aria-label="Theme">🌙</button>
 
     <header>
         <h1>Admin Dashboard</h1>
-        <p>Willkommen, Admin 👋</p>
+        <p>Willkommen — du bist eingeloggt (nur kurz gültig).</p>
     </header>
 
     <main>
-        <div class="card">
+        <div class="card" role="region" aria-label="Admin Funktionen">
             <h2>⚽ Bundesliga-Tabelle bearbeiten</h2>
-            <textarea id="tableData" rows="6"
-                placeholder="Hier kannst du z. B. die JSON-Daten der Tabelle einfügen..."></textarea>
-            <button class="btn" onclick="saveData()">Speichern</button>
+            <textarea id="tableData" placeholder='JSON hier einfügen: [{"team":"Bayern","points":30}, ...]'></textarea>
+            <div style="margin-top:12px;text-align:center">
+                <button class="btn" onclick="saveData()">Speichern</button>
+                <button class="btn" onclick="logout()">Logout</button>
+            </div>
         </div>
-
-        <button class="btn" onclick="logout()">🚪 Logout</button>
-        <button class="btn" onclick="window.location.href='index.html'">🏠 Zur Startseite</button>
     </main>
 
     <script>
-        // Zugriffsschutz
-        if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
-            window.location.href = "fehler.html";
-        }
-
-        // Dark/Light Mode
+        // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light');
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
 
-        // Logout
         function logout() {
-            sessionStorage.removeItem('adminLoggedIn');
-            window.location.href = 'admin.html';
+            // klar machen, dass beim Logout kein Zugriffs-Token mehr existiert
+            try { sessionStorage.removeItem('adminLoggedIn'); } catch (e) { }
+            // zurück zur Login-Seite
+            location.href = 'admin.html';
         }
 
-        // (Fake) Speicherfunktion
         function saveData() {
             const content = document.getElementById('tableData').value.trim();
             if (!content) {
-                alert('Bitte Daten eingeben, bevor du speicherst.');
+                alert('Bitte JSON eingeben, bevor du speicherst.');
                 return;
             }
-            alert('Die Änderungen wurden (vorübergehend) gespeichert ✅');
-            // In Realität würdest du hier z. B. mit fetch() an einen Server senden.
+            // Platzhalter: hier würdest du per fetch() an einen Server oder API senden.
+            // Aktuell nur Bestätigung
+            try {
+                JSON.parse(content);
+                alert('Daten ok — (fakemäßig) gespeichert ✅');
+            } catch (e) {
+                alert('Ungültiges JSON. Bitte überprüfe die Formatierung.');
+            }
         }
     </script>
 </body>
