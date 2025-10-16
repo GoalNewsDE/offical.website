@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 - Zugriff verweigert | GoalNewsDE</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 8vw;
+            margin: 0;
+            animation: pulse 2s infinite alternate;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 10px 0;
+            opacity: 0;
+            animation: fadeIn 2s forwards 0.5s;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #1db954;
+            opacity: 0;
+            animation: fadeIn 2s forwards 1s, float 3s ease-in-out infinite;
+        }
+
+        .btn {
+            background-color: #065348;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 2s forwards 2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #1db954;
+            box-shadow: 0 0 15px rgba(29, 185, 84, 0.8);
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            }
+
+            to {
+                transform: scale(1.05);
+                text-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 18vw;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 10px 25px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>403</h1>
+    <h2>Schade… guter Versuch 😏</h2>
+    <div class="subtitle">Du hast’s echt probiert… Respekt! Aber hier kommst du nicht rein 😎</div>
+    <button class="btn" onclick="window.location.href='index.html'">🏠 Zur Startseite</button>
+</body>
+
+</html>
