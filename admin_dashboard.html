@@ -28,16 +28,17 @@
             -webkit-text-fill-color: transparent;
         }
 
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-
         .counter-box {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
             padding: 30px 50px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .counter-box div {
+            margin: 15px 0;
+            font-size: 1.5rem;
         }
 
         .back-btn {
@@ -57,37 +58,62 @@
             transform: scale(1.05);
         }
 
-        @media(max-width: 768px) {
+        @media(max-width:768px) {
             h1 {
                 font-size: 2.3rem;
-            }
-
-            p {
-                font-size: 1rem;
             }
 
             .counter-box {
                 width: 85%;
                 padding: 20px;
             }
+
+            .counter-box div {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 
 <body>
+
     <h1>Admin Dashboard</h1>
-    <p>Hier kannst du deine Besucherzahlen sehen 👇</p>
+    <p>Besucherzahlen von GoalNewsDE 👇</p>
 
     <div class="counter-box">
-        <!-- gnrcounter sichtbarer Besucherzähler -->
-        <script language="JavaScript" type="text/javascript"
-            src="https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e"></script>
-        <noscript>
-            <a href="https://gnrcounter.com" title="Web Analytics">Web Analytics</a>
-        </noscript>
+        <div id="today">Heutige Besucher: 0</div>
+        <div id="week">Besucher diese Woche: 0</div>
+        <div id="total">Gesamtbesucher: 0</div>
     </div>
 
     <button class="back-btn" onclick="window.location.href='index.html'">Zurück zur Hauptseite</button>
+
+    <script>
+        // Besucherzahlen aus LocalStorage holen
+        const visits = JSON.parse(localStorage.getItem('visits')) || {};
+        const todayDate = new Date().toISOString().slice(0, 10);
+
+        // Heute
+        const todayCount = visits[todayDate] || 0;
+        document.getElementById('today').textContent = `Heutige Besucher: ${todayCount}`;
+
+        // Gesamt
+        const totalCount = visits.total || 0;
+        document.getElementById('total').textContent = `Gesamtbesucher: ${totalCount}`;
+
+        // Diese Woche
+        const weekStart = new Date();
+        weekStart.setDate(weekStart.getDate() - weekStart.getDay()); // Sonntag = Start
+        let weekCount = 0;
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(weekStart);
+            d.setDate(d.getDate() + i);
+            const key = d.toISOString().slice(0, 10);
+            if (visits[key]) weekCount += visits[key];
+        }
+        document.getElementById('week').textContent = `Besucher diese Woche: ${weekCount}`;
+    </script>
+
 </body>
 
 </html>

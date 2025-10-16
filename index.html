@@ -2,24 +2,22 @@
 <html lang="de">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE</title>
-
     <style>
         body {
             margin: 0;
             min-height: 100vh;
             background: linear-gradient(180deg, #065348, #6a88ad);
-            background-attachment: fixed;
             font-family: Arial, Helvetica, sans-serif;
             text-align: center;
-            transition: background 0.3s, color 0.3s;
             color: white;
+            transition: background 0.3s, color 0.3s;
         }
 
         body.light {
-            background: linear-gradient(180deg, #ffffff, #d3d3d3);
+            background: linear-gradient(180deg, #fff, #d3d3d3);
             color: #000;
         }
 
@@ -80,7 +78,6 @@
             }
         }
 
-        /* Countdown */
         #countdown {
             font-size: 1.5rem;
             font-weight: bold;
@@ -91,7 +88,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Ticker */
         .ticker-wrapper {
             width: 100%;
             overflow: hidden;
@@ -129,7 +125,6 @@
             }
         }
 
-        /* Dark/Light Button */
         #themeToggle {
             position: fixed;
             top: 20px;
@@ -155,7 +150,7 @@
             transform: scale(1.1);
         }
 
-        @media(max-width: 768px) {
+        @media(max-width:768px) {
             h1 {
                 font-size: 10vw;
             }
@@ -186,41 +181,38 @@
 
 <body>
 
-    <!-- Dark/Light Button -->
+    <!-- Dark/Light Mode -->
     <button id="themeToggle">🌙</button>
 
-    <!-- Header -->
     <header>
         <h1>GoalNewsDE</h1>
         <div class="links">
-            <a href="http://tiktok.com/@goal.news25"><button class="main-btn">TikTok</button></a>
+            <a href="http://tiktok.com/@goal.news25"><button class="main-btn">Tiktok</button></a>
             <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y"><button
                     class="main-btn">WhatsApp</button></a>
-            <button class="main-btn" onclick="window.location.href='statistics/'">Statistiken</button>
-            <button class="main-btn" onclick="window.location.href='admin.html'">Admin</button>
+            <button class="main-btn" onclick="window.location.href='statistics.html'">Statistiken</button>
+            <button class="main-btn" onclick="window.location.href='admin_dashboard.html'">Admin</button>
         </div>
     </header>
 
-    <!-- Countdown -->
     <h2>Countdown zum nächsten Spieltag</h2>
     <div id="countdown"></div>
 
-    <!-- Logo -->
     <div>
-        <img src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
+        <img decoding="async" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
     </div>
 
-    <!-- Beschreibung -->
     <p class="middle">
         Dies ist die offizielle Website von GoalNewsDE!<br>
         Wir würden uns freuen, wenn ihr ein Abo auf unserem WhatsApp-Channel da lasst! 🙏
     </p>
 
-    <!-- Heutige Spiele -->
     <section>
         <h2>Heutige Spiele</h2>
         <p>
-            Leider Keine!😢
+            U-20 Weltmeisterschaft, Halbfinale<br>22:00 Uhr Marokko - Frankreich<br><br>
+            Landespokal Westfalen, 3. Spieltag<br>BSV Schüren - FC Gütersloh<br>19:00 Uhr<br><br>
+            SV Schermbeck - 1. FC Gievenbeck<br>19:45 Uhr
         </p>
     </section>
 
@@ -228,47 +220,36 @@
         <a href="https://strawpoll.com/wAg3QmA3My8"><button class="main-btn">Zur Abstimmung</button></a>
     </p>
 
-    <!-- Liveticker -->
     <div class="ticker-wrapper">
         <div class="ticker scrolling" id="ticker"></div>
     </div>
 
-    <!-- Unsichtbarer Besucherzähler -->
-    <div style="position:absolute; left:-9999px;">
-        <script type="text/javascript"
+    <!-- Unsichtbarer gnrcounter -->
+    <div style="display:none;">
+        <script language="JavaScript" type="text/javascript"
             src="https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e"></script>
-        <noscript>
-            <img src="https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e" alt="visitor counter">
-        </noscript>
     </div>
 
     <script>
         // Countdown
-        const matchDate = new Date("October 18, 2025 15:30:00").getTime();
-        const countdownEl = document.getElementById("countdown");
-        setInterval(() => {
-            const now = new Date().getTime();
-            const distance = matchDate - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            countdownEl.innerHTML = distance < 0 ? "Anpfiff!" : `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }, 1000);
+        window.addEventListener('DOMContentLoaded', function () {
+            const matchDate = new Date("October 18, 2025 15:30:00").getTime();
+            const timer = setInterval(function () {
+                const now = new Date().getTime();
+                const distance = matchDate - now;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                if (distance < 0) { clearInterval(timer); document.getElementById("countdown").innerHTML = "Anpfiff!"; }
+            }, 1000);
+        });
 
         // Liveticker
-        const results = [
-            "Letzte Spiele:",
-            "BSV Schüren 1:7 Fc Güthersloh",
-            "SV Schermbeck 1:5 1. FC Gievenbeck",
-            "Marokko 5:4 i.E. Frankreich"
-        ];
+        const results = ["Letzte Spiele:", "Lettland 0:5 England", "Portugal 2:2 Ungarn", "Spanien 4:0 Bulgarien", "Italien 3:0 Israel", "Türkei 4:1 Georgien", "Andorra 1:3 Serbien", "Irland 1:0 Armenien"];
         const ticker = document.getElementById("ticker");
-        [...results, ...results].forEach(result => {
-            const span = document.createElement("span");
-            span.textContent = result;
-            ticker.appendChild(span);
-        });
+        [...results, ...results].forEach(r => { const s = document.createElement("span"); s.textContent = r; ticker.appendChild(s); });
 
         // Dark/Light Mode
         const themeToggle = document.getElementById('themeToggle');
@@ -276,6 +257,13 @@
             document.body.classList.toggle('light');
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
+
+        // LocalStorage Besuchertracking
+        let today = new Date().toISOString().slice(0, 10);
+        let visits = JSON.parse(localStorage.getItem('visits')) || {};
+        visits[today] = visits[today] ? visits[today] + 1 : 1;
+        visits.total = visits.total ? visits.total + 1 : 1;
+        localStorage.setItem('visits', JSON.stringify(visits));
     </script>
 
 </body>
