@@ -2,18 +2,20 @@
 <html lang="de">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE</title>
+
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
             min-height: 100vh;
             background: linear-gradient(180deg, #065348, #6a88ad);
-            color: white;
+            background-attachment: fixed;
+            font-family: Arial, Helvetica, sans-serif;
             text-align: center;
             transition: background 0.3s, color 0.3s;
+            color: white;
         }
 
         body.light {
@@ -31,8 +33,8 @@
         }
 
         h2 {
-            font-size: 2.5vw;
             margin: 20px 0;
+            font-size: 2.5vw;
         }
 
         .middle {
@@ -58,8 +60,8 @@
             font-size: 1rem;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border: none;
             transition: all 0.3s ease;
+            border: none;
         }
 
         button.main-btn:hover {
@@ -78,6 +80,7 @@
             }
         }
 
+        /* Countdown */
         #countdown {
             font-size: 1.5rem;
             font-weight: bold;
@@ -88,6 +91,7 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* Ticker */
         .ticker-wrapper {
             width: 100%;
             overflow: hidden;
@@ -125,6 +129,7 @@
             }
         }
 
+        /* Dark/Light Button */
         #themeToggle {
             position: fixed;
             top: 20px;
@@ -150,7 +155,7 @@
             transform: scale(1.1);
         }
 
-        @media(max-width:768px) {
+        @media(max-width: 768px) {
             h1 {
                 font-size: 10vw;
             }
@@ -165,50 +170,30 @@
                 height: 45px;
             }
 
-            .ticker span {
-                font-size: 0.9rem;
-                margin: 0 30px;
-            }
-
             #themeToggle {
                 width: 45px;
                 height: 45px;
                 font-size: 20px;
             }
-        }
-
-        @media(max-width:480px) {
-            h1 {
-                font-size: 12vw;
-            }
-
-            h2 {
-                font-size: 5vw;
-            }
-
-            button.main-btn {
-                font-size: 0.8rem;
-                min-width: 100px;
-                height: 40px;
-            }
 
             .ticker span {
-                font-size: 0.8rem;
-                margin: 0 20px;
+                font-size: 0.9rem;
+                margin: 0 30px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- DARK/LIGHT BUTTON -->
+
+    <!-- Dark/Light Button -->
     <button id="themeToggle">🌙</button>
 
-    <!-- HEADER -->
+    <!-- Header -->
     <header>
         <h1>GoalNewsDE</h1>
         <div class="links">
-            <a href="http://tiktok.com/@goal.news25"><button class="main-btn">Tiktok</button></a>
+            <a href="http://tiktok.com/@goal.news25"><button class="main-btn">TikTok</button></a>
             <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y"><button
                     class="main-btn">WhatsApp</button></a>
             <button class="main-btn" onclick="window.location.href='statistics/'">Statistiken</button>
@@ -216,22 +201,22 @@
         </div>
     </header>
 
-    <!-- COUNTDOWN -->
+    <!-- Countdown -->
     <h2>Countdown zum nächsten Spieltag</h2>
     <div id="countdown"></div>
 
-    <!-- LOGO -->
+    <!-- Logo -->
     <div>
-        <img decoding="async" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
+        <img src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
     </div>
 
-    <!-- BESCHREIBUNG -->
+    <!-- Beschreibung -->
     <p class="middle">
         Dies ist die offizielle Website von GoalNewsDE!<br>
         Wir würden uns freuen, wenn ihr ein Abo auf unserem WhatsApp-Channel da lasst! 🙏
     </p>
 
-    <!-- HEUTIGE SPIELE -->
+    <!-- Heutige Spiele -->
     <section>
         <h2>Heutige Spiele</h2>
         <p>
@@ -245,21 +230,24 @@
         <a href="https://strawpoll.com/wAg3QmA3My8"><button class="main-btn">Zur Abstimmung</button></a>
     </p>
 
-    <!-- TICKER -->
+    <!-- Liveticker -->
     <div class="ticker-wrapper">
         <div class="ticker scrolling" id="ticker"></div>
     </div>
 
-    <!-- UNSICHTBARER TRACKER -->
-    <div style="display:none">
+    <!-- Unsichtbarer Besucherzähler -->
+    <div style="position:absolute; left:-9999px;">
         <script type="text/javascript"
             src="https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e"></script>
+        <noscript>
+            <img src="https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e" alt="visitor counter">
+        </noscript>
     </div>
 
-    <!-- SCRIPT -->
     <script>
         // Countdown
         const matchDate = new Date("October 18, 2025 15:30:00").getTime();
+        const countdownEl = document.getElementById("countdown");
         setInterval(() => {
             const now = new Date().getTime();
             const distance = matchDate - now;
@@ -267,8 +255,7 @@
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById("countdown").innerHTML =
-                distance > 0 ? `${days}d ${hours}h ${minutes}m ${seconds}s` : "Anpfiff!";
+            countdownEl.innerHTML = distance < 0 ? "Anpfiff!" : `${days}d ${hours}h ${minutes}m ${seconds}s`;
         }, 1000);
 
         // Liveticker
@@ -283,9 +270,9 @@
             "Irland 1:0 Armenien"
         ];
         const ticker = document.getElementById("ticker");
-        [...results, ...results].forEach(r => {
+        [...results, ...results].forEach(result => {
             const span = document.createElement("span");
-            span.textContent = r;
+            span.textContent = result;
             ticker.appendChild(span);
         });
 
@@ -296,6 +283,7 @@
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
     </script>
+
 </body>
 
 </html>
