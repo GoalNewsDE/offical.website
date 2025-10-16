@@ -8,13 +8,14 @@
     <style>
         body {
             margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(180deg, #065348, #6a88ad);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #065348, #6a88ad);
             color: white;
+            transition: background 0.3s, color 0.3s;
         }
 
         body.light {
@@ -24,34 +25,49 @@
 
         .login-box {
             background: rgba(0, 0, 0, 0.4);
-            padding: 40px 30px;
-            border-radius: 20px;
+            padding: 40px 50px;
+            border-radius: 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            max-width: 350px;
+            width: 90%;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 2rem;
+            background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         input {
             margin: 10px 0;
-            padding: 10px;
-            width: 250px;
-            border-radius: 10px;
+            padding: 12px;
+            width: 100%;
+            border-radius: 12px;
             border: none;
             font-size: 1rem;
+            outline: none;
+            text-align: center;
         }
 
         button {
-            margin-top: 20px;
-            padding: 10px 20px;
+            margin-top: 25px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 10px;
+            border-radius: 20px;
             background-color: #1db954;
             color: white;
             font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         button:hover {
@@ -59,8 +75,24 @@
             transform: scale(1.05);
         }
 
-        h1 {
-            margin-bottom: 20px;
+        .back-btn {
+            margin-top: 15px;
+            background-color: #444;
+            font-weight: normal;
+        }
+
+        .back-btn:hover {
+            background-color: #333;
+        }
+
+        @media(max-width: 600px) {
+            .login-box {
+                padding: 30px 25px;
+            }
+
+            h1 {
+                font-size: 1.7rem;
+            }
         }
     </style>
 </head>
@@ -72,68 +104,45 @@
         <input type="text" id="username" placeholder="Benutzername">
         <input type="password" id="password" placeholder="Passwort">
         <button onclick="login()">Einloggen</button>
+        <button class="back-btn" onclick="window.location.href='index.html'">Zurück zur Startseite</button>
     </div>
 
     <script>
-    
-    const accounts = [
-        { user: "pokepiet", passHash: "e6c3da5b206634d7f3f3586d747ffdb36b5c675757b380c6a5fe5c570c714349" },
-        { user: "luki",     passHash: "a4369b8228d1e512e3731e354031a4d77023f10c812162be2545cf5b4f0001da" }
-    ];
+        // 🔒 Gehashte Accounts (SHA-256)
+        const accounts = [
+            { user: "pokepiet", hash: "e6c3da5b206634d7f3f3586d747ffdb36b5c675757b380c6a5fe5c570c714349" },
+            { user: "luki", hash: "7a0c18850cbd80b01915bcbf1a5d9f395f8eeb7b723c1f42d25c5f49ec0b9d68" }
+        ];
 
-    // Hilfsfunktion: String -> SHA-256 Hex (unter Verwendung von SubtleCrypto)
-    async function sha256Hex(str) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(str);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        // Buffer -> hex string
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
-    }
-
-    async function login() {
-        const u = document.getElementById('username').value.trim().toLowerCase();
-        const p = document.getElementById('password').value; // nicht trim() für Passwörter
-        if (!u || !p) {
-            alert('Bitte Benutzername und Passwort eingeben.');
-            return;
+        // Passwort zu SHA-256 Hash umwandeln
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        // Hash des eingegebenen Passworts berechnen
-        let inputHash;
-        try {
-            inputHash = await sha256Hex(p);
-        } catch (err) {
-            console.error("Hashing fehlgeschlagen:", err);
-            alert("Ein Fehler ist aufgetreten. Siehe Konsole.");
-            return;
-        }
+        // Login prüfen
+        async function login() {
+            const u = document.getElementById('username').value.trim().toLowerCase();
+            const p = document.getElementById('password').value.trim();
 
-        // Prüfen, ob ein Account mit dem Benutzernamen und Hash existiert
-        const valid = accounts.some(acc => acc.user.toLowerCase() === u && acc.passHash === inputHash);
+            const user = accounts.find(acc => acc.user === u);
+            if (!user) {
+                alert('Falscher Benutzername oder Passwort!');
+                return;
+            }
 
-        if (valid) {
-            sessionStorage.setItem('adminLoggedIn', 'true'); // nur Status speichern
-            window.location.href = 'admin_dashboard.html';
-        } else {
-            alert('Falscher Benutzername oder Passwort!');
-        }
-    }
-
-    // Optional: Login auch per Enter-Taste auslösen
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            // Wenn Fokus in einem Eingabefeld liegt, Login starten
-            const active = document.activeElement;
-            if (active && (active.id === 'username' || active.id === 'password')) {
-                e.preventDefault();
-                login();
+            const hashedInput = await hashPassword(p);
+            if (hashedInput === user.hash) {
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                window.location.href = 'admin_dashboard.html';
+            } else {
+                alert('Falscher Benutzername oder Passwort!');
             }
         }
-    });
-</script>
-
+    </script>
 
 </body>
 
