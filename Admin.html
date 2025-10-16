@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - GoalNewsDE</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #065348, #6a88ad);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        body.light {
+            background: linear-gradient(180deg, #fff, #d3d3d3);
+            color: #000;
+        }
+
+        .login-box {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 40px 30px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 250px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #1db954;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0f6d30;
+            transform: scale(1.05);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-box">
+        <h1>Admin Login</h1>
+        <input type="text" id="username" placeholder="Benutzername">
+        <input type="password" id="password" placeholder="Passwort">
+        <button onclick="login()">Einloggen</button>
+    </div>
+
+    <script>
+    
+    const accounts = [
+        { user: "pokepiet", passHash: "e6c3da5b206634d7f3f3586d747ffdb36b5c675757b380c6a5fe5c570c714349" },
+        { user: "luki",     passHash: "a4369b8228d1e512e3731e354031a4d77023f10c812162be2545cf5b4f0001da" }
+    ];
+
+    // Hilfsfunktion: String -> SHA-256 Hex (unter Verwendung von SubtleCrypto)
+    async function sha256Hex(str) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(str);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        // Buffer -> hex string
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+
+    async function login() {
+        const u = document.getElementById('username').value.trim().toLowerCase();
+        const p = document.getElementById('password').value; // nicht trim() für Passwörter
+        if (!u || !p) {
+            alert('Bitte Benutzername und Passwort eingeben.');
+            return;
+        }
+
+        // Hash des eingegebenen Passworts berechnen
+        let inputHash;
+        try {
+            inputHash = await sha256Hex(p);
+        } catch (err) {
+            console.error("Hashing fehlgeschlagen:", err);
+            alert("Ein Fehler ist aufgetreten. Siehe Konsole.");
+            return;
+        }
+
+        // Prüfen, ob ein Account mit dem Benutzernamen und Hash existiert
+        const valid = accounts.some(acc => acc.user.toLowerCase() === u && acc.passHash === inputHash);
+
+        if (valid) {
+            sessionStorage.setItem('adminLoggedIn', 'true'); // nur Status speichern
+            window.location.href = 'admin_dashboard.html';
+        } else {
+            alert('Falscher Benutzername oder Passwort!');
+        }
+    }
+
+    // Optional: Login auch per Enter-Taste auslösen
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            // Wenn Fokus in einem Eingabefeld liegt, Login starten
+            const active = document.activeElement;
+            if (active && (active.id === 'username' || active.id === 'password')) {
+                e.preventDefault();
+                login();
+            }
+        }
+    });
+</script>
+
+
+</body>
+
+</html>
