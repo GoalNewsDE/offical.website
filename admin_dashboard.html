@@ -2,194 +2,248 @@
 <html lang="de">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - GoalNewsDE</title>
-
-    <!-- WICHTIG: sofortige Prüfung vor Styles/Content -->
-    <script>
-        (function () {
-            // Name des SessionKeys (muss mit dem Login übereinstimmen)
-            const KEY = 'adminLoggedIn';
-
-            try {
-                const ok = sessionStorage.getItem(KEY) === 'true';
-                if (!ok) {
-                    // Wenn kein Login, sofort weiterleiten — kein Inhalt wird gezeigt
-                    location.replace('fehler.html');
-                } else {
-                    // Zugriff erlaubt — Session entfernen, damit erneuter Direktaufruf fehlschlägt
-                    // Verzögerung 0ms ist ok; wir sind bereits auf der Seite
-                    sessionStorage.removeItem(KEY);
-                }
-            } catch (e) {
-                // Falls sessionStorage geblockt ist -> besser weg
-                location.replace('fehler.html');
-            }
-        })();
-    </script>
-
     <style>
-        /* Design passend zur Startseite */
         html,
         body {
             height: 100%;
             margin: 0;
-            font-family: Arial, sans-serif
-        }
-
-        body {
-            background: linear-gradient(180deg, #065348, #6a88ad);
+            font-family: Arial, sans-serif;
+            display: grid;
+            place-items: center;
+            background: #065348;
             color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: background .3s, color .3s
         }
 
         body.light {
-            background: linear-gradient(180deg, #fff, #d3d3d3);
-            color: #000
-        }
-
-        header {
-            margin-top: 28px
-        }
-
-        h1 {
-            font-size: 2.4rem;
-            margin: 0 0 8px;
-            background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent
-        }
-
-        p {
-            margin: 0 0 18px
-        }
-
-        .btn {
-            background: #065348;
-            color: #fff;
-            border: none;
-            padding: 12px 22px;
-            border-radius: 18px;
-            margin: 8px;
-            cursor: pointer;
-            transition: all .2s
-        }
-
-        .btn:hover {
-            transform: scale(1.03);
-            background: #1db954
+            background: #fff;
+            color: #000;
         }
 
         #themeToggle {
             position: fixed;
             top: 18px;
             right: 18px;
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: #065348;
+            background: #1db954;
             color: #fff;
             border: 0;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center
-        }
-
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            width: 100%
         }
 
-        .card {
-            background: rgba(0, 0, 0, 0.28);
-            padding: 26px;
-            border-radius: 16px;
+        table {
+            border-collapse: collapse;
             width: 90%;
-            max-width: 560px;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25)
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+            color: #fff;
         }
 
-        textarea {
-            width: 100%;
-            height: 140px;
-            padding: 12px;
-            border-radius: 10px;
+        table,
+        th,
+        td {
+            border: 1px solid #fff;
+        }
+
+        th,
+        td {
+            padding: 10px;
+        }
+
+        td[contenteditable="true"] {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 16px;
             border: none;
-            resize: vertical;
-            font-size: 1rem
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
         }
 
-        @media(max-width:600px) {
-            h1 {
-                font-size: 1.6rem
-            }
+        .saveBtn {
+            background: #1db954;
+            color: #fff;
+        }
 
-            .card {
-                padding: 18px
-            }
+        .saveBtn:hover {
+            background: #0f6d30;
+        }
+
+        .homeBtn {
+            background: #3498db;
+            color: #fff;
+        }
+
+        .homeBtn:hover {
+            background: #1a5f8b;
+        }
+
+        h1 {
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
+    <button id="themeToggle">🌙</button>
+    <h1>Admin Dashboard</h1>
 
-    <button id="themeToggle" aria-label="Theme">🌙</button>
+    <!-- Startseite Button -->
+    <button class="homeBtn" onclick="window.location.href='index.html'">Startseite</button>
 
-    <header>
-        <h1>Admin Dashboard</h1>
-        <p>Willkommen — du bist eingeloggt (nur kurz gültig).</p>
-    </header>
+    <table id="adminTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Mannschaft</th>
+                <th>Punkte</th>
+                <th>Spiele</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Bayern München</td>
+                <td contenteditable="true">68</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Borussia Dortmund</td>
+                <td contenteditable="true">61</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>RB Leipzig</td>
+                <td contenteditable="true">55</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Bayer Leverkusen</td>
+                <td contenteditable="true">52</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Eintracht Frankfurt</td>
+                <td contenteditable="true">50</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Union Berlin</td>
+                <td contenteditable="true">48</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>VfL Wolfsburg</td>
+                <td contenteditable="true">45</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Borussia M'gladbach</td>
+                <td contenteditable="true">42</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>SC Freiburg</td>
+                <td contenteditable="true">40</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>VfB Stuttgart</td>
+                <td contenteditable="true">39</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>1. FC Köln</td>
+                <td contenteditable="true">36</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>TSG Hoffenheim</td>
+                <td contenteditable="true">34</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>FC Augsburg</td>
+                <td contenteditable="true">32</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>VfL Bochum</td>
+                <td contenteditable="true">30</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>FC Schalke 04</td>
+                <td contenteditable="true">28</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td>1. FSV Mainz 05</td>
+                <td contenteditable="true">26</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>17</td>
+                <td>Arminia Bielefeld</td>
+                <td contenteditable="true">24</td>
+                <td contenteditable="true">28</td>
+            </tr>
+            <tr>
+                <td>18</td>
+                <td>SpVgg Greuther Fürth</td>
+                <td contenteditable="true">20</td>
+                <td contenteditable="true">28</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <main>
-        <div class="card" role="region" aria-label="Admin Funktionen">
-            <h2>⚽ Bundesliga-Tabelle bearbeiten</h2>
-            <textarea id="tableData" placeholder='JSON hier einfügen: [{"team":"Bayern","points":30}, ...]'></textarea>
-            <div style="margin-top:12px;text-align:center">
-                <button class="btn" onclick="saveData()">Speichern</button>
-                <button class="btn" onclick="logout()">Logout</button>
-            </div>
-        </div>
-    </main>
+    <button class="saveBtn" onclick="saveTable()">Speichern</button>
 
     <script>
-        // Theme toggle
+        // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light');
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
 
-        function logout() {
-            // klar machen, dass beim Logout kein Zugriffs-Token mehr existiert
-            try { sessionStorage.removeItem('adminLoggedIn'); } catch (e) { }
-            // zurück zur Login-Seite
-            location.href = 'admin.html';
+        // Tabelle speichern
+        function saveTable() {
+            const tableHTML = document.getElementById('adminTable').innerHTML;
+            localStorage.setItem('bundesligaTable', tableHTML);
+            alert('Tabelle gespeichert!');
         }
 
-        function saveData() {
-            const content = document.getElementById('tableData').value.trim();
-            if (!content) {
-                alert('Bitte JSON eingeben, bevor du speicherst.');
-                return;
-            }
-            // Platzhalter: hier würdest du per fetch() an einen Server oder API senden.
-            // Aktuell nur Bestätigung
-            try {
-                JSON.parse(content);
-                alert('Daten ok — (fakemäßig) gespeichert ✅');
-            } catch (e) {
-                alert('Ungültiges JSON. Bitte überprüfe die Formatierung.');
-            }
+        // Prüfen ob Admin eingeloggt
+        if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin.html';
         }
     </script>
 </body>
