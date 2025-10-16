@@ -96,9 +96,9 @@
         }
     </style>
     <script>
-        // Admin-Schutz prüfen, bevor Body geladen wird
+        // Admin-Schutz prüfen
         if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
-            window.location.href = '403.html'; // Fehlerseite
+            window.location.href = 'fehler.html';
         }
     </script>
 </head>
@@ -108,7 +108,6 @@
     <button id="themeToggle">🌙</button>
     <h1>Admin Dashboard</h1>
 
-    <!-- Startseite Button -->
     <button class="homeBtn" onclick="window.location.href='index.html'">Startseite</button>
 
     <table id="adminTable">
@@ -244,16 +243,33 @@
 
         // Tabelle speichern
         function saveTable() {
-            const table = document.getElementById('adminTable');
-            localStorage.setItem('bundesligaTable', table.innerHTML);
+            const rows = document.querySelectorAll('#adminTable tbody tr');
+            let data = [];
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                data.push({
+                    rank: cells[0].textContent,
+                    team: cells[1].textContent,
+                    points: cells[2].textContent,
+                    games: cells[3].textContent
+                });
+            });
+            localStorage.setItem('bundesligaTableData', JSON.stringify(data));
             alert('Tabelle gespeichert!');
         }
 
-        // Tabelle aus localStorage laden
+        // Tabelle laden
         window.addEventListener('DOMContentLoaded', () => {
-            const saved = localStorage.getItem('bundesligaTable');
+            const saved = localStorage.getItem('bundesligaTableData');
             if (saved) {
-                document.getElementById('adminTable').innerHTML = saved;
+                const data = JSON.parse(saved);
+                const tbody = document.querySelector('#adminTable tbody');
+                tbody.innerHTML = '';
+                data.forEach(d => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${d.rank}</td><td contenteditable="true">${d.team}</td><td contenteditable="true">${d.points}</td><td contenteditable="true">${d.games}</td>`;
+                    tbody.appendChild(tr);
+                });
             }
         });
     </script>
