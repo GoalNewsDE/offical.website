@@ -91,7 +91,7 @@
     <button class="back-btn" onclick="logout()">Zurück zur Hauptseite</button>
 
     <script>
-        // Login prüfen
+        // Prüfen ob eingeloggt
         if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
             window.location.href = 'admin.html';
         }
@@ -100,13 +100,13 @@
         const visits = JSON.parse(localStorage.getItem('visits')) || {};
         const todayKey = new Date().toISOString().slice(0, 10);
 
-        // Heutige Besucher
+        // Heute
         document.getElementById('today').textContent = `Heutige Besucher: ${visits[todayKey] || 0}`;
 
-        // Gesamtbesucher
+        // Gesamt
         document.getElementById('total').textContent = `Gesamtbesucher: ${visits.total || 0}`;
 
-        // Besucher diese Woche
+        // Woche
         const weekStart = new Date();
         weekStart.setDate(weekStart.getDate() - weekStart.getDay());
         let weekCount = 0;

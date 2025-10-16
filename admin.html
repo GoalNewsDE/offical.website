@@ -75,24 +75,25 @@
     </div>
 
     <script>
-        // Accounts festlegen
+        // Accounts hart im Code
         const accounts = [
-            { user: "pokepiet", pass: "passwort1" },
+            { user: "pokepiet", pass: "pass1" },
             { user: "luki", pass: "luke777" }
         ];
 
         function login() {
-            const u = document.getElementById('username').value;
-            const p = document.getElementById('password').value;
-            const valid = accounts.some(acc => acc.user === u && acc.pass === p);
+            const u = document.getElementById('username').value.trim().toLowerCase();
+            const p = document.getElementById('password').value.trim();
+            const valid = accounts.some(acc => acc.user.toLowerCase() === u && acc.pass === p);
             if (valid) {
-                sessionStorage.setItem('adminLoggedIn', 'true');
+                sessionStorage.setItem('adminLoggedIn', 'true'); // nur Status speichern
                 window.location.href = 'admin_dashboard.html';
             } else {
                 alert('Falscher Benutzername oder Passwort!');
             }
         }
     </script>
+
 </body>
 
 </html>
