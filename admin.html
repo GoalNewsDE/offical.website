@@ -6,112 +6,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - GoalNewsDE</title>
     <style>
-        html,
         body {
             margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
-        body {
-            display: grid;
-            place-items: center;
-            /* zentriert horizontal + vertikal */
             font-family: Arial, sans-serif;
             background: linear-gradient(180deg, #065348, #6a88ad);
             color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
         }
 
-        .login-card {
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-box {
             background: rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-            width: 320px;
+            border-radius: 20px;
+            padding: 30px 50px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* zentriert alle Kinder horizontal */
-            text-align: center;
         }
 
-        .login-card h2 {
-            margin-bottom: 20px;
-        }
-
-        .login-card input {
-            width: 90%;
-            padding: 12px;
+        input {
             margin: 10px 0;
-            border-radius: 6px;
+            padding: 10px;
+            border-radius: 10px;
             border: none;
+            width: 200px;
             font-size: 1rem;
-            text-align: center;
-            /* Text zentriert im Input */
         }
 
-        .login-card button {
-            width: 95%;
-            padding: 12px;
-            margin-top: 10px;
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 8px;
-            background-color: #1db954;
+            border-radius: 10px;
+            background: #1db954;
             color: white;
             font-size: 1rem;
             cursor: pointer;
-            text-align: center;
+            transition: 0.3s;
         }
 
-        .login-card button:hover {
+        button:hover {
+            background: #0f6d30;
             transform: scale(1.05);
-            transition: 0.2s;
         }
 
-        .error {
-            color: #ffb3b3;
+        #error {
             margin-top: 10px;
-            text-align: center;
-        }
-
-        @media(max-width: 400px) {
-            .login-card {
-                width: 90%;
-                padding: 20px;
-            }
+            color: #ff5555;
         }
     </style>
 </head>
 
 <body>
-    <div class="login-card">
-        <h2>Admin Login</h2>
+
+    <h1>Admin Login</h1>
+    <div class="login-box">
         <input type="text" id="username" placeholder="Benutzername">
         <input type="password" id="password" placeholder="Passwort">
-        <button onclick="checkLogin()">Login</button>
-        <p class="error" id="errorMsg"></p>
+        <button onclick="login()">Login</button>
+        <div id="error"></div>
     </div>
 
     <script>
         const accounts = [
-            { user: 'pokepiet', pass: 'MlF1dBVB09' },
-            { user: 'luki', pass: 'luke777' }
+            { user: "admin1", pass: "pass123" },
+            { user: "admin2", pass: "geheim" }
         ];
 
-        function checkLogin() {
-            const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value;
-            const msg = document.getElementById('errorMsg');
-
-            const found = accounts.find(acc => acc.user === user && acc.pass === pass);
-
-            if (found) {
+        function login() {
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            const match = accounts.find(a => a.user === u && a.pass === p);
+            if (match) {
+                localStorage.setItem('adminLoggedIn', 'true');
                 window.location.href = 'admin_dashboard.html';
             } else {
-                msg.textContent = "Falscher Benutzername oder Passwort!";
+                document.getElementById('error').textContent = 'Benutzername oder Passwort falsch!';
             }
         }
+
+        // Schon eingeloggt -> direkt weiter
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            window.location.href = 'admin_dashboard.html';
+        }
     </script>
+
 </body>
 
 </html>

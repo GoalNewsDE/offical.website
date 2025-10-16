@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - GoalNewsDE</title>
-
     <style>
         body {
             margin: 0;
@@ -89,21 +88,18 @@
     <button class="back-btn" onclick="window.location.href='index.html'">Zurück zur Hauptseite</button>
 
     <script>
-        // Besucherzahlen aus LocalStorage holen
+        if (localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin.html';
+        }
+
+        // Besucherzahlen aus LocalStorage
         const visits = JSON.parse(localStorage.getItem('visits')) || {};
-        const todayDate = new Date().toISOString().slice(0, 10);
-
-        // Heute
-        const todayCount = visits[todayDate] || 0;
-        document.getElementById('today').textContent = `Heutige Besucher: ${todayCount}`;
-
-        // Gesamt
-        const totalCount = visits.total || 0;
-        document.getElementById('total').textContent = `Gesamtbesucher: ${totalCount}`;
+        const todayKey = new Date().toISOString().slice(0, 10);
+        document.getElementById('today').textContent = `Heutige Besucher: ${visits[todayKey] || 0}`;
+        document.getElementById('total').textContent = `Gesamtbesucher: ${visits.total || 0}`;
 
         // Diese Woche
-        const weekStart = new Date();
-        weekStart.setDate(weekStart.getDate() - weekStart.getDay()); // Sonntag = Start
+        const weekStart = new Date(); weekStart.setDate(weekStart.getDate() - weekStart.getDay());
         let weekCount = 0;
         for (let i = 0; i < 7; i++) {
             const d = new Date(weekStart);
