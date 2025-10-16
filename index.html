@@ -222,13 +222,17 @@
         <div class="ticker scrolling" id="ticker"></div>
     </div>
 
-    <!-- Unsichtbarer gnrcounter -->
-    <div style="display:none;">
-        <script language="JavaScript" type="text/javascript"
-            src="https://gnrcounter.com/counter.php?accId=0da1abdbdc3d10c1105fffaf6af6882e"></script>
-    </div>
+
 
     <script>
+        // Zugriff prüfen
+        if (sessionStorage.getItem('allowAccess') !== 'true') {
+            window.location.href = "fehler.html"; // Weiterleitung
+        } else {
+            // Zugriff erlaubt, Session wieder löschen
+            sessionStorage.removeItem('allowAccess');
+        }
+
         // Countdown
         window.addEventListener('DOMContentLoaded', function () {
             const matchDate = new Date("October 18, 2025 15:30:00").getTime();
@@ -256,13 +260,10 @@
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
 
-        // LocalStorage Besuchertracking
-        let today = new Date().toISOString().slice(0, 10);
-        let visits = JSON.parse(localStorage.getItem('visits')) || {};
-        visits[today] = visits[today] ? visits[today] + 1 : 1;
-        visits.total = visits.total ? visits.total + 1 : 1;
-        localStorage.setItem('visits', JSON.stringify(visits));
+
     </script>
+
+
 </body>
 
 </html>
