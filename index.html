@@ -201,6 +201,8 @@
         </nav>
     </header>
 
+    <h2 id="game-timer" style="font-size:2rem; color:#065348; margin-top:20px;">⏱️ 20:00</h2>
+
     <h2>Countdown zum nächsten Spieltag</h2>
     <div id="countdown"></div>
 
@@ -269,7 +271,56 @@
             document.body.classList.toggle('light');
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
+
+
+        let seconds = 0;
+        let timerInterval = null;
+        const kickoffTime = "21:59"; // ⏰ HIER ZEIT ÄNDERN (24h-Format)
+
+        // Timeranzeige aktualisieren
+        function updateTimerDisplay() {
+            const minutes = Math.floor(seconds / 60);
+            const sec = seconds % 60;
+            document.getElementById("game-timer").textContent =
+                `⏱️ ${String(minutes).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        }
+
+        // Timer starten
+        function startTimer() {
+            if (timerInterval) return;
+            timerInterval = setInterval(() => {
+                seconds++;
+                if (seconds >= 5400) { // 90 Minuten = 5400 Sekunden
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    document.getElementById("game-timer").textContent = "🏁 90:00 - Spielende!";
+                    return;
+                }
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        // Prüfen, ob Anpfiff-Zeit erreicht ist
+        function checkKickoff() {
+            const now = new Date();
+            const [kickHour, kickMinute] = kickoffTime.split(":").map(Number);
+
+            if (now.getHours() === kickHour && now.getMinutes() === kickMinute) {
+                startTimer();
+                clearInterval(checkInterval);
+            }
+        }
+
+        // Alle 10 Sekunden prüfen, ob es soweit ist
+        const checkInterval = setInterval(checkKickoff, 10000);
+        updateTimerDisplay();
     </script>
+
+
+
+
+
+
 </body>
 
 </html>
