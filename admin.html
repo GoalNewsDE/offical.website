@@ -154,53 +154,129 @@
     </div>
 
     <script>
+    const accounts = [
+        { user: "pokepiet", hash: "0c311a3caaf241353c1b7170119ebe6dd195d69746e2b7604217f2f02d3b72d0" },
+        { user: "luki", hash: "7a0c18850cbd80b01915bcbf1a5d9f395f8eeb7b723c1f42d25c5f49ec0b9d68" },
+        { user: "Elias", hash: "09550794019a7c2092e5872e26a4cd2155868b8c427adb53734c8a9d4ea343d7" }
+    ];
 
-        const accounts = [
-            { user: "pokepiet", hash: "0c311a3caaf241353c1b7170119ebe6dd195d69746e2b7604217f2f02d3b72d0" },
-            { user: "luki", hash: "7a0c18850cbd80b01915bcbf1a5d9f395f8eeb7b723c1f42d25c5f49ec0b9d68" },
-            { user: "Elias", hash: "09550794019a7c2092e5872e26a4cd2155868b8c427adb53734c8a9d4ea343d7" }
-        ];
+    const STORAGE_KEY = 'login_attempts';
 
-        // Hashing mit Web Crypto API: SHA-256 -> hex string
-        async function hashPassword(password) {
-            const enc = new TextEncoder();
-            const buf = await crypto.subtle.digest('SHA-256', enc.encode(password));
-            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    function loadAttempts() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            return raw ? JSON.parse(raw) : {};
+        } catch (e) {
+            return {};
+        }
+    }
+
+    function saveAttempts(obj) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+        } catch (e) {
+            // ignore
+        }
+    }
+
+    async function hashPassword(password) {
+        const enc = new TextEncoder();
+        const buf = await crypto.subtle.digest('SHA-256', enc.encode(password));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function isLocked(attemptsObj, key) {
+        const data = attemptsObj[key];
+        if (!data) return false;
+        if (data.lockUntil && Date.now() < data.lockUntil) return true;
+        return false;
+    }
+
+    function getLockRemainingSeconds(attemptsObj, key) {
+        const data = attemptsObj[key];
+        if (!data || !data.lockUntil) return 0;
+        const remaining = Math.ceil((data.lockUntil - Date.now()) / 1000);
+        return remaining > 0 ? remaining : 0;
+    }
+
+    // Lockout: 3 Fehlversuche -> 60 Sekunden Sperre
+    async function login() {
+        const uRaw = document.getElementById('username').value;
+        const u = uRaw.trim().toLowerCase();
+        const p = document.getElementById('password').value;
+        if (!u || !p) {
+            alert('Bitte Benutzername und Passwort eingeben.');
+            return;
         }
 
-        async function login() {
-            const u = document.getElementById('username').value.trim().toLowerCase();
-            const p = document.getElementById('password').value;
-            if (!u || !p) {
-                alert('Bitte Benutzername und Passwort eingeben.');
-                return;
-            }
+        const attempts = loadAttempts();
+        const key = u;
 
-            const acc = accounts.find(a => a.user === u);
-            if (!acc) {
-                alert('Falscher Benutzername oder Passwort!');
-                return;
-            }
+        if (isLocked(attempts, key)) {
+            const secs = getLockRemainingSeconds(attempts, key);
+            alert(`Zu viele fehlgeschlagene Versuche. Konto gesperrt für weitere ${secs} Sekunden.`);
+            return;
+        }
 
-            const h = await hashPassword(p);
-            if (h === acc.hash) {
-                sessionStorage.setItem('adminLoggedIn', 'true'); // erlaubt Zugang zum Dashboard
-                window.location.href = 'admin_dashboard.html';
+        const acc = accounts.find(a => a.user.toLowerCase() === u);
+        if (!acc) {
+            // Auch unbekannte Benutzernamen zählen — verhindert Username-Probing vom selben Client
+            attempts[key] = attempts[key] || { count: 0, lockUntil: 0 };
+            attempts[key].count += 1;
+
+            if (attempts[key].count >= 3) {
+                attempts[key].lockUntil = Date.now() + 60 * 1000; // 60s Sperre
+                attempts[key].count = 0;
+                saveAttempts(attempts);
+                alert('Falscher Benutzername oder Passwort! Zu viele Versuche — Konto vorübergehend gesperrt (60s).');
+                return;
             } else {
+                saveAttempts(attempts);
                 alert('Falscher Benutzername oder Passwort!');
+                return;
             }
         }
 
-        // Enter-Taste submit
-        document.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+        const h = await hashPassword(p);
+        if (h === acc.hash) {
+            if (attempts[key]) {
+                delete attempts[key];
+                saveAttempts(attempts);
+            }
+            sessionStorage.setItem('adminLoggedIn', 'true');
+            window.location.href = 'admin_dashboard.html';
+        } else {
+            attempts[key] = attempts[key] || { count: 0, lockUntil: 0 };
+            attempts[key].count += 1;
 
-        // Theme toggle
-        const themeToggle = document.getElementById('themeToggle');
+            if (attempts[key].count >= 3) {
+                attempts[key].lockUntil = Date.now() + 60 * 1000; // 60s Sperre
+                attempts[key].count = 0;
+                saveAttempts(attempts);
+                alert('Falscher Benutzername oder Passwort! Zu viele Versuche — Konto vorübergehend gesperrt (60s).');
+                return;
+            } else {
+                saveAttempts(attempts);
+                const remaining = 3 - attempts[key].count;
+                alert(`Falscher Benutzername oder Passwort! Noch ${remaining} Versuch(e) bis zur Sperre.`);
+                return;
+            }
+        }
+    }
+
+    // Enter-Taste submit
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+    // Theme toggle (sicher prüfen, ob Button existiert)
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light');
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
-    </script>
+    }
+</script>
+
 </body>
 
 </html>
