@@ -21,12 +21,50 @@
             color: #000;
         }
 
-        h1 {
+        header {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: transparent;
+        }
+
+        header h1 {
             font-size: 6vw;
-            margin: 20px 0;
+            margin: 0;
             background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 8px rgba(29, 185, 84, 0.7);
+            transition: transform 0.3s, text-shadow 0.3s;
+        }
+
+
+
+        header nav {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 7px 15px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        header nav a:hover {
+            background: linear-gradient(90deg, #1db954, #00d4ff);
+            color: white;
+            box-shadow: 0 0 10px #1db954, 0 0 15px #00d4ff;
+            transform: scale(1.1);
         }
 
         h2 {
@@ -45,45 +83,8 @@
             margin: 20px 0;
         }
 
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: #065348;
-            color: white;
-            height: 50px;
-            min-width: 150px;
-            line-height: 50px;
-            text-decoration: none;
-            font-size: 1rem;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            animation: glow 1s infinite alternate;
-            transform: scale(1.05);
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 5px #0f6d30;
-            }
-
-            to {
-                text-shadow: 0 0 5px #1db954;
-            }
-        }
-
         #countdown {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: bold;
             margin-bottom: 30px;
             background: linear-gradient(to right, #1db954, #3498db);
@@ -146,8 +147,26 @@
             transform: scale(1.1);
         }
 
+        .btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #1db954, #00d4ff);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #1db954, 0 0 20px #00d4ff;
+        }
+
         @media(max-width:768px) {
-            h1 {
+            header h1 {
                 font-size: 10vw;
             }
 
@@ -155,17 +174,9 @@
                 font-size: 4vw;
             }
 
-            .btn {
-                font-size: 0.9rem;
-                min-width: 120px;
-                height: 45px;
-                line-height: 45px;
-            }
-
-            #themeToggle {
-                width: 45px;
-                height: 45px;
-                font-size: 20px;
+            header nav a {
+                font-size: 1rem;
+                margin: 0 5px;
             }
 
             .ticker span {
@@ -181,13 +192,13 @@
 
     <header>
         <h1>GoalNewsDE</h1>
-        <div class="links">
-            <a class="btn" href="http://tiktok.com/@goal.news25">TikTok</a>
-            <a class="btn" href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y">WhatsApp</a>
-            <a class="btn" href="admin.html">Admin</a>
-            <a class="btn" href="bundesliga.html">Bundesliga</a>
-            <a class="btn" href="statistics.html">Statistiken</a>
-        </div>
+        <nav>
+            <a href="bundesliga.html">Bundesliga</a>
+            <a href="statistics.html">Statistiken</a>
+            <a href="admin.html">Admin</a>
+            <a href="http://tiktok.com/@goal.news25" target="_blank">TikTok</a>
+            <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
+        </nav>
     </header>
 
     <h2>Countdown zum nächsten Spieltag</h2>
@@ -202,8 +213,8 @@
         <div>
             <h3>Union Berlin 20:30 Uhr Borussia Mönchengladbach</h3>
         </div>
-        <p class="links">
-            <a class="btn" href="https://strawpoll.com/wAg3QmA3My8">Zur Abstimmung</a>
+        <p>
+            <a class="btn" href="https://strawpoll.com/wAg3QmA3My8" target="_blank">Zur Abstimmung</a>
         </p>
     </section>
 
@@ -212,7 +223,8 @@
     </div>
 
     <script>
-        const matchDate = new Date("October 18, 2025 15:30:00").getTime();
+        // Countdown Funktion
+        const matchDate = new Date("October 18, 2025 20:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
         const timer = setInterval(() => {
             const now = new Date().getTime();
@@ -229,6 +241,7 @@
             countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
         }, 1000);
 
+        // Ticker
         const results = ["BSV Schüren 1:7 FC Gütersloh", "SV Schermbeck 1:5 !. FC Gievenbeck", "Marokko 5:4 i.E. Frankreich"];
         const tickerEl = document.getElementById("ticker");
         results.concat(results).forEach(r => {
@@ -237,6 +250,7 @@
             tickerEl.appendChild(span);
         });
 
+        // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light');
