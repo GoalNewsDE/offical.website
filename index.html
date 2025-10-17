@@ -34,6 +34,11 @@
             font-size: 2.5vw;
         }
 
+        h3 {
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+
         .middle {
             font-size: 1.5rem;
             font-weight: 600;
@@ -48,22 +53,22 @@
             margin: 20px 0;
         }
 
-        button.main-btn {
+        .btn {
+            display: inline-block;
             background-color: #065348;
             color: white;
             height: 50px;
             min-width: 150px;
-            padding: 0 15px;
+            line-height: 50px;
+            text-decoration: none;
             font-size: 1rem;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border: none;
             transition: all 0.3s;
         }
 
-        button.main-btn:hover {
+        .btn:hover {
             animation: glow 1s infinite alternate;
-            cursor: pointer;
             transform: scale(1.05);
         }
 
@@ -80,7 +85,6 @@
         #countdown {
             font-size: 1.5rem;
             font-weight: bold;
-            text-align: center;
             margin-bottom: 30px;
             background: linear-gradient(to right, #1db954, #3498db);
             -webkit-background-clip: text;
@@ -99,6 +103,7 @@
         .ticker {
             display: inline-block;
             white-space: nowrap;
+            animation: scroll 40s linear infinite;
         }
 
         .ticker span {
@@ -106,12 +111,6 @@
             margin: 0 50px;
             font-weight: bold;
             font-size: 1rem;
-        }
-
-        .scrolling {
-            display: inline-block;
-            white-space: nowrap;
-            animation: scroll 40s linear infinite;
         }
 
         @keyframes scroll {
@@ -147,8 +146,6 @@
             transform: scale(1.1);
         }
 
-
-
         @media(max-width:768px) {
             h1 {
                 font-size: 10vw;
@@ -158,10 +155,11 @@
                 font-size: 4vw;
             }
 
-            button.main-btn {
+            .btn {
                 font-size: 0.9rem;
                 min-width: 120px;
                 height: 45px;
+                line-height: 45px;
             }
 
             #themeToggle {
@@ -174,10 +172,7 @@
                 font-size: 0.9rem;
                 margin: 0 30px;
             }
-
-            h3 {
-                font-size: medium;
-            }
+        }
     </style>
 </head>
 
@@ -187,70 +182,65 @@
     <header>
         <h1>GoalNewsDE</h1>
         <div class="links">
-            <a href="http://tiktok.com/@goal.news25"><button class="main-btn">Tiktok</button></a>
-            <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y"><button
-                    class="main-btn">WhatsApp</button></a>
-            <button class="main-btn" onclick="window.location.href='admin.html'">Admin</button>
-            <button class="main-btn" onclick="window.location.href='bundesliga.html'">Bundesliga</button>
-            <button class="main-btn" onclick="window.location.href='statistics.html'">Statitiken</button>
+            <a class="btn" href="http://tiktok.com/@goal.news25">TikTok</a>
+            <a class="btn" href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y">WhatsApp</a>
+            <a class="btn" href="admin.html">Admin</a>
+            <a class="btn" href="bundesliga.html">Bundesliga</a>
+            <a class="btn" href="statistics.html">Statistiken</a>
         </div>
     </header>
 
     <h2>Countdown zum nächsten Spieltag</h2>
     <div id="countdown"></div>
 
-    <div>
-        <img decoding="async" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
-    </div>
+    <img decoding="async" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
 
-    <p class="middle">Dies ist die offizielle Website von GoalNewsDE!<br>Wir würden uns freuen, wenn ihr ein Abo auf
-        unserem WhatsApp-Channel da lasst! 🙏</p>
+    <p class="middle">Offizielle Website von GoalNewsDE! Abonniert unseren WhatsApp-Channel 🙏</p>
 
     <section>
         <h2>Heutige Spiele</h2>
-        <p>
-        <h3>Union Berlin 20:30 Uhr Borussia Mönchen Gladbach</h3>
+        <div>
+            <h3>Union Berlin 20:30 Uhr Borussia Mönchengladbach</h3>
+        </div>
+        <p class="links">
+            <a class="btn" href="https://strawpoll.com/wAg3QmA3My8">Zur Abstimmung</a>
         </p>
-
     </section>
 
-    <p class="links">
-        <a href="https://strawpoll.com/wAg3QmA3My8"><button class="main-btn">Zur Abstimmung</button></a>
-    </p>
-
     <div class="ticker-wrapper">
-        <div class="ticker scrolling" id="ticker"></div>
+        <div class="ticker" id="ticker"></div>
     </div>
 
-
-
     <script>
-        // Countdown
-        window.addEventListener('DOMContentLoaded', function () {
-            const matchDate = new Date("October 18, 2025 15:30:00").getTime();
-            const timer = setInterval(function () {
-                const now = new Date().getTime();
-                const distance = matchDate - now;
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-                if (distance < 0) { clearInterval(timer); document.getElementById("countdown").innerHTML = "Anpfiff!"; }
-            }, 1000);
+        const matchDate = new Date("October 18, 2025 15:30:00").getTime();
+        const countdownEl = document.getElementById("countdown");
+        const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = matchDate - now;
+            if (distance < 0) {
+                clearInterval(timer);
+                countdownEl.textContent = "Anpfiff!";
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }, 1000);
 
-            // Liveticker
-            const results = ["Letzte Spiele:", "Lettland 0:5 England", "Portugal 2:2 Ungarn", "Spanien 4:0 Bulgarien", "Italien 3:0 Israel", "Türkei 4:1 Georgien", "Andorra 1:3 Serbien", "Irland 1:0 Armenien"];
-            const ticker = document.getElementById("ticker");
-            [...results, ...results].forEach(r => { const s = document.createElement("span"); s.textContent = r; ticker.appendChild(s); });
+        const results = ["BSV Schüren 1:7 FC Gütersloh", "SV Schermbeck 1:5 !. FC Gievenbeck", "Marokko 5:4 i.E. Frankreich"];
+        const tickerEl = document.getElementById("ticker");
+        results.concat(results).forEach(r => {
+            const span = document.createElement("span");
+            span.textContent = r;
+            tickerEl.appendChild(span);
+        });
 
-            // Dark/Light Mode
-            const themeToggle = document.getElementById('themeToggle');
-            themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('light');
-                themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
-            });
-
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+            themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
     </script>
 </body>
