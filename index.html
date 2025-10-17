@@ -214,6 +214,8 @@
     <section>
         <h2>Heutige Spiele</h2>
         <div>
+            <h4>Freitag:</h4>
+            <h3>Union Berlin 3:1 Borussia Mönchen Gladbach (FT)</h3>
             <h4>Samstag:</h4>
             <h3>
                 Mainz 05 - Bayer Leverkusen (15:30 Uhr)<br><br>
@@ -258,7 +260,7 @@
         }, 1000);
 
         // Ticker
-        const results = ["ES IST AUS: Endstand: 3:1 für Union"];
+        const results = ["ES IST AUS! Endstand: 3:1 für die Eisernen"];
         const tickerEl = document.getElementById("ticker");
         results.concat(results).forEach(r => {
             const span = document.createElement("span");
@@ -273,49 +275,49 @@
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
 
-let totalSeconds = 5400; // 90 Minuten
-let timerInterval = null;
-const kickoffTime = "22:14"; // ⏰ HIER STARTZEIT EINSTELLEN (24h-Format)
+        let totalSeconds = 5400; // 90 Minuten
+        let timerInterval = null;
+        const kickoffTime = "15:30"; // ⏰ HIER STARTZEIT EINSTELLEN (24h-Format)
 
-// Anzeige aktualisieren
-function updateTimerDisplay() {
-  const minutes = Math.floor(totalSeconds / 60);
-  const sec = totalSeconds % 60;
-  document.getElementById("game-timer").textContent = 
-    `⏱️ ${String(minutes).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-}
+        // Anzeige aktualisieren
+        function updateTimerDisplay() {
+            const minutes = Math.floor(totalSeconds / 60);
+            const sec = totalSeconds % 60;
+            document.getElementById("game-timer").textContent =
+                `⏱️ ${String(minutes).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        }
 
-// Countdown starten
-function startCountdown() {
-  if (timerInterval) return; // nicht doppelt starten
-  updateTimerDisplay(); // sofort anzeigen
+        // Countdown starten
+        function startCountdown() {
+            if (timerInterval) return; // nicht doppelt starten
+            updateTimerDisplay(); // sofort anzeigen
 
-  timerInterval = setInterval(() => {
-    totalSeconds--;
-    updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                totalSeconds--;
+                updateTimerDisplay();
 
-    if (totalSeconds <= 0) {
-      clearInterval(timerInterval);
-      document.getElementById("game-timer").textContent = "🏁 00:00 - Spielende!";
-    }
-  }, 1000);
-}
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById("game-timer").textContent = "🏁 00:00 - Spielende!";
+                }
+            }, 1000);
+        }
 
-// Prüfen, ob die Anstoßzeit erreicht ist
-function checkKickoff() {
-  const now = new Date();
-  const [kickHour, kickMinute] = kickoffTime.split(":").map(Number);
+        // Prüfen, ob die Anstoßzeit erreicht ist
+        function checkKickoff() {
+            const now = new Date();
+            const [kickHour, kickMinute] = kickoffTime.split(":").map(Number);
 
-  if (now.getHours() === kickHour && now.getMinutes() === kickMinute) {
-    startCountdown();
-    clearInterval(checkInterval);
-  }
-}
+            if (now.getHours() === kickHour && now.getMinutes() === kickMinute) {
+                startCountdown();
+                clearInterval(checkInterval);
+            }
+        }
 
-// Alle 5 Sekunden prüfen, ob es soweit ist
-const checkInterval = setInterval(checkKickoff, 5000);
-updateTimerDisplay();
-</script>
+        // Alle 5 Sekunden prüfen, ob es soweit ist
+        const checkInterval = setInterval(checkKickoff, 5000);
+        updateTimerDisplay();
+    </script>
 
 
 
