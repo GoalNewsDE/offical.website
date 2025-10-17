@@ -10,15 +10,13 @@
         body {
             height: 100%;
             margin: 0;
-        }
-
-        body {
-            display: grid;
-            place-items: center;
             font-family: Arial, sans-serif;
             background: linear-gradient(180deg, #065348, #6a88ad);
             color: #fff;
-            transition: background .3s, color .3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s, color 0.3s;
         }
 
         body.light {
@@ -26,28 +24,34 @@
             color: #000;
         }
 
+        /* Login-Box */
         .login-box {
             width: 100%;
             max-width: 380px;
-            background: rgba(0, 0, 0, 0.42);
-            padding: 36px 28px;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.45);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(6px);
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
+        /* Title */
         h1 {
-            margin: 0 0 18px 0;
-            font-size: 1.8rem;
+            font-size: 2rem;
+            margin-bottom: 22px;
             background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-align: center;
         }
 
+        /* Input fields */
         .field {
             width: 100%;
-            margin-top: 12px;
+            margin: 10px 0;
         }
 
         input {
@@ -55,36 +59,42 @@
             padding: 12px 14px;
             border-radius: 12px;
             border: none;
-            outline: none;
             font-size: 1rem;
             text-align: center;
+            box-sizing: border-box;
         }
 
+        /* Actions / buttons */
         .actions {
+            width: 100%;
+            margin-top: 18px;
             display: flex;
-            gap: 12px;
             flex-direction: column;
-            margin-top: 20px;
+            gap: 12px;
+            align-items: center;
         }
 
         .btn {
+            width: 100%;
+            max-width: 320px;
             padding: 12px 16px;
             border-radius: 18px;
             border: none;
-            cursor: pointer;
             font-weight: 700;
             font-size: 1rem;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: all 0.25s ease;
         }
 
         .btn.primary {
-            background: #1db954;
+            background: linear-gradient(90deg, #1db954, #00d4ff);
             color: #fff;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
         }
 
         .btn.primary:hover {
-            background: #0f6d30;
             transform: translateY(-2px);
+            box-shadow: 0 0 15px #1db954, 0 0 20px #00d4ff;
         }
 
         .btn.ghost {
@@ -97,22 +107,15 @@
             background: rgba(255, 255, 255, 0.12);
         }
 
-        @media (max-width: 420px) {
-            .login-box {
-                padding: 26px 18px;
-                border-radius: 16px;
-            }
-
-            h1 {
-                font-size: 1.4rem;
-            }
-
-            .btn {
-                font-size: .95rem;
-                padding: 11px 14px;
-            }
+        /* Small helper text */
+        .note {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            text-align: center;
         }
 
+        /* Theme toggle button */
         #themeToggle {
             position: fixed;
             top: 18px;
@@ -129,6 +132,23 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Responsive */
+        @media (max-width: 420px) {
+            .login-box {
+                padding: 30px 20px;
+                border-radius: 16px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .btn {
+                font-size: 0.95rem;
+                padding: 11px 14px;
+            }
         }
     </style>
 </head>
@@ -148,135 +168,140 @@
         </div>
 
         <div class="actions">
-            <button class="btn primary" onclick="login()">Einloggen</button>
+            <button class="btn primary" id="loginBtn">Einloggen</button>
             <button class="btn ghost" onclick="window.location.href='index.html'">Zurück zur Startseite</button>
         </div>
+
+        <div class="note" id="note">3 Fehlversuche → 60s Sperre</div>
     </div>
 
     <script>
-    const accounts = [
-        { user: "pokepiet", hash: "0c311a3caaf241353c1b7170119ebe6dd195d69746e2b7604217f2f02d3b72d0" },
-        { user: "luki", hash: "7a0c18850cbd80b01915bcbf1a5d9f395f8eeb7b723c1f42d25c5f49ec0b9d68" },
-        { user: "Elias", hash: "09550794019a7c2092e5872e26a4cd2155868b8c427adb53734c8a9d4ea343d7" }
-    ];
+        /*
+          Accounts mit SHA-256 Hashes (wie gewünscht)
+          Benutzername-Vergleich ist case-insensitive
+          Sperrmechanik: 3 Fehlversuche => 60 Sekunden Sperre (pro Browser-username key, gespeichert in localStorage)
+        */
 
-    const STORAGE_KEY = 'login_attempts';
+        const accounts = [
+            { user: "pokepiet", hash: "0c311a3caaf241353c1b7170119ebe6dd195d69746e2b7604217f2f02d3b72d0" },
+            { user: "luki", hash: "7a0c18850cbd80b01915bcbf1a5d9f395f8eeb7b723c1f42d25c5f49ec0b9d68" },
+            { user: "elias", hash: "09550794019a7c2092e5872e26a4cd2155868b8c427adb53734c8a9d4ea343d7" }
+        ];
 
-    function loadAttempts() {
-        try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            return raw ? JSON.parse(raw) : {};
-        } catch (e) {
-            return {};
-        }
-    }
+        const STORAGE_KEY = 'login_attempts_goalnewsde_v1';
+        const MAX_ATTEMPTS = 3;
+        const LOCK_MS = 60 * 1000; // 60 Sekunden
 
-    function saveAttempts(obj) {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
-        } catch (e) {
-            // ignore
-        }
-    }
-
-    async function hashPassword(password) {
-        const enc = new TextEncoder();
-        const buf = await crypto.subtle.digest('SHA-256', enc.encode(password));
-        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    function isLocked(attemptsObj, key) {
-        const data = attemptsObj[key];
-        if (!data) return false;
-        if (data.lockUntil && Date.now() < data.lockUntil) return true;
-        return false;
-    }
-
-    function getLockRemainingSeconds(attemptsObj, key) {
-        const data = attemptsObj[key];
-        if (!data || !data.lockUntil) return 0;
-        const remaining = Math.ceil((data.lockUntil - Date.now()) / 1000);
-        return remaining > 0 ? remaining : 0;
-    }
-
-    // Lockout: 3 Fehlversuche -> 60 Sekunden Sperre
-    async function login() {
-        const uRaw = document.getElementById('username').value;
-        const u = uRaw.trim().toLowerCase();
-        const p = document.getElementById('password').value;
-        if (!u || !p) {
-            alert('Bitte Benutzername und Passwort eingeben.');
-            return;
+        function loadAttempts() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                return raw ? JSON.parse(raw) : {};
+            } catch (e) {
+                return {};
+            }
         }
 
-        const attempts = loadAttempts();
-        const key = u;
-
-        if (isLocked(attempts, key)) {
-            const secs = getLockRemainingSeconds(attempts, key);
-            alert(`Zu viele fehlgeschlagene Versuche. Konto gesperrt für weitere ${secs} Sekunden.`);
-            return;
+        function saveAttempts(obj) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+            } catch (e) { /* ignore */ }
         }
 
-        const acc = accounts.find(a => a.user.toLowerCase() === u);
-        if (!acc) {
-            // Auch unbekannte Benutzernamen zählen — verhindert Username-Probing vom selben Client
-            attempts[key] = attempts[key] || { count: 0, lockUntil: 0 };
-            attempts[key].count += 1;
+        function isLocked(attemptsObj, key) {
+            const data = attemptsObj[key];
+            if (!data) return false;
+            if (data.lockUntil && Date.now() < data.lockUntil) return true;
+            return false;
+        }
 
-            if (attempts[key].count >= 3) {
-                attempts[key].lockUntil = Date.now() + 60 * 1000; // 60s Sperre
-                attempts[key].count = 0;
-                saveAttempts(attempts);
-                alert('Falscher Benutzername oder Passwort! Zu viele Versuche — Konto vorübergehend gesperrt (60s).');
+        function getLockRemainingSeconds(attemptsObj, key) {
+            const data = attemptsObj[key];
+            if (!data || !data.lockUntil) return 0;
+            const remaining = Math.ceil((data.lockUntil - Date.now()) / 1000);
+            return remaining > 0 ? remaining : 0;
+        }
+
+        async function sha256Hex(str) {
+            const enc = new TextEncoder();
+            const buf = await crypto.subtle.digest('SHA-256', enc.encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function tryLogin() {
+            const rawUser = document.getElementById('username').value || "";
+            const username = rawUser.trim().toLowerCase();
+            const password = document.getElementById('password').value || "";
+
+            if (!username || !password) {
+                alert('Bitte Benutzername und Passwort eingeben.');
                 return;
+            }
+
+            const attempts = loadAttempts();
+            const key = username; // key per username in localStorage (prevents probing from same browser)
+
+            if (isLocked(attempts, key)) {
+                const secs = getLockRemainingSeconds(attempts, key);
+                alert(`Zu viele Fehlversuche. Konto gesperrt für weitere ${secs} Sekunden.`);
+                return;
+            }
+
+            const acc = accounts.find(a => a.user.toLowerCase() === username);
+
+            // auch unbekannte usernames zählen als Fehlversuch (verhindert username probing lokal)
+            if (!acc) {
+                attempts[key] = attempts[key] || { count: 0, lockUntil: 0 };
+                attempts[key].count += 1;
+                if (attempts[key].count >= MAX_ATTEMPTS) {
+                    attempts[key].lockUntil = Date.now() + LOCK_MS;
+                    attempts[key].count = 0;
+                    saveAttempts(attempts);
+                    alert('Falscher Benutzername oder Passwort! Zu viele Versuche — Konto vorübergehend gesperrt (60s).');
+                    return;
+                } else {
+                    saveAttempts(attempts);
+                    alert('Falscher Benutzername oder Passwort!');
+                    return;
+                }
+            }
+
+            const hashed = await sha256Hex(password);
+            if (hashed === acc.hash) {
+                // erfolgreicher Login
+                if (attempts[key]) { delete attempts[key]; saveAttempts(attempts); }
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                // Weiterleitung zum Dashboard
+                window.location.href = 'admin_dashboard.html';
             } else {
-                saveAttempts(attempts);
-                alert('Falscher Benutzername oder Passwort!');
-                return;
+                // falsches Passwort
+                attempts[key] = attempts[key] || { count: 0, lockUntil: 0 };
+                attempts[key].count += 1;
+                if (attempts[key].count >= MAX_ATTEMPTS) {
+                    attempts[key].lockUntil = Date.now() + LOCK_MS;
+                    attempts[key].count = 0;
+                    saveAttempts(attempts);
+                    alert('Falscher Benutzername oder Passwort! Zu viele Versuche — Konto vorübergehend gesperrt (60s).');
+                    return;
+                } else {
+                    saveAttempts(attempts);
+                    const remaining = MAX_ATTEMPTS - attempts[key].count;
+                    alert(`Falscher Benutzername oder Passwort! Noch ${remaining} Versuch(e) bis zur Sperre.`);
+                    return;
+                }
             }
         }
 
-        const h = await hashPassword(p);
-        if (h === acc.hash) {
-            if (attempts[key]) {
-                delete attempts[key];
-                saveAttempts(attempts);
-            }
-            sessionStorage.setItem('adminLoggedIn', 'true');
-            window.location.href = 'admin_dashboard.html';
-        } else {
-            attempts[key] = attempts[key] || { count: 0, lockUntil: 0 };
-            attempts[key].count += 1;
+        // Klick + Enter
+        document.getElementById('loginBtn').addEventListener('click', tryLogin);
+        document.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
 
-            if (attempts[key].count >= 3) {
-                attempts[key].lockUntil = Date.now() + 60 * 1000; // 60s Sperre
-                attempts[key].count = 0;
-                saveAttempts(attempts);
-                alert('Falscher Benutzername oder Passwort! Zu viele Versuche — Konto vorübergehend gesperrt (60s).');
-                return;
-            } else {
-                saveAttempts(attempts);
-                const remaining = 3 - attempts[key].count;
-                alert(`Falscher Benutzername oder Passwort! Noch ${remaining} Versuch(e) bis zur Sperre.`);
-                return;
-            }
-        }
-    }
-
-    // Enter-Taste submit
-    document.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
-
-    // Theme toggle (sicher prüfen, ob Button existiert)
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light');
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
-    }
-</script>
-
+    </script>
 </body>
 
 </html>
