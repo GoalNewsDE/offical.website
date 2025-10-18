@@ -7,98 +7,147 @@
     <title>GoalNewsDE</title>
     <style>
         body {
+            font-family: 'Poppins', sans-serif;
             margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
+            background: #fff;
+            color: #111;
+            line-height: 1.6;
             text-align: center;
-            color: white;
-            background: linear-gradient(180deg, #df2127, #ffffff);
-            transition: background 0.3s, color 0.3s;
         }
 
-        body.light {
-            background: linear-gradient(180deg, #fff, #d3d3d3);
-            color: #000;
+        a {
+            text-decoration: none;
+            color: #111;
         }
 
+        a:hover {
+            color: #4CAF50;
+        }
+
+        /* Header */
         header {
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: transparent;
+            background: #f8f8f8;
         }
 
-        header h1 {
-            font-size: 6vw;
-            margin: 0;
-            background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 8px rgba(29, 185, 84, 0.7);
-            transition: transform 0.3s, text-shadow 0.3s;
-        }
-
-
-
-        header nav {
-            margin-top: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        header nav a {
-            text-decoration: none;
-            color: white;
+        header .logo {
+            font-size: 2.5rem;
             font-weight: bold;
-            font-size: 1.2rem;
-            padding: 7px 15px;
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
+            color: #1db954;
         }
 
-        header nav a:hover {
-            background: linear-gradient(90deg, #1db954, #00d4ff);
+        /* Hero Container */
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 900px;
+            position: relative;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons links/rechts */
+        .hero-links-left,
+        .hero-links-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .hero-links-left a,
+        .hero-links-right a {
+            padding: 10px 20px;
+            background: #1db954;
             color: white;
-            box-shadow: 0 0 10px #1db954, 0 0 15px #00d4ff;
-            transform: scale(1.1);
+            border-radius: 20px;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
-        h2 {
-            margin: 20px 0;
-            font-size: 2.5vw;
+        .hero-links-left a:hover,
+        .hero-links-right a:hover {
+            background: #00d4ff;
+            transform: scale(1.05);
         }
 
-        h3 {
-            margin: 10px 0;
-            font-size: 1.2rem;
+        .hero {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 30px 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        .middle {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 20px 0;
-        }
-
+        /* Countdown */
         #countdown {
             font-size: 2rem;
             font-weight: bold;
-            margin-bottom: 30px;
-            background: linear-gradient(to right, #1db954, #3498db);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+            color: #1db954;
         }
 
+        /* Logo */
+        .logo-img {
+            margin: 20px 0;
+            max-width: 90%;
+            height: auto;
+        }
+
+        /* Bundesliga Section */
+        h2 {
+            margin: 30px 0 20px;
+        }
+
+        .matches {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .matches h4 {
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+
+        .matches h3 {
+            margin: 5px 0 15px;
+        }
+
+        /* Social Media Buttons */
+        .socials {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .socials a {
+            margin: 5px 10px;
+            padding: 12px 20px;
+            background: #1db954;
+            color: #fff;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .socials a:hover {
+            background: #00d4ff;
+            transform: scale(1.05);
+        }
+
+        /* Ticker */
         .ticker-wrapper {
-            width: 100%;
+            width: 95%;
             overflow: hidden;
-            color: white;
             border-radius: 10px;
-            padding: 10px 0;
-            background-color: rgba(0, 0, 0, 0.1);
+            background: #f0f0f0;
+            margin: 40px auto;
+            padding: 10px;
         }
 
         .ticker {
@@ -109,9 +158,9 @@
 
         .ticker span {
             display: inline-block;
-            margin: 0 50px;
+            margin: 0 30px;
             font-weight: bold;
-            font-size: 1rem;
+            color: #111;
         }
 
         @keyframes scroll {
@@ -124,137 +173,153 @@
             }
         }
 
-        #themeToggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #065348;
-            color: white;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, background-color 0.3s;
-        }
-
-        #themeToggle:hover {
-            transform: scale(1.1);
-        }
-
+        /* Button */
         .btn {
             display: inline-block;
-            background: linear-gradient(90deg, #1db954, #00d4ff);
-            color: white;
             padding: 12px 25px;
+            background: #1db954;
+            color: #fff;
             border-radius: 20px;
-            font-size: 1rem;
             font-weight: bold;
-            text-decoration: none;
-            transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
         }
 
         .btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px #1db954, 0 0 20px #00d4ff;
+            background: #00d4ff;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f8f8;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media(max-width:1024px) {
+            .hero-links-left {
+                left: -100px;
+            }
+
+            .hero-links-right {
+                right: -100px;
+            }
         }
 
         @media(max-width:768px) {
-            header h1 {
-                font-size: 10vw;
+            .hero {
+                font-size: 1.4rem;
+                padding: 25px 15px;
             }
 
-            h2 {
-                font-size: 4vw;
+            .hero-links-left,
+            .hero-links-right {
+                position: relative;
+                top: auto;
+                transform: none;
+                margin: 10px;
             }
 
-            header nav a {
-                font-size: 1rem;
-                margin: 0 5px;
+            .hero-container {
+                flex-direction: column;
+            }
+
+            .hero-links-left a,
+            .hero-links-right a {
+                padding: 10px 15px;
+            }
+        }
+
+        @media(max-width:480px) {
+            .hero {
+                font-size: 1.2rem;
+                padding: 20px 10px;
             }
 
             .ticker span {
+                margin: 0 15px;
                 font-size: 0.9rem;
-                margin: 0 30px;
             }
         }
     </style>
 </head>
 
 <body>
-    <button id="themeToggle">🌙</button>
 
     <header>
-        <h1>GoalNewsDE</h1>
-        <nav>
-            <a href="bundesliga.html">Bundesliga</a>
-            <a href="statistics.html">Statistiken</a>
-            <a href="admin.html">Admin</a>
-            <a href="http://tiktok.com/@goal.news25" target="_blank">TikTok</a>
-            <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
-
-
-        </nav>
+        <div class="logo">GoalNewsDE</div>
     </header>
 
+    <div class="hero-container">
+        <div class="hero-links-left">
+            <a href="bundesliga.html">Bundesliga</a>
+        </div>
 
+        <div class="hero">
+            Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!
+        </div>
 
+        <div class="hero-links-right">
+            <a href="statistics.html">Statistiken</a>
+        </div>
+    </div>
 
-    <h2>Countdown zum Klassiker</h2>
-    <div id="countdown"></div>
+    <!-- Social Media Buttons unter Hero -->
+    <div class="socials">
+        <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
+        <a href="http://tiktok.com/@goal.news25" target="_blank">TikTok</a>
+        <a href="https://youtube.com/" target="_blank">YouTube</a>
+    </div>
 
-    <img decoding="async" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo von GoalNewsDE" width="250">
+    <div id="countdown">Beginn Spieltag (Sonntag)</div>
 
-    <p class="middle">Offizielle Website von GoalNewsDE! Abonniert unseren WhatsApp-Channel 🙏</p>
+    <img class="logo-img" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo GoalNewsDE" width="250">
 
-    <section>
-        <h2>Bundesliga (Spiele):</h2>
-        <div>
+    <section id="bundesliga">
+        <h2>Bundesliga (Spiele)</h2>
+        <div class="matches">
             <h4>Freitag:</h4>
             <h3>Union Berlin 3:1 Borussia Mönchengladbach (FT)</h3>
+
             <h4>Samstag:</h4>
             <h3>
-                Mainz 05 3:4 Bayer Leverkusen (FT)<br><br>
-                RB Leipzig 2:1 Hamburger SV (FT)<br><br>
-                VfL Wolfsburg 0:3 VfB Stuttgart (FT)<br><br>
-                Heidenheim 2:2 Werder Bremen (FT)<br><br>
-                1. FC Köln 1:1 FC Augsburg (FT)<br><br>
-                Das Topspiel der Woche: Bayern 2:1 Dortmund (FT)<br><br></h3>
-            <h4>Sonntag:</h4>
-            <h3>SC Freiburg - Eintracht Frankfurt (15:30 Uhr)<br><br>
-                St. Pauli - TSG Hoffenheim (17:30 Uhr)<br><br>
-                LIVETICKER HIER! - FÜR LIVETICKER WEBSITE REGELMÄßIG AKTUALISIEREN!</h3>
+                Mainz 05 3:4 Bayer Leverkusen (FT)<br>
+                RB Leipzig 2:1 Hamburger SV (FT)<br>
+                VfL Wolfsburg 0:3 VfB Stuttgart (FT)<br>
+                Heidenheim 2:2 Werder Bremen (FT)<br>
+                1. FC Köln 1:1 FC Augsburg (FT)<br>
+                Topspiel: Bayern 2:1 Dortmund (FT)
+            </h3>
 
-        </div>
-        <p>
+            <h4>Sonntag:</h4>
+            <h3>
+                SC Freiburg - Eintracht Frankfurt (15:30 Uhr)<br>
+                St. Pauli - TSG Hoffenheim (17:30 Uhr)<br>
+                LIVETICKER HIER! - Regelmäßig aktualisieren!
+            </h3>
+
             <a class="btn" href="https://strawpoll.com/wAg3QmA3My8" target="_blank">Zur Abstimmung</a>
-        </p>
+        </div>
     </section>
 
     <div class="ticker-wrapper">
         <div class="ticker" id="ticker"></div>
     </div>
 
-    <footer>GoalNewsDE © 2025</footer>
+    <footer>
+        GoalNewsDE © 2025
+    </footer>
 
     <script>
-        // Countdown Funktion
-        const matchDate = new Date("October 18, 2025 18:30:00").getTime();
+        // Countdown
+        const matchDate = new Date("October 19, 2025 15:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
         const timer = setInterval(() => {
             const now = new Date().getTime();
             const distance = matchDate - now;
-            if (distance < 0) {
-                clearInterval(timer);
-                countdownEl.textContent = "Anpfiff!";
-                return;
-            }
+            if (distance < 0) { clearInterval(timer); countdownEl.textContent = "Anpfiff!"; return; }
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -263,27 +328,14 @@
         }, 1000);
 
         // Ticker
-        const results =  ["Das Topspiel ist aus!! Endstand: 2:1 für Bayern München "];
+        const results = ["Bundesliga Ergebnisse: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 Hamburger SV, Wolfsburg 0:3 Stuttgart, Heidenheim 2:2 Bremen, 1. FC Köln 1:1 FC Augsburg "];
         const tickerEl = document.getElementById("ticker");
         results.concat(results).forEach(r => {
             const span = document.createElement("span");
             span.textContent = r;
             tickerEl.appendChild(span);
         });
-
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light');
-            themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
-        });
-
     </script>
-
-
-
-
-
 
 </body>
 
