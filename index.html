@@ -203,7 +203,7 @@
         </nav>
     </header>
 
-    <h2 id="game-timer" style="font-size:2rem; color:#065348; margin-top:20px;">⏱️ 90:00</h2>
+
 
 
     <h2>Countdown zum nächsten Spieltag</h2>
@@ -220,11 +220,11 @@
             <h3>Union Berlin 3:1 Borussia Mönchengladbach (FT)</h3>
             <h4>Samstag:</h4>
             <h3>
-                Mainz 05 - Bayer Leverkusen (2. Halbzeit läuft) 2:3<br><br>
-                RB Leipzig - Hamburger SV (2. Halbzeit läuft) 2:1<br><br>
-                VfL Wolfsburg - VfB Stuttgart (2. Halbzeit läuft) 0:3<br><br>
-                Heidenheim - Werder Bremen (2. Halbzeit läuft) 2:2<br><br>
-                1. FC Köln - FC Augsburg (ENDE - UNENDSCHIEDEN) 1:1<br><br>
+                Mainz 05 3:4 Bayer Leverkusen (FT)<br><br>
+                RB Leipzig 2:1 Hamburger SV (FT)<br><br>
+                VfL Wolfsburg 0:3 VfB Stuttgart (FT)<br><br>
+                Heidenheim 2:2 Werder Bremen (FT)<br><br>
+                1. FC Köln 1:1 FC Augsburg (FT)<br><br>
                 Das Topspiel der Woche: Bayern - Dortmund (18:30 Uhr)<br><br></h3>
             <h4>Sonntag:</h4>
             <h3>SC Freiburg - Eintracht Frankfurt (15:30 Uhr)<br><br>
@@ -278,48 +278,6 @@
             themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
         });
 
-        let totalSeconds = 5400; // 90 Minuten
-        let timerInterval = null;
-        const kickoffTime = "15:30"; // ⏰ HIER STARTZEIT EINSTELLEN (24h-Format)
-
-        // Anzeige aktualisieren
-        function updateTimerDisplay() {
-            const minutes = Math.floor(totalSeconds / 60);
-            const sec = totalSeconds % 60;
-            document.getElementById("game-timer").textContent =
-                `⏱️ ${String(minutes).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-        }
-
-        // Countdown starten
-        function startCountdown() {
-            if (timerInterval) return; // nicht doppelt starten
-            updateTimerDisplay(); // sofort anzeigen
-
-            timerInterval = setInterval(() => {
-                totalSeconds--;
-                updateTimerDisplay();
-
-                if (totalSeconds <= 0) {
-                    clearInterval(timerInterval);
-                    document.getElementById("game-timer").textContent = "🏁 00:00 - Spielende!";
-                }
-            }, 1000);
-        }
-
-        // Prüfen, ob die Anstoßzeit erreicht ist
-        function checkKickoff() {
-            const now = new Date();
-            const [kickHour, kickMinute] = kickoffTime.split(":").map(Number);
-
-            if (now.getHours() === kickHour && now.getMinutes() === kickMinute) {
-                startCountdown();
-                clearInterval(checkInterval);
-            }
-        }
-
-        // Alle 5 Sekunden prüfen, ob es soweit ist
-        const checkInterval = setInterval(checkKickoff, 5000);
-        updateTimerDisplay();
     </script>
 
 
