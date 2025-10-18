@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,9 +13,10 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             text-align: center;
+            padding-top: 40px;
         }
 
         h1 {
@@ -36,15 +36,21 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        textarea {
+            width: 90%;
+            max-width: 600px;
+            height: 120px;
+            border-radius: 12px;
+            border: none;
+            padding: 10px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            resize: none;
+            outline: none;
         }
 
         button {
@@ -57,6 +63,7 @@
             font-weight: bold;
             font-size: 1rem;
             transition: 0.3s;
+            margin: 5px;
         }
 
         button:hover {
@@ -64,11 +71,17 @@
             transform: scale(1.05);
         }
 
+        #message {
+            color: #b3ffb3;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
         footer {
-            position: absolute;
-            bottom: 15px;
+            margin-top: auto;
             font-size: 0.9rem;
             opacity: 0.7;
+            padding-bottom: 15px;
         }
     </style>
 </head>
@@ -76,6 +89,14 @@
 <body>
     <h1>Admin Dashboard</h1>
     <p id="greeting"></p>
+
+    <!-- Kommentarbereich -->
+    <h2>📝 Kommentar verfassen</h2>
+    <textarea id="commentText" placeholder="Schreibe hier deinen Kommentar..."></textarea><br>
+    <button onclick="saveComment()">Kommentar posten</button>
+    <button onclick="window.location.href='komments.html'">Kommentare ansehen</button>
+
+    <p id="message"></p>
 
     <button onclick="logout()">Abmelden</button>
 
@@ -87,19 +108,41 @@
             window.location.href = 'fehler.html';
         }
 
-        // Admin-Name aus sessionStorage laden
+        // Admin-Name laden
         const username = sessionStorage.getItem('adminUser');
-
         const greetings = {
             "pokepiet": "Willkommen zurück, Piet 👋",
             "luki": "Hey Luki 😎",
             "Elias": "Moin Elias 👋"
         };
-
         document.getElementById("greeting").textContent =
             greetings[username] || "Willkommen, Admin 👋";
 
-        // Logout-Funktion
+        // Kommentar speichern
+        function saveComment() {
+            const text = document.getElementById('commentText').value.trim();
+            const message = document.getElementById('message');
+
+            if (text === "") {
+                message.textContent = "⚠️ Bitte schreibe etwas!";
+                return;
+            }
+
+            const comments = JSON.parse(localStorage.getItem('goalnews_comments') || '[]');
+            const newComment = {
+                text: text,
+                author: username || "Unbekannt",
+                time: new Date().toLocaleString('de-DE')
+            };
+
+            comments.push(newComment);
+            localStorage.setItem('goalnews_comments', JSON.stringify(comments));
+
+            document.getElementById('commentText').value = "";
+            message.textContent = "✅ Kommentar erfolgreich gespeichert!";
+        }
+
+        // Logout
         function logout() {
             sessionStorage.removeItem('adminLoggedIn');
             sessionStorage.removeItem('adminUser');
@@ -107,5 +150,4 @@
         }
     </script>
 </body>
-
 </html>
