@@ -13,21 +13,32 @@
             color: #111;
             line-height: 1.6;
             text-align: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            background: #111;
+            color: #fff;
         }
 
         a {
             text-decoration: none;
-            color: #111;
+            color: inherit;
         }
 
         a:hover {
             color: #4CAF50;
         }
 
-        /* Header */
         header {
             padding: 20px;
             background: #f8f8f8;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        body.dark header {
+            background: #222;
         }
 
         header .logo {
@@ -36,52 +47,85 @@
             color: #1db954;
         }
 
-        /* Hero Container */
+        /* Dark Mode Button */
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #1db954;
+            color: #fff;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        #themeToggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero + Buttons inline */
         .hero-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 20px auto;
+            gap: 10px;
             max-width: 900px;
-            position: relative;
-            flex-wrap: wrap;
+            margin: 30px auto;
+            background: #e8f5e9;
+            border-radius: 15px;
+            padding: 20px 15px;
+            transition: background 0.3s, box-shadow 0.3s;
         }
 
-        /* Buttons links/rechts */
-        .hero-links-left,
-        .hero-links-right {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+        body.dark .hero-container {
+            background: #222;
         }
 
-        .hero-links-left a,
-        .hero-links-right a {
+        .hero-container:hover {
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+        }
+
+        .hero-button {
+            flex: 0 0 auto;
             padding: 10px 20px;
             background: #1db954;
-            color: white;
+            color: #fff;
             border-radius: 20px;
             font-weight: bold;
             transition: 0.3s;
         }
 
-        .hero-links-left a:hover,
-        .hero-links-right a:hover {
+        body.dark .hero-button {
+            background: #00d4ff;
+            color: #111;
+        }
+
+        .hero-button:hover {
             background: #00d4ff;
             transform: scale(1.05);
         }
 
-        .hero {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: #e8f5e9;
-            border-radius: 10px;
-            padding: 30px 20px;
-            width: 100%;
-            box-sizing: border-box;
+        body.dark .hero-button:hover {
+            background: #1db954;
+            color: #fff;
         }
 
-        /* Countdown */
+        .hero-text {
+            flex: 0 1 auto;
+            margin: 0 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
         #countdown {
             font-size: 2rem;
             font-weight: bold;
@@ -89,14 +133,12 @@
             color: #1db954;
         }
 
-        /* Logo */
         .logo-img {
             margin: 20px 0;
             max-width: 90%;
             height: auto;
         }
 
-        /* Bundesliga Section */
         h2 {
             margin: 30px 0 20px;
         }
@@ -117,16 +159,15 @@
             margin: 5px 0 15px;
         }
 
-        /* Social Media Buttons */
         .socials {
             margin: 30px 0;
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+            gap: 10px;
         }
 
         .socials a {
-            margin: 5px 10px;
             padding: 12px 20px;
             background: #1db954;
             color: #fff;
@@ -140,7 +181,6 @@
             transform: scale(1.05);
         }
 
-        /* Ticker */
         .ticker-wrapper {
             width: 95%;
             overflow: hidden;
@@ -148,6 +188,11 @@
             background: #f0f0f0;
             margin: 40px auto;
             padding: 10px;
+            transition: background 0.3s;
+        }
+
+        body.dark .ticker-wrapper {
+            background: #333;
         }
 
         .ticker {
@@ -160,7 +205,7 @@
             display: inline-block;
             margin: 0 30px;
             font-weight: bold;
-            color: #111;
+            color: inherit;
         }
 
         @keyframes scroll {
@@ -173,7 +218,6 @@
             }
         }
 
-        /* Button */
         .btn {
             display: inline-block;
             padding: 12px 25px;
@@ -189,53 +233,38 @@
             transform: scale(1.05);
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 20px;
             background: #f8f8f8;
             margin-top: 40px;
+            transition: background 0.3s;
+        }
+
+        body.dark footer {
+            background: #222;
         }
 
         /* Responsive */
-        @media(max-width:1024px) {
-            .hero-links-left {
-                left: -100px;
-            }
-
-            .hero-links-right {
-                right: -100px;
-            }
-        }
-
         @media(max-width:768px) {
-            .hero {
-                font-size: 1.4rem;
-                padding: 25px 15px;
-            }
-
-            .hero-links-left,
-            .hero-links-right {
-                position: relative;
-                top: auto;
-                transform: none;
-                margin: 10px;
-            }
-
             .hero-container {
                 flex-direction: column;
             }
 
-            .hero-links-left a,
-            .hero-links-right a {
+            .hero-text {
+                margin: 10px 0;
+                font-size: 1.4rem;
+            }
+
+            .hero-button {
                 padding: 10px 15px;
             }
         }
 
         @media(max-width:480px) {
-            .hero {
+            .hero-text {
                 font-size: 1.2rem;
-                padding: 20px 10px;
+                padding: 0 10px;
             }
 
             .ticker span {
@@ -252,21 +281,15 @@
         <div class="logo">GoalNewsDE</div>
     </header>
 
+    <!-- Dark Mode Button -->
+    <button id="themeToggle">🌙</button>
+
     <div class="hero-container">
-        <div class="hero-links-left">
-            <a href="bundesliga.html">Bundesliga</a>
-        </div>
-
-        <div class="hero">
-            Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!
-        </div>
-
-        <div class="hero-links-right">
-            <a href="statistics.html">Statistiken</a>
-        </div>
+        <a href="bundesliga.html" class="hero-button">Bundesliga</a>
+        <div class="hero-text">Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!</div>
+        <a href="statistics.html" class="hero-button">Statistiken</a>
     </div>
 
-    <!-- Social Media Buttons unter Hero -->
     <div class="socials">
         <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
         <a href="http://tiktok.com/@goal.news25" target="_blank">TikTok</a>
@@ -308,18 +331,23 @@
         <div class="ticker" id="ticker"></div>
     </div>
 
-    <footer>
-        GoalNewsDE © 2025
-    </footer>
+    <footer>GoalNewsDE © 2025</footer>
 
     <script>
+        // Dark Mode Toggle
+        const toggle = document.getElementById('themeToggle');
+        toggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        });
+
         // Countdown
         const matchDate = new Date("October 19, 2025 15:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
-        const timer = setInterval(() => {
+        setInterval(() => {
             const now = new Date().getTime();
             const distance = matchDate - now;
-            if (distance < 0) { clearInterval(timer); countdownEl.textContent = "Anpfiff!"; return; }
+            if (distance < 0) { countdownEl.textContent = "Anpfiff!"; return; }
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -328,7 +356,7 @@
         }, 1000);
 
         // Ticker
-        const results = ["Bundesliga Ergebnisse: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 Hamburger SV, Wolfsburg 0:3 Stuttgart, Heidenheim 2:2 Bremen, 1. FC Köln 1:1 FC Augsburg "];
+        const results = ["Bundesliga Ergebnisse: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 Hamburger SV, Wolfsburg 0:3 Stuttgart, Heidenheim 2:2 Bremen, 1. FC Köln 1:1 FC Augsburg"];
         const tickerEl = document.getElementById("ticker");
         results.concat(results).forEach(r => {
             const span = document.createElement("span");
