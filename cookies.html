@@ -1,0 +1,53 @@
+<!-- Cookie-Banner -->
+<div id="cookie-banner" style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #1db954;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.95rem;
+    z-index: 1000;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+">
+    <div style="max-width: 700px;">
+        Wir verwenden <strong>Plausible Analytics</strong> für anonymisierte Besucherstatistiken.
+        Es werden <strong>personenbezogenen Daten</strong> wie IP-Adressen oder Standort
+        gespeichert.
+        Weitere Infos findest du in unseren <a href="agb.html"
+            style="color:#fff;text-decoration:underline;">Datenschutzbestimmungen & AGB</a>.
+    </div>
+    <button id="accept-cookies" style="
+        background: white;
+        color: #1db954;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    ">Alles akzeptieren</button>
+</div>
+
+<script>
+    // Prüfen, ob Cookie schon akzeptiert wurde
+    if (localStorage.getItem('cookiesAccepted')) {
+        document.getElementById('cookie-banner').style.display = 'none';
+        // Plausible nur laden, wenn akzeptiert
+        (function () { var d = document, s = d.createElement('script'); s.src = 'https://plausible.io/js/pa-Zp2wtJehKRAdbLwEokqul.js'; s.async = true; d.head.appendChild(s); })();
+    }
+
+    // Klick auf Button
+    document.getElementById('accept-cookies').addEventListener('click', function () {
+        localStorage.setItem('cookiesAccepted', 'true');
+        document.getElementById('cookie-banner').style.display = 'none';
+        // Plausible Analytics Script einbinden
+        (function () { var d = document, s = d.createElement('script'); s.src = 'https://plausible.io/js/pa-Zp2wtJehKRAdbLwEokqul.js'; s.async = true; d.head.appendChild(s); })();
+    });
+</script>
