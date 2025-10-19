@@ -6,14 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE - Fußball-News & Tabellen</title>
 
-    <!-- Plausible Analytics -->
-    <script async src="https://plausible.io/js/pa-Zp2wtJehKRAdbLwEokqul.js"></script>
-    <script>
-        window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) };
-        plausible.init = plausible.init || function (i) { plausible.o = i || {} };
-        plausible.init();
-    </script>
-
     <style>
         /* 🌍 Global */
         * {
@@ -294,8 +286,39 @@
             color: #ccc;
         }
 
+        /* Cookie Banner */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #1db954;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            z-index: 9999;
+            font-family: 'Poppins', sans-serif;
+            display: none;
+        }
+
+        #cookie-banner p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        #cookie-banner button {
+            margin-left: 15px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: none;
+            background: white;
+            color: #1db954;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width:768px) {
             .hero-text {
                 font-size: 1.3rem;
             }
@@ -310,7 +333,7 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width:480px) {
             .hero-text {
                 font-size: 1.1rem;
             }
@@ -339,7 +362,7 @@
     <div class="hero-container">
         <a href="bundesliga.html" class="hero-button">1. Bundesliga</a>
         <div class="hero-text">Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!</div>
-        <a href="2bundesliga.html" class="hero-button">2. Bundesliga</a>
+        <a href="2liga.html" class="hero-button">2. Bundesliga</a>
         <a href="statistics.html" class="hero-button">Statistiken</a>
     </div>
 
@@ -348,7 +371,6 @@
         <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
         <a href="http://tiktok.com/@goal.news25" target="_blank">TikTok</a>
         <a href="https://youtube.com/" target="_blank">YouTube</a>
-        
     </div>
 
     <!-- Countdown -->
@@ -378,51 +400,79 @@
             <h4>Sonntag:</h4>
             <h3>SC Freiburg - Eintracht Frankfurt (15:30 Uhr)<br>St. Pauli - TSG Hoffenheim (17:30 Uhr)</h3>
         </div>
+    </section>
 
+    <!-- News Ticker -->
+    <div class="ticker-wrapper">
+        <div class="ticker" id="ticker"></div>
+    </div>
 
-        <!-- News Ticker -->
-        <div class="ticker-wrapper">
-            <div class="ticker" id="ticker"></div>
-        </div>
+    <!-- Cookie Banner -->
+    <div id="cookie-banner">
+        <p>Wir verwenden Plausible Analytics, weiter Infos Finden Sie in den AGB
+            . <a href="agb.html" style="color:white; text-decoration:underline;">AGB & Datenschutz</a></p>
+        <button id="accept-cookies">Ok</button>
+    </div>
 
-        <footer>GoalNewsDE © 2025 – Alle Rechte vorbehalten. E-Mail: <a href="info.goalnewsde@gmail.com">info.goalnewsde@gmail.com</a> <a href="agb.html">Datenschutz</a></footer>
+    <footer>GoalNewsDE © 2025 – Alle Rechte vorbehalten. E-Mail: <a
+            href="mailto:info.goalnewsde@gmail.com">info.goalnewsde@gmail.com</a> | <a href="agb.html">Datenschutz</a>
+    </footer>
 
-        <script>
-            // 🌙 Dark Mode Toggle
-            const toggle = document.getElementById('themeToggle');
-            toggle.addEventListener('click', () => {
-                document.body.classList.toggle('dark');
-                toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-            });
+    <script>
+        // Dark Mode
+        const toggle = document.getElementById('themeToggle');
+        toggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        });
 
-            // ⏱ Countdown
-            const matchDate = new Date("October 19, 2025 15:30:00").getTime();
-            const countdownEl = document.getElementById("countdown");
-            setInterval(() => {
-                const now = new Date().getTime();
-                const diff = matchDate - now;
-                if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
-                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((diff % (1000 * 60)) / 1000);
-                countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
-            }, 1000);
+        // Countdown
+        const matchDate = new Date("October 19, 2025 15:30:00").getTime();
+        const countdownEl = document.getElementById("countdown");
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = matchDate - now;
+            if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
+        }, 1000);
 
-            // 📰 Ticker
-            const results = [
-                "Bundesliga: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 HSV, Stuttgart 3:0 Wolfsburg, Köln 1:1 Augsburg",
-                "2. Bundesliga: Düsseldorf 1:2 Braunschweig, Schalke 3:0 Hannover, Paderborn 4:3 Bielefeld, Bochum 3:2 Hertha BSC"
-            ];
-            const ticker = document.getElementById("ticker");
-            results.concat(results).forEach(text => {
-                const span = document.createElement("span");
-                span.textContent = text;
-                ticker.appendChild(span);
-            });
-        </script>
+        // Ticker
+        const results = [
+            "Bundesliga: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 HSV, Stuttgart 3:0 Wolfsburg, Köln 1:1 Augsburg",
+            "2. Bundesliga: Düsseldorf 1:2 Braunschweig, Schalke 3:0 Hannover, Paderborn 4:3 Bielefeld, Bochum 3:2 Hertha BSC"
+        ];
+        const ticker = document.getElementById("ticker");
+        results.concat(results).forEach(text => {
+            const span = document.createElement("span");
+            span.textContent = text;
+            ticker.appendChild(span);
+        });
+
+        // Cookie Banner & Plausible
+        const cookieBanner = document.getElementById('cookie-banner');
+        const acceptBtn = document.getElementById('accept-cookies');
+
+        if (!localStorage.getItem('cookiesAccepted')) { cookieBanner.style.display = 'block'; }
+
+        acceptBtn.addEventListener('click', () => {
+            localStorage.setItem('cookiesAccepted', 'true');
+            cookieBanner.style.display = 'none';
+            loadPlausible();
+        });
+
+        function loadPlausible() {
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://plausible.io/js/pa-Zp2wtJehKRAdbLwEokqul.js';
+            document.head.appendChild(script);
+        }
+
+        if (localStorage.getItem('cookiesAccepted')) { loadPlausible(); }
+    </script>
 </body>
-
-</html>
 
 </html>
