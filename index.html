@@ -4,7 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoalNewsDE - Deine Fußball-News</title>
+    <title>GoalNewsDE - Fußball-News & Tabellen</title>
+
+    <!-- Plausible Analytics -->
+    <script async src="https://plausible.io/js/pa-Zp2wtJehKRAdbLwEokqul.js"></script>
+    <script>
+        window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) };
+        plausible.init = plausible.init || function (i) { plausible.o = i || {} };
+        plausible.init();
+    </script>
+
     <style>
         /* 🌍 Global */
         * {
@@ -37,15 +46,7 @@
             color: #00d4ff;
         }
 
-
-        .hero-button:hover {
-            background: #00d4ff;
-            color: #fff;
-            transform: scale(1.05);
-        }
-
-
-        /* 🧭 Header */
+        /* Header */
         header {
             padding: 20px;
             background: #f8f8f8;
@@ -67,7 +68,7 @@
             letter-spacing: 1px;
         }
 
-        /* 🌙 Dark Mode Button */
+        /* Dark Mode Button */
         #themeToggle {
             position: fixed;
             top: 20px;
@@ -92,12 +93,12 @@
             background: #00d4ff;
         }
 
-        /* 🏟️ Hero Section */
+        /* Hero */
         .hero-container {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
             gap: 15px;
             background: #e8f5e9;
             border-radius: 20px;
@@ -135,7 +136,7 @@
             font-weight: 600;
         }
 
-        /* 🕒 Countdown */
+        /* Countdown */
         .countdown-section {
             margin: 40px 0;
         }
@@ -152,14 +153,14 @@
             color: #00d4ff;
         }
 
-        /* ⚽ Spiele */
+        /* Matches */
         section {
             margin-top: 40px;
         }
 
         .matches {
             max-width: 750px;
-            margin: 0 auto;
+            margin: 0 auto 40px auto;
             background: #f4f4f4;
             border-radius: 15px;
             padding: 20px;
@@ -187,7 +188,39 @@
             margin: 5px 0 15px;
         }
 
-        /* 📱 Socials */
+        /* Tables */
+        table {
+            border-collapse: collapse;
+            margin: 20px auto 40px auto;
+            width: 95%;
+            max-width: 1200px;
+            background: rgba(29, 185, 84, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: linear-gradient(90deg, #1db954, #00d4ff);
+            color: #fff;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(29, 185, 84, 0.05);
+        }
+
+        tbody tr:hover {
+            background: rgba(29, 185, 84, 0.2);
+            transform: scale(1.02);
+            transition: all 0.2s ease;
+        }
+
+        /* Socials */
         .socials {
             margin: 30px 0;
             display: flex;
@@ -209,7 +242,7 @@
             transform: scale(1.05);
         }
 
-        /* 📰 News Ticker */
+        /* News Ticker */
         .ticker-wrapper {
             width: 95%;
             overflow: hidden;
@@ -247,7 +280,7 @@
             }
         }
 
-        /* 👣 Footer */
+        /* Footer */
         footer {
             background: #f8f8f8;
             padding: 20px;
@@ -261,7 +294,7 @@
             color: #ccc;
         }
 
-        /* 📱 Responsive */
+        /* Responsive */
         @media (max-width: 768px) {
             .hero-text {
                 font-size: 1.3rem;
@@ -302,32 +335,36 @@
 
     <button id="themeToggle">🌙</button>
 
+    <!-- Hero -->
     <div class="hero-container">
-        <a href="bundesliga.html" class="hero-button">Bundesliga</a>
+        <a href="bundesliga.html" class="hero-button">1. Bundesliga</a>
         <div class="hero-text">Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!</div>
+        <a href="2bundesliga.html" class="hero-button">2. Bundesliga</a>
         <a href="statistics.html" class="hero-button">Statistiken</a>
     </div>
 
+    <!-- Socials -->
     <div class="socials">
         <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
         <a href="http://tiktok.com/@goal.news25" target="_blank">TikTok</a>
         <a href="https://youtube.com/" target="_blank">YouTube</a>
     </div>
 
+    <!-- Countdown -->
     <div class="countdown-section">
         <h2>⏱ Erstes Sonntagsspiel startet in:</h2>
         <div id="countdown">lade...</div>
     </div>
 
+    <!-- Logo -->
     <img class="logo-img" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo GoalNewsDE" width="250">
 
+    <!-- Matches -->
     <section>
         <div class="matches">
             <h2>⚽ Bundesliga - Spieltag (17-19 Oktober 2025)</h2>
-
             <h4>Freitag:</h4>
             <h3>Union Berlin 3:1 Borussia Mönchengladbach (FT)</h3>
-
             <h4>Samstag:</h4>
             <h3>
                 Mainz 05 3:4 Bayer Leverkusen (FT)<br>
@@ -337,52 +374,52 @@
                 1. FC Köln 1:1 FC Augsburg (FT)<br>
                 🏆 Topspiel: Bayern 2:1 Dortmund (FT)
             </h3>
-
             <h4>Sonntag:</h4>
             <h3>SC Freiburg - Eintracht Frankfurt (15:30 Uhr)<br>St. Pauli - TSG Hoffenheim (17:30 Uhr)</h3>
         </div>
-    </section>
 
-    <div class="ticker-wrapper">
-        <div class="ticker" id="ticker"></div>
-    </div>
 
-    <footer>GoalNewsDE © 2025 – Alle Rechte vorbehalten.</footer>
+        <!-- News Ticker -->
+        <div class="ticker-wrapper">
+            <div class="ticker" id="ticker"></div>
+        </div>
 
-    <script>
-        // 🌙 Dark Mode Toggle
-        const toggle = document.getElementById('themeToggle');
-        toggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-        });
+        <footer>GoalNewsDE © 2025 – Alle Rechte vorbehalten.</footer>
 
-        // ⏱ Countdown
-        const matchDate = new Date("October 19, 2025 15:30:00").getTime();
-        const countdownEl = document.getElementById("countdown");
-        setInterval(() => {
-            const now = new Date().getTime();
-            const diff = matchDate - now;
-            if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
-        }, 1000);
+        <script>
+            // 🌙 Dark Mode Toggle
+            const toggle = document.getElementById('themeToggle');
+            toggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+                toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+            });
 
-        // 📰 Ticker
-        const results = [
-            "Bundesliga: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 HSV, Stuttgart 3:0 Wolfsburg, Köln 1:1 Augsburg",
-            "2. Bundesliga: Düsseldorf 1:2 Braunschweig, Schalke 3:0 Hannover, Paderborn 4:3 Bielefeld, Bochum 3:2 Hertha BSC"
-        ];
-        const ticker = document.getElementById("ticker");
-        results.concat(results).forEach(text => {
-            const span = document.createElement("span");
-            span.textContent = text;
-            ticker.appendChild(span);
-        });
-    </script>
+            // ⏱ Countdown
+            const matchDate = new Date("October 19, 2025 15:30:00").getTime();
+            const countdownEl = document.getElementById("countdown");
+            setInterval(() => {
+                const now = new Date().getTime();
+                const diff = matchDate - now;
+                if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
+            }, 1000);
+
+            // 📰 Ticker
+            const results = [
+                "Bundesliga: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 HSV, Stuttgart 3:0 Wolfsburg, Köln 1:1 Augsburg",
+                "2. Bundesliga: Düsseldorf 1:2 Braunschweig, Schalke 3:0 Hannover, Paderborn 4:3 Bielefeld, Bochum 3:2 Hertha BSC"
+            ];
+            const ticker = document.getElementById("ticker");
+            results.concat(results).forEach(text => {
+                const span = document.createElement("span");
+                span.textContent = text;
+                ticker.appendChild(span);
+            });
+        </script>
 </body>
 
 </html>
