@@ -38,6 +38,14 @@ const SheetsAPI = (function () {
     async fetchBundesliga2Table() {
       return await this.fetch(GOOGLE_SHEETS_CONFIG.tables.table2Bundesliga);
     }
+
+    /**
+     * Fetch ticker
+     * @returns {Promise<Array<Array<string>>>} The table data
+     */
+    async fetchTicker() {
+      return await this.fetch(GOOGLE_SHEETS_CONFIG.tables.ticker);
+    }
   }
 
   return {

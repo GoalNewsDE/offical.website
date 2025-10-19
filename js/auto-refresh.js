@@ -23,7 +23,6 @@ const AutoRefresh = (function () {
       const update = async () => {
         try {
           await callback();
-          console.log(`[AutoRefresh] Executed ${name} at ${new Date().toLocaleTimeString()}`);
         } catch (error) {
           console.error(`[AutoRefresh] Error executing ${name}:`, error);
         }

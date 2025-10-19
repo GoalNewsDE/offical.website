@@ -410,6 +410,12 @@
         <button onclick="window.location.href='agb.html'">Datenschutz</button>
     </div>
 
+    <script src="js/config.js"></script>
+    <script src="js/google-sheets-client.js"></script>
+    <script src="js/table-renderer.js"></script>
+    <script src="js/sheets-api.js"></script>
+    <script src="js/auto-refresh.js"></script>
+
     <script>
         // 🌙 Dark Mode Toggle
         const toggle = document.getElementById('themeToggle');
@@ -433,16 +439,27 @@
         }, 1000);
 
         // 📰 Ticker
-        const results = [
-            "HALBZEIT! Spielstand: 1:2"
-
-        ];
         const ticker = document.getElementById("ticker");
-        results.concat(results).forEach(text => {
-            const span = document.createElement("span");
-            span.textContent = text;
-            ticker.appendChild(span);
-        });
+        
+        const api = SheetsAPI.getInstance();
+        const autoRefresh = AutoRefresh.getInstance();
+
+        async function startTicker() {
+            autoRefresh.start(
+                async () => {
+                    const data = await api.fetchTicker();
+                    ticker.innerHTML = "";
+                    const results = data.flat();
+                    results.forEach(text => {
+                        const span = document.createElement("span");
+                        span.textContent = text;
+                        ticker.appendChild(span);
+                    });
+                },
+                5000, // 5000 milliseconds = 5 seconds
+                "Ticker"
+            );
+        }
 
         // 🍪 Cookie-Banner
         const cookieBanner = document.getElementById("cookie-banner");
@@ -470,6 +487,13 @@
             cookieBanner.style.display = "none";
         });
     </script>
+
+    <script
+      async
+      defer
+      src="https://apis.google.com/js/api.js"
+      onload="startTicker()"
+    ></script>
 </body>
 
 </html>
