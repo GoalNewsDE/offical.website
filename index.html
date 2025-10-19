@@ -351,7 +351,7 @@
     <div class="hero-container">
         <a href="bundesliga.html" class="hero-button">1. Bundesliga</a>
         <div class="hero-text">Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!</div>
-        <a href="2bundesliga.html" class="hero-button">2. Bundesliga</a>
+        <a href="2liga.html" class="hero-button">2. Bundesliga</a>
         <a href="statistics.html" class="hero-button">Statistiken</a>
     </div>
 
@@ -387,7 +387,7 @@
                 🏆 Topspiel: Bayern 2:1 Dortmund (FT)
             </h3>
             <h4>Sonntag:</h4>
-            <h3>SC Freiburg 1:2 Eintracht Frankfurt (2. Halbzeit läuft)<br>St. Pauli - TSG Hoffenheim (17:30 Uhr)</h3>
+            <h3>SC Freiburg 1:2 Eintracht Frankfurt (HALBZEIT!)<br>St. Pauli - TSG Hoffenheim (17:30 Uhr)</h3>
         </div>
     </section>
 
@@ -396,8 +396,9 @@
         <div class="ticker" id="ticker"></div>
     </div>
 
-    <footer>GoalNewsDE © 2025 – Alle Rechte vorbehalten. E-Mail: <a
-            href="info.goalnewsde@gmail.com">info.goalnewsde@gmail.com</a> <a href="agb.html">Datenschutz</a>
+    <footer>GoalNewsDE © 2025 – Alle Rechte vorbehalten. E-Mail:<button
+            onclick="window.location.href='mailto:info@goalnewsde.de'"></button>
+        <a href="agb.html">Datenschutz</a>
     </footer>
 
     <!-- Cookie-Banner -->
@@ -406,7 +407,7 @@
             „Akzeptieren“ stimmst du zu.</span>
         <button id="accept-cookies">Akzeptieren</button>
         <button id="decline-cookies">Ablehnen</button>
-        <button>AGB und Datenschutz <a href="agb.html"></a></button>
+        <button onclick="window.location.href='agb.html'">Datenschutz</button>
     </div>
 
     <script>
@@ -433,7 +434,7 @@
 
         // 📰 Ticker
         const results = [
-            "2. Halbzeit läuft! Spielstand 1:2"
+            "HALBZEIT! Spielstand: 1:2"
 
         ];
         const ticker = document.getElementById("ticker");
