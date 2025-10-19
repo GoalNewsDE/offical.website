@@ -4,11 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoalNewsDE</title>
+    <title>GoalNewsDE - Deine Fußball-News</title>
     <style>
+        /* 🌍 Global */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            margin: 0;
             background: #fff;
             color: #111;
             line-height: 1.6;
@@ -24,16 +30,21 @@
         a {
             text-decoration: none;
             color: inherit;
+            transition: 0.3s;
         }
 
         a:hover {
-            color: #4CAF50;
+            color: #00d4ff;
         }
 
+        /* 🧭 Header */
         header {
             padding: 20px;
             background: #f8f8f8;
-            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
             transition: background 0.3s;
         }
 
@@ -41,13 +52,14 @@
             background: #222;
         }
 
-        header .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
             color: #1db954;
+            letter-spacing: 1px;
         }
 
-        /* Dark Mode Button */
+        /* 🌙 Dark Mode Button */
         #themeToggle {
             position: fixed;
             top: 20px;
@@ -58,30 +70,32 @@
             background: #1db954;
             color: #fff;
             border: none;
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
         }
 
         #themeToggle:hover {
             transform: scale(1.1);
+            background: #00d4ff;
         }
 
-        /* Hero + Buttons inline */
+        /* 🏟️ Hero Section */
         .hero-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            max-width: 900px;
-            margin: 30px auto;
+            flex-wrap: wrap;
+            gap: 15px;
             background: #e8f5e9;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 20px 15px;
+            margin: 30px auto;
+            max-width: 950px;
             transition: background 0.3s, box-shadow 0.3s;
         }
 
@@ -90,22 +104,16 @@
         }
 
         .hero-container:hover {
-            box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+            box-shadow: 0 0 25px rgba(29, 185, 84, 0.4);
         }
 
         .hero-button {
-            flex: 0 0 auto;
-            padding: 10px 20px;
             background: #1db954;
             color: #fff;
-            border-radius: 20px;
-            font-weight: bold;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
             transition: 0.3s;
-        }
-
-        body.dark .hero-button {
-            background: #00d4ff;
-            color: #111;
         }
 
         .hero-button:hover {
@@ -113,52 +121,65 @@
             transform: scale(1.05);
         }
 
-        body.dark .hero-button:hover {
-            background: #1db954;
-            color: #fff;
+        .hero-text {
+            flex: 1 1 auto;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
-        .hero-text {
-            flex: 0 1 auto;
-            margin: 0 10px;
+        /* 🕒 Countdown */
+        .countdown-section {
+            margin: 40px 0;
+        }
+
+        .countdown-section h2 {
+            color: #1db954;
             font-size: 1.8rem;
-            font-weight: bold;
-            text-align: center;
+            margin-bottom: 10px;
         }
 
         #countdown {
             font-size: 2rem;
-            font-weight: bold;
-            margin: 20px 0;
-            color: #1db954;
+            font-weight: 700;
+            color: #00d4ff;
         }
 
-        .logo-img {
-            margin: 20px 0;
-            max-width: 90%;
-            height: auto;
-        }
-
-        h2 {
-            margin: 30px 0 20px;
+        /* ⚽ Spiele */
+        section {
+            margin-top: 40px;
         }
 
         .matches {
-            max-width: 700px;
+            max-width: 750px;
             margin: 0 auto;
-            text-align: center;
-            padding: 0 10px;
+            background: #f4f4f4;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        body.dark .matches {
+            background: #1a1a1a;
+        }
+
+        .matches h2 {
+            color: #1db954;
+            margin-bottom: 20px;
         }
 
         .matches h4 {
-            margin: 15px 0 5px;
-            font-weight: bold;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
         .matches h3 {
+            font-size: 1rem;
             margin: 5px 0 15px;
         }
 
+        /* 📱 Socials */
         .socials {
             margin: 30px 0;
             display: flex;
@@ -168,12 +189,11 @@
         }
 
         .socials a {
-            padding: 12px 20px;
             background: #1db954;
             color: #fff;
-            border-radius: 20px;
-            font-weight: bold;
-            transition: 0.3s;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
         }
 
         .socials a:hover {
@@ -181,13 +201,14 @@
             transform: scale(1.05);
         }
 
+        /* 📰 News Ticker */
         .ticker-wrapper {
             width: 95%;
             overflow: hidden;
-            border-radius: 10px;
             background: #f0f0f0;
+            border-radius: 15px;
+            padding: 12px;
             margin: 40px auto;
-            padding: 10px;
             transition: background 0.3s;
         }
 
@@ -198,13 +219,13 @@
         .ticker {
             display: inline-block;
             white-space: nowrap;
-            animation: scroll 40s linear infinite;
+            animation: scroll 45s linear infinite;
         }
 
         .ticker span {
             display: inline-block;
-            margin: 0 30px;
-            font-weight: bold;
+            margin: 0 40px;
+            font-weight: 600;
             color: inherit;
         }
 
@@ -218,70 +239,59 @@
             }
         }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            background: #1db954;
-            color: #fff;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
-        .btn:hover {
-            background: #00d4ff;
-            transform: scale(1.05);
-        }
-
+        /* 👣 Footer */
         footer {
-            text-align: center;
-            padding: 20px;
             background: #f8f8f8;
-            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #555;
             transition: background 0.3s;
         }
 
         body.dark footer {
             background: #222;
+            color: #ccc;
         }
 
-        /* Responsive */
-        @media(max-width:768px) {
-            .hero-container {
-                flex-direction: column;
+        /* 📱 Responsive */
+        @media (max-width: 768px) {
+            .hero-text {
+                font-size: 1.3rem;
             }
 
+            .matches {
+                width: 90%;
+                padding: 15px;
+            }
+
+            #countdown {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
             .hero-text {
-                margin: 10px 0;
-                font-size: 1.4rem;
+                font-size: 1.1rem;
+            }
+
+            #themeToggle {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
             }
 
             .hero-button {
-                padding: 10px 15px;
-            }
-        }
-
-        @media(max-width:480px) {
-            .hero-text {
-                font-size: 1.2rem;
-                padding: 0 10px;
-            }
-
-            .ticker span {
-                margin: 0 15px;
-                font-size: 0.9rem;
+                padding: 8px 18px;
             }
         }
     </style>
 </head>
 
 <body>
-
     <header>
         <div class="logo">GoalNewsDE</div>
     </header>
 
-    <!-- Dark Mode Button -->
     <button id="themeToggle">🌙</button>
 
     <div class="hero-container">
@@ -296,13 +306,17 @@
         <a href="https://youtube.com/" target="_blank">YouTube</a>
     </div>
 
-    <div id="countdown">Beginn Spieltag (Sonntag)</div>
+    <div class="countdown-section">
+        <h2>⏱ Erstes Sonntagsspiel startet in:</h2>
+        <div id="countdown">lade...</div>
+    </div>
 
     <img class="logo-img" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo GoalNewsDE" width="250">
 
-    <section id="bundesliga">
-        <h2>Bundesliga (Spiele)</h2>
+    <section>
         <div class="matches">
+            <h2>⚽ Bundesliga - Spieltag (17-19 Oktober 2025)</h2>
+
             <h4>Freitag:</h4>
             <h3>Union Berlin 3:1 Borussia Mönchengladbach (FT)</h3>
 
@@ -313,17 +327,11 @@
                 VfL Wolfsburg 0:3 VfB Stuttgart (FT)<br>
                 Heidenheim 2:2 Werder Bremen (FT)<br>
                 1. FC Köln 1:1 FC Augsburg (FT)<br>
-                Topspiel: Bayern 2:1 Dortmund (FT)
+                🏆 Topspiel: Bayern 2:1 Dortmund (FT)
             </h3>
 
             <h4>Sonntag:</h4>
-            <h3>
-                SC Freiburg - Eintracht Frankfurt (15:30 Uhr)<br>
-                St. Pauli - TSG Hoffenheim (17:30 Uhr)<br>
-                LIVETICKER HIER! - Regelmäßig aktualisieren!
-            </h3>
-
-            <a class="btn" href="https://strawpoll.com/wAg3QmA3My8">Zur Abstimmung</a>
+            <h3>SC Freiburg - Eintracht Frankfurt (15:30 Uhr)<br>St. Pauli - TSG Hoffenheim (17:30 Uhr)</h3>
         </div>
     </section>
 
@@ -331,40 +339,42 @@
         <div class="ticker" id="ticker"></div>
     </div>
 
-    <footer>GoalNewsDE © 2025</footer>
+    <footer>GoalNewsDE © 2025 – Alle Rechte vorbehalten.</footer>
 
     <script>
-        // Dark Mode Toggle
+        // 🌙 Dark Mode Toggle
         const toggle = document.getElementById('themeToggle');
         toggle.addEventListener('click', () => {
             document.body.classList.toggle('dark');
             toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
         });
 
-        // Countdown
+        // ⏱ Countdown
         const matchDate = new Date("October 19, 2025 15:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
         setInterval(() => {
             const now = new Date().getTime();
-            const distance = matchDate - now;
-            if (distance < 0) { countdownEl.textContent = "Anpfiff!"; return; }
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            const diff = matchDate - now;
+            if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
-        // Ticker
-        const results = ["Bundesliga Ergebnisse: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 Hamburger SV, Wolfsburg 0:3 Stuttgart, Heidenheim 2:2 Bremen, 1. FC Köln 1:1 FC Augsburg", "2. Bundesliga Ergebnisse: (Freitag) Fortuna Düsseldorf 1:2 Eintracht Braunschweig, Hannover 96 0:3 Schalke 04, (Samstag) SC Paderborn 4:3 Arminia Bielefeld, Karlsruher SC 2:3 FC Kaiserslautern, Preußen Münster 2:2 und Bochum 3:2 Hertha BSC"];
-        const tickerEl = document.getElementById("ticker");
-        results.concat(results).forEach(r => {
+        // 📰 Ticker
+        const results = [
+            "Bundesliga: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 HSV, Stuttgart 3:0 Wolfsburg, Köln 1:1 Augsburg",
+            "2. Bundesliga: Düsseldorf 1:2 Braunschweig, Schalke 3:0 Hannover, Paderborn 4:3 Bielefeld, Bochum 3:2 Hertha BSC"
+        ];
+        const ticker = document.getElementById("ticker");
+        results.concat(results).forEach(text => {
             const span = document.createElement("span");
-            span.textContent = r;
-            tickerEl.appendChild(span);
+            span.textContent = text;
+            ticker.appendChild(span);
         });
     </script>
-
 </body>
 
 </html>
