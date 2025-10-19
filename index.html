@@ -38,7 +38,6 @@
             color: #00d4ff;
         }
 
-        /* Header */
         header {
             padding: 20px;
             background: #f8f8f8;
@@ -60,7 +59,6 @@
             letter-spacing: 1px;
         }
 
-        /* Dark Mode Button */
         #themeToggle {
             position: fixed;
             top: 20px;
@@ -85,7 +83,6 @@
             background: #00d4ff;
         }
 
-        /* Hero */
         .hero-container {
             display: flex;
             flex-wrap: wrap;
@@ -128,7 +125,6 @@
             font-weight: 600;
         }
 
-        /* Countdown */
         .countdown-section {
             margin: 40px 0;
         }
@@ -143,11 +139,6 @@
             font-size: 2rem;
             font-weight: 700;
             color: #00d4ff;
-        }
-
-        /* Matches */
-        section {
-            margin-top: 40px;
         }
 
         .matches {
@@ -180,7 +171,6 @@
             margin: 5px 0 15px;
         }
 
-        /* Tables */
         table {
             border-collapse: collapse;
             margin: 20px auto 40px auto;
@@ -212,7 +202,6 @@
             transition: all 0.2s ease;
         }
 
-        /* Socials */
         .socials {
             margin: 30px 0;
             display: flex;
@@ -234,7 +223,6 @@
             transform: scale(1.05);
         }
 
-        /* News Ticker */
         .ticker-wrapper {
             width: 95%;
             overflow: hidden;
@@ -272,7 +260,6 @@
             }
         }
 
-        /* Footer */
         footer {
             background: #f8f8f8;
             padding: 20px;
@@ -286,39 +273,7 @@
             color: #ccc;
         }
 
-        /* Cookie Banner */
-        #cookie-banner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #1db954;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            z-index: 9999;
-            font-family: 'Poppins', sans-serif;
-            display: none;
-        }
-
-        #cookie-banner p {
-            margin: 0;
-            font-size: 0.95rem;
-        }
-
-        #cookie-banner button {
-            margin-left: 15px;
-            padding: 8px 20px;
-            border-radius: 20px;
-            border: none;
-            background: white;
-            color: #1db954;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* Responsive */
-        @media (max-width:768px) {
+        @media(max-width:768px) {
             .hero-text {
                 font-size: 1.3rem;
             }
@@ -333,7 +288,7 @@
             }
         }
 
-        @media (max-width:480px) {
+        @media(max-width:480px) {
             .hero-text {
                 font-size: 1.1rem;
             }
@@ -347,6 +302,40 @@
             .hero-button {
                 padding: 8px 18px;
             }
+        }
+
+        /* 🍪 Cookie-Banner */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #222;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #cookie-banner button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #cookie-banner button#accept-cookies {
+            background: #1db954;
+            color: #fff;
+        }
+
+        #cookie-banner button#decline-cookies {
+            background: #f44336;
+            color: #fff;
         }
     </style>
 </head>
@@ -362,7 +351,7 @@
     <div class="hero-container">
         <a href="bundesliga.html" class="hero-button">1. Bundesliga</a>
         <div class="hero-text">Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!</div>
-        <a href="2liga.html" class="hero-button">2. Bundesliga</a>
+        <a href="2bundesliga.html" class="hero-button">2. Bundesliga</a>
         <a href="statistics.html" class="hero-button">Statistiken</a>
     </div>
 
@@ -407,26 +396,27 @@
         <div class="ticker" id="ticker"></div>
     </div>
 
-    <!-- Cookie Banner -->
-    <div id="cookie-banner">
-        <p>Wir verwenden Plausible Analytics, weiter Infos Finden Sie in den AGB
-            . <a href="agb.html" style="color:white; text-decoration:underline;">AGB & Datenschutz</a></p>
-        <button id="accept-cookies">Ok</button>
-    </div>
-
     <footer>GoalNewsDE © 2025 – Alle Rechte vorbehalten. E-Mail: <a
-            href="mailto:info.goalnewsde@gmail.com">info.goalnewsde@gmail.com</a> | <a href="agb.html">Datenschutz</a>
+            href="mailto:info.goalnewsde@gmail.com">info.goalnewsde@gmail.com</a> <a href="agb.html">Datenschutz</a>
     </footer>
 
+    <!-- Cookie-Banner -->
+    <div id="cookie-banner">
+        <span>Wir verwenden Plausible Analytics, um anonymisierte Daten über Besucher zu sammeln. Durch Klick auf
+            „Akzeptieren“ stimmst du zu.</span>
+        <button id="accept-cookies">Akzeptieren</button>
+        <button id="decline-cookies">Ablehnen</button>
+    </div>
+
     <script>
-        // Dark Mode
+        // 🌙 Dark Mode Toggle
         const toggle = document.getElementById('themeToggle');
         toggle.addEventListener('click', () => {
             document.body.classList.toggle('dark');
             toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
         });
 
-        // Countdown
+        // ⏱ Countdown
         const matchDate = new Date("October 19, 2025 15:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
         setInterval(() => {
@@ -440,7 +430,7 @@
             countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
-        // Ticker
+        // 📰 Ticker
         const results = [
             "Bundesliga: Bayern 2:1 Dortmund, Mainz 3:4 Leverkusen, Leipzig 2:1 HSV, Stuttgart 3:0 Wolfsburg, Köln 1:1 Augsburg",
             "2. Bundesliga: Düsseldorf 1:2 Braunschweig, Schalke 3:0 Hannover, Paderborn 4:3 Bielefeld, Bochum 3:2 Hertha BSC"
@@ -452,26 +442,31 @@
             ticker.appendChild(span);
         });
 
-        // Cookie Banner & Plausible
-        const cookieBanner = document.getElementById('cookie-banner');
-        const acceptBtn = document.getElementById('accept-cookies');
-
-        if (!localStorage.getItem('cookiesAccepted')) { cookieBanner.style.display = 'block'; }
-
-        acceptBtn.addEventListener('click', () => {
-            localStorage.setItem('cookiesAccepted', 'true');
-            cookieBanner.style.display = 'none';
-            loadPlausible();
-        });
+        // 🍪 Cookie-Banner
+        const cookieBanner = document.getElementById("cookie-banner");
 
         function loadPlausible() {
-            const script = document.createElement('script');
+            var script = document.createElement("script");
             script.async = true;
-            script.src = 'https://plausible.io/js/pa-Zp2wtJehKRAdbLwEokqul.js';
+            script.src = "https://plausible.io/js/pa-Zp2wtJehKRAdbLwEokqul.js";
             document.head.appendChild(script);
         }
 
-        if (localStorage.getItem('cookiesAccepted')) { loadPlausible(); }
+        // Banner nur anzeigen, wenn noch keine Wahl getroffen
+        const cookieDecision = localStorage.getItem("cookies-accepted");
+        if (cookieDecision === "true") loadPlausible();
+        if (cookieDecision) cookieBanner.style.display = "none";
+
+        document.getElementById("accept-cookies").addEventListener("click", () => {
+            localStorage.setItem("cookies-accepted", "true");
+            loadPlausible();
+            cookieBanner.style.display = "none";
+        });
+
+        document.getElementById("decline-cookies").addEventListener("click", () => {
+            localStorage.setItem("cookies-accepted", "false");
+            cookieBanner.style.display = "none";
+        });
     </script>
 </body>
 
