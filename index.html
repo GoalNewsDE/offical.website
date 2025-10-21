@@ -5,10 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE - Fußball-News & Tabellen</title>
-
-    <!-- 100% privacy-first analytics -->
-    <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-
     <style>
         /* 🌍 Global */
         * {
@@ -317,11 +313,13 @@
             padding: 15px;
             text-align: center;
             z-index: 1000;
-            display: flex;
+            display: none;
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             gap: 10px;
+            transition: opacity 0.3s ease;
+            opacity: 0;
         }
 
         #cookie-banner button {
@@ -350,32 +348,26 @@
 
     <button id="themeToggle">🌙</button>
 
-    <!-- Hero -->
     <div class="hero-container">
         <a href="bundesliga.html" class="hero-button">1. Bundesliga</a>
         <div class="hero-text">Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!</div>
         <a href="2liga.html" class="hero-button">2. Bundesliga</a>
         <a href="statistics.html" class="hero-button">Statistiken</a>
-        <a href="news.html" class="hero-button">News</a>
     </div>
 
-    <!-- Socials -->
     <div class="socials">
         <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
         <a href="http://tiktok.com/@goal.news25" target="_blank">TikTok</a>
         <a href="https://youtube.com/" target="_blank">YouTube</a>
     </div>
 
-    <!-- Countdown -->
     <div class="countdown-section">
-        <h2>⏱ Erstes Sonntagsspiel startet in:</h2>
+        <h2>⏱ 8. Spieltag startet in:</h2>
         <div id="countdown">lade...</div>
     </div>
 
-    <!-- Logo -->
     <img class="logo-img" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo GoalNewsDE" width="250">
 
-    <!-- Matches -->
     <section>
         <div class="matches">
             <h2>⚽ Bundesliga - Spieltag (24-26 Oktober 2025)</h2>
@@ -397,17 +389,16 @@
         </div>
     </section>
 
-    <!-- News Ticker -->
     <div class="ticker-wrapper">
         <div class="ticker" id="ticker"></div>
     </div>
 
-    <footer>GoalNewsDE © 2025 – Don’t steal our stuff.
+    <footer>
+        GoalNewsDE © 2025 – Don’t steal our stuff.
         <button onclick="window.location.href='mailto:info@goalnewsde.de'">Email: info.goalnewsde@gmail.com</button>
         <a href="agb.html">Datenschutz</a>
     </footer>
 
-    <!-- Cookie-Banner -->
     <div id="cookie-banner">
         <span>Wir verwenden SimpleAnalytics, um anonymisierte Daten über Besucher zu sammeln. Durch Klick auf
             „Akzeptieren“ stimmst du zu.</span>
@@ -416,80 +407,69 @@
         <button onclick="window.location.href='agb.html'">Datenschutz</button>
     </div>
 
-    <script src="js/config.js"></script>
-    <script src="js/google-sheets-client.js"></script>
-    <script src="js/table-renderer.js"></script>
-    <script src="js/sheets-api.js"></script>
-    <script src="js/auto-refresh.js"></script>
-
     <script>
-        // 🌙 Dark Mode Toggle
-        const toggle = document.getElementById('themeToggle');
-        toggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-        });
+        document.addEventListener("DOMContentLoaded", () => {
+            // Dark Mode
+            const toggle = document.getElementById('themeToggle');
+            toggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+                toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+            });
 
-        // ⏱ Countdown
-        const matchDate = new Date("October 24, 2025 20:30:00").getTime();
-        const countdownEl = document.getElementById("countdown");
-        setInterval(() => {
-            const now = new Date().getTime();
-            const diff = matchDate - now;
-            if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
-        }, 1000);
+            // Countdown
+            const matchDate = new Date("October 24, 2025 20:30:00").getTime();
+            const countdownEl = document.getElementById("countdown");
+            setInterval(() => {
+                const now = new Date().getTime();
+                const diff = matchDate - now;
+                if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
+            }, 1000);
 
-        // 📰 Ticker
-        const ticker = document.getElementById("ticker");
+            // Cookie-Banner
+            const banner = document.getElementById("cookie-banner");
+            const acceptBtn = document.getElementById("accept-cookies");
+            const declineBtn = document.getElementById("decline-cookies");
 
-        const api = SheetsAPI.getInstance();
-        const autoRefresh = AutoRefresh.getInstance();
+            function showBanner() {
+                banner.style.display = "flex";
+                setTimeout(() => { banner.style.opacity = "1"; }, 10);
+            }
 
-        async function startTicker() {
-            autoRefresh.start(
-                async () => {
-                    const data = await api.fetchTicker();
-                    ticker.innerHTML = "";
-                    const results = data.flat();
-                    results.forEach(text => {
-                        const span = document.createElement("span");
-                        span.textContent = text;
-                        ticker.appendChild(span);
-                    });
-                },
-                5000, // 5000 milliseconds = 5 seconds
-                "Ticker"
-            );
-        }
+            function hideBanner() {
+                banner.style.opacity = "0";
+                setTimeout(() => { banner.style.display = "none"; }, 300);
+            }
 
-        // 🍪 Cookie-Banner
-        const cookieBanner = document.getElementById("cookie-banner");
+            function loadAnalytics() {
+                const script = document.createElement("script");
+                script.src = "https://scripts.simpleanalyticscdn.com/latest.js";
+                script.async = true;
+                document.head.appendChild(script);
+            }
 
+            const decision = localStorage.getItem("cookies-accepted");
+            if (decision === "true") { loadAnalytics(); }
+            else if (decision === "false") { /* nichts */ }
+            else { showBanner(); }
 
+            acceptBtn.addEventListener("click", () => {
+                localStorage.setItem("cookies-accepted", "true");
+                loadAnalytics();
+                hideBanner();
+            });
 
-        // Banner nur anzeigen, wenn noch keine Wahl getroffen
-        const cookieDecision = localStorage.getItem("cookies-accepted");
-        if (cookieDecision === "true") loadPlausible();
-        if (cookieDecision) cookieBanner.style.display = "none";
-
-        document.getElementById("accept-cookies").addEventListener("click", () => {
-            localStorage.setItem("cookies-accepted", "true");
-            loadPlausible();
-            cookieBanner.style.display = "none";
-        });
-
-        document.getElementById("decline-cookies").addEventListener("click", () => {
-            localStorage.setItem("cookies-accepted", "false");
-            cookieBanner.style.display = "none";
+            declineBtn.addEventListener("click", () => {
+                localStorage.setItem("cookies-accepted", "false");
+                hideBanner();
+            });
         });
     </script>
 
-    <script async defer src="https://apis.google.com/js/api.js" onload="startTicker()"></script>
 </body>
 
 </html>
