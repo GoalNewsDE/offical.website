@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoalNewsDE – Aktuelle Fußball-News</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      color: #111;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #1db954;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    header h1 {
+      font-size: 2em;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .news-card {
+      background: #f8f8f8;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .news-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .news-content {
+      padding: 15px 20px;
+    }
+
+    .news-content h2 {
+      font-size: 1.2em;
+      color: #1db954;
+      margin-bottom: 10px;
+    }
+
+    .news-content p {
+      font-size: 0.95em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .date {
+      font-size: 0.85em;
+      color: #777;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      background: #f3f3f3;
+      font-size: 0.9em;
+      color: #555;
+    }
+
+    h2 {
+        font-size: 1.2em;
+      color: #1db954;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.6em;
+      }
+      .news-content h2 {
+        font-size: 1.1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>News</h1>
+  </header>
+
+  <main class="container">
+    <article class="news-card">
+      <div class="news-content">
+        <h2>Ex-Realstar Royston Drenthe im Krankenhaus</h2>
+        <p>Der ehemalige Real-Madrid-Spieler Royston Drenthe (38) wurde nach einem Schlaganfall ins Krankenhaus eingeliefert. Sein Zustand ist stabil.</p>
+        <p class="date">17. Oktober 2025</p>
+      </div>
+    </article>
+   
+    <article class="news-card">
+        <div class="news-card"></div>
+        <h2>Spannung pur in der Bundesliga</h2>
+        <p>Der Kampf um die Tabellenspitze bleibt offen – drei Teams liegen nur einen Punkt auseinander. Fans dürfen sich auf ein heißes Wochenende freuen.</p>
+        <p class="date">21. Oktober 2025</p>
+      </div>
+    </article>
+
+    <article class="news-card">
+      <div class="news-content">
+        <h2>DFB-Team bereitet sich auf Freundschaftsspiel vor</h2>
+        <p>Die deutsche Nationalmannschaft trainiert derzeit intensiv in Frankfurt. Bundestrainer Nagelsmann zeigt sich zufrieden mit dem Teamgeist.</p>
+        <p class="date">19. Oktober 2025</p>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    © 2025 GoalNewsDE – Alle Rechte vorbehalten.
+  </footer>
+
+</body>
+</html>
