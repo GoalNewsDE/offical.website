@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE - Fußball-News & Tabellen</title>
 
+    <!-- 100% privacy-first analytics -->
+    <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+
     <style>
         /* 🌍 Global */
         * {
@@ -466,12 +469,7 @@
         // 🍪 Cookie-Banner
         const cookieBanner = document.getElementById("cookie-banner");
 
-        function loadPlausible() {
-            var script = document.createElement("script");
-            script.async = true;
-            script.src = "https://plausible.io/js/pa-Zp2wtJehKRAdbLwEokqul.js";
-            document.head.appendChild(script);
-        }
+
 
         // Banner nur anzeigen, wenn noch keine Wahl getroffen
         const cookieDecision = localStorage.getItem("cookies-accepted");
