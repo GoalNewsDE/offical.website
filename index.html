@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE - Fußball-News & Tabellen</title>
-
     <style>
         /* 🌍 Global */
         * {
@@ -171,37 +170,6 @@
             margin: 5px 0 15px;
         }
 
-        table {
-            border-collapse: collapse;
-            margin: 20px auto 40px auto;
-            width: 95%;
-            max-width: 1200px;
-            background: rgba(29, 185, 84, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            text-align: center;
-        }
-
-        th {
-            background: linear-gradient(90deg, #1db954, #00d4ff);
-            color: #fff;
-        }
-
-        tbody tr:nth-child(even) {
-            background: rgba(29, 185, 84, 0.05);
-        }
-
-        tbody tr:hover {
-            background: rgba(29, 185, 84, 0.2);
-            transform: scale(1.02);
-            transition: all 0.2s ease;
-        }
-
         .socials {
             margin: 30px 0;
             display: flex;
@@ -273,6 +241,39 @@
             color: #ccc;
         }
 
+        /* Breaking News Banner */
+        #breakingNews {
+            background: #007425;
+            color: #fff;
+            font-weight: bold;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .news-wrapper {
+            display: flex;
+            white-space: nowrap;
+            animation: scrollNews 25s linear infinite;
+        }
+
+        .news-item {
+            margin-right: 50px;
+        }
+
+        @keyframes scrollNews {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
         @media(max-width:768px) {
             .hero-text {
                 font-size: 1.3rem;
@@ -310,12 +311,17 @@
     <header>
         <div class="logo">GoalNewsDE</div>
     </header>
-
     <button id="themeToggle">🌙</button>
 
-    <div id="breakingNews" style="background:#007425;color:#fff;padding:10px;text-align:center;font-weight:bold;position:relative;overflow:hidden;user-select:none;">
-    </div>
+    <!-- Breaking News Banner -->
+    <div id="breakingNews">
+        <div class="news-wrapper">
+            <span class="news-item">Ex-Realstar Roysten Drenthe wegen Schlaganfall im Krankenhaus!</span>
+            <span class="news-item">Musiala ist wieder da!</span>
+            <span class="news-item">Lionel Messi verlängert seinen Vertrag bei Inter Miami bis 2028!</span>
 
+        </div>
+    </div>
 
     <!-- Hero -->
     <div class="hero-container">
@@ -339,7 +345,6 @@
         <div id="countdown">lade...</div>
     </div>
 
-    <!-- Logo -->
     <img class="logo-img" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo GoalNewsDE" width="250">
 
     <!-- Matches -->
@@ -358,19 +363,17 @@
                 🏆 Topspiel: Borussia Dortmund - FC Köln (18:30 Uhr)
             </h3>
             <h4>Sonntag:</h4>
-            <h3>Bayer Leverkusen - SC Freiburg (15:30 Uhr)<br>
-                VfB Stuttgart - Mainz 05 (17:30 Uhr)
-            </h3>
+            <h3>Bayer Leverkusen - SC Freiburg (15:30 Uhr)<br>VfB Stuttgart - Mainz 05 (17:30 Uhr)</h3>
         </div>
     </section>
 
-    <!-- News Ticker -->
     <div class="ticker-wrapper">
         <div class="ticker" id="ticker"></div>
     </div>
 
-    <footer>GoalNewsDE © 2025 – Don’t steal our stuff.
-        <button onclick="window.location.href='mailto:info@goalnewsde.de'">Email: info.goalnews@gmail.com</button>
+    <footer>
+        GoalNewsDE © 2025 – Don’t steal our stuff.
+        <button onclick="window.location.href='mailto:info@goalnewsde.de'">Email</button>
         <a href="agb.html">Datenschutz</a>
     </footer>
 
@@ -381,57 +384,6 @@
     <script src="js/auto-refresh.js"></script>
 
     <script>
-
-        const newsItems = [
-            "Ex-Realstar Royston Drenthe wegen Schlaganfall im Krankenhaus!",
-            "Musiala ist wieder da!",
-            "Lionel Messi verlängert seinen Vertrag bei Inter Miami bis 2028! "
-        ];
-
-        let currentIndex = 0;
-        const newsDiv = document.getElementById("breakingNews");
-
-        function showNews(index){
-            newsDiv.textContent = "Breaking - News: " + newsItems[index];
-        }
-
-// Initial anzeigen
-        showNews(currentIndex);
-
-// Swipe-Detection
-        let startX = 0;
-
-        newsDiv.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-        });
-
-        newsDiv.addEventListener('touchend', (e) => {
-            const endX = e.changedTouches[0].clientX;
-            if(endX - startX > 50){ // Swipe nach rechts
-                currentIndex = (currentIndex - 1 + newsItems.length) % newsItems.length;
-            } else if(startX - endX > 50){ // Swipe nach links
-                currentIndex = (currentIndex + 1) % newsItems.length;
-            }
-            showNews(currentIndex);
-        });
-
-// Optional: Automatisch alle 5 Sekunden wechseln
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % newsItems.length;
-            showNews(currentIndex);
-        }, 5000);
-        
-        window.addEventListener("load", () => {
-          const loadTime = performance.now();
-          const logs = JSON.parse(localStorage.getItem("monitor_logs") || "[]");
-          logs.push({
-            page: window.location.pathname,
-            load_time: Math.round(loadTime),
-            time: new Date().toLocaleTimeString()
-          });
-          localStorage.setItem("monitor_logs", JSON.stringify(logs));
-        });
-        
         // 🌙 Dark Mode Toggle
         const toggle = document.getElementById('themeToggle');
         toggle.addEventListener('click', () => {
@@ -453,12 +405,10 @@
             countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
-        // 📰 Ticker
+        // Google Sheets Ticker Integration
         const ticker = document.getElementById("ticker");
-
         const api = SheetsAPI.getInstance();
         const autoRefresh = AutoRefresh.getInstance();
-
         async function startTicker() {
             autoRefresh.start(
                 async () => {
@@ -476,7 +426,6 @@
             );
         }
     </script>
-
     <script async defer src="https://apis.google.com/js/api.js" onload="startTicker()"></script>
 </body>
 
