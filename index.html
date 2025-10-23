@@ -313,8 +313,7 @@
 
     <button id="themeToggle">🌙</button>
 
-    <div style="background:#007425;color:#fff;padding:10px;text-align:center;font-weight:bold;">
-     Breaking - News: Ex-Realstar Royston Drenthe Wegen Schlaganfall im Krankenhaus!
+    <div id="breakingNews" style="background:#007425;color:#fff;padding:10px;text-align:center;font-weight:bold;position:relative;overflow:hidden;user-select:none;">
     </div>
 
 
@@ -382,6 +381,46 @@
     <script src="js/auto-refresh.js"></script>
 
     <script>
+
+        const newsItems = [
+            "Ex-Realstar Royston Drenthe wegen Schlaganfall im Krankenhaus!",
+            "Musiala ist wieder da!",
+            "Lionel Messi verlängert seinen Vertrag bei Inter Miami bis 2028! "
+        ];
+
+        let currentIndex = 0;
+        const newsDiv = document.getElementById("breakingNews");
+
+        function showNews(index){
+            newsDiv.textContent = "Breaking - News: " + newsItems[index];
+        }
+
+// Initial anzeigen
+        showNews(currentIndex);
+
+// Swipe-Detection
+        let startX = 0;
+
+        newsDiv.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        newsDiv.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            if(endX - startX > 50){ // Swipe nach rechts
+                currentIndex = (currentIndex - 1 + newsItems.length) % newsItems.length;
+            } else if(startX - endX > 50){ // Swipe nach links
+                currentIndex = (currentIndex + 1) % newsItems.length;
+            }
+            showNews(currentIndex);
+        });
+
+// Optional: Automatisch alle 5 Sekunden wechseln
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % newsItems.length;
+            showNews(currentIndex);
+        }, 5000);
+        
         window.addEventListener("load", () => {
           const loadTime = performance.now();
           const logs = JSON.parse(localStorage.getItem("monitor_logs") || "[]");
