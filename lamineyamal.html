@@ -28,6 +28,17 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* Kein Unterstrich bei Links */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: #1db954;
+        }
+
         #themeToggle {
             position: fixed;
             top: 70px;
@@ -77,15 +88,16 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             text-align: left;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         th {
             font-weight: bold;
-            background: linear-gradient(90deg,#1db954,#00d4ff);
+            background: linear-gradient(90deg, #1db954, #00d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -101,7 +113,7 @@
             margin: 20px auto;
             display: block;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border: none;
             transition: all 0.3s;
         }
@@ -111,27 +123,50 @@
             transform: scale(1.05);
         }
 
-        @media(max-width:480px){
-            h1 { font-size: 12vw; }
+        @media(max-width:480px) {
+            h1 {
+                font-size: 12vw;
+            }
         }
     </style>
 </head>
 
 <body>
-    <h1>Lamine Yamal</h1>
+    <h1><a href="#">Lamine Yamal</a></h1>
     <p>Champions League 25/26</p>
     <button id="themeToggle">🌙</button>
 
     <div class="player-card">
-        
+
         <table>
-            <tr><th>Alter</th><td>18 Jahre</td></tr>
-            <tr><th>Nationalität</th><td>Spanien</td></tr>
-            <tr><th>Position</th><td>Sturm - Rechtsaußen</td></tr>
-            <tr><th>Marktwert</th><td>€200M</td></tr>
-            <tr><th>Fuß</th><td>links</td></tr>
-            <tr><th>Aktueller Verein</th><td>FC Barcelona</td></tr>
-            <tr><th>Gelbe-Karten</th><td>1</td></tr>
+            <tr>
+                <th>Alter</th>
+                <td>18 Jahre</td>
+            </tr>
+            <tr>
+                <th>Nationalität</th>
+                <td>Spanien</td>
+            </tr>
+            <tr>
+                <th>Position</th>
+                <td>Sturm - Rechtsaußen</td>
+            </tr>
+            <tr>
+                <th>Marktwert</th>
+                <td>€200M</td>
+            </tr>
+            <tr>
+                <th>Fuß</th>
+                <td>links</td>
+            </tr>
+            <tr>
+                <th>Aktueller Verein</th>
+                <td>FC Barcelona</td>
+            </tr>
+            <tr>
+                <th>Gelbe-Karten</th>
+                <td>1</td>
+            </tr>
         </table>
         <p>Aktualisiert: 23.10.2025</p>
     </div>
