@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamine Yamal – Spielerprofil</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #fff;
+            color: #111;
+            text-align: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            background: #111;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 6vw;
+            margin: 20px 0;
+            background: linear-gradient(90deg, #1db954, #00d4ff, #1db954);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #themeToggle {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1db954;
+            color: #fff;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        #themeToggle:hover {
+            transform: scale(1.1);
+        }
+
+        .player-card {
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 15px;
+            background: #e8f5e9;
+            transition: background 0.3s;
+        }
+
+        body.dark .player-card {
+            background: #222;
+        }
+
+        .player-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        th {
+            font-weight: bold;
+            background: linear-gradient(90deg,#1db954,#00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            background: #1db954;
+            color: #fff;
+            height: 50px;
+            width: 90%;
+            max-width: 180px;
+            font-size: 1rem;
+            border-radius: 25px;
+            margin: 20px auto;
+            display: block;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            box-shadow: 0 0 15px #1db954, 0 0 25px #00d4ff;
+            transform: scale(1.05);
+        }
+
+        @media(max-width:480px){
+            h1 { font-size: 12vw; }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lamine Yamal</h1>
+    <p>Champions League 25/26</p>
+    <button id="themeToggle">🌙</button>
+
+    <div class="player-card">
+        
+        <table>
+            <tr><th>Alter</th><td>18 Jahre</td></tr>
+            <tr><th>Nationalität</th><td>Spanien</td></tr>
+            <tr><th>Position</th><td>Sturm - Rechtsaußen</td></tr>
+            <tr><th>Marktwert</th><td>€200M</td></tr>
+            <tr><th>Fuß</th><td>links</td></tr>
+            <tr><th>Aktueller Verein</th><td>FC Barcelona</td></tr>
+            <tr><th>Gelbe-Karten</th><td>1</td></tr>
+        </table>
+        <p>Aktualisiert: 23.10.2025</p>
+    </div>
+
+    <button class="back-btn" onclick="window.history.back()">Zurück zur Statistik</button>
+
+    <script>
+        // Dark Mode Toggle
+        const toggle = document.getElementById('themeToggle');
+        toggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        });
+    </script>
+</body>
+
+</html>
