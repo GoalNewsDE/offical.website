@@ -5,6 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoalNewsDE - Fußball-News & Tabellen</title>
+
+    <!-- 🔹 Favicon -->
+    <link rel="icon" href="https://i.ibb.co/21R6p75W/Logo-1.jpg" type="image/jpeg">
+
+    <!-- 🔹 Zum Homebildschirm -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1db954">
+
+    <!-- 🔹 Sofortiger Dark Mode -->
+    <script>
+        const darkMode = localStorage.getItem('theme') === 'dark' ||
+            (localStorage.getItem('theme') === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (darkMode) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
     <style>
         /* 🌍 Global */
         * {
@@ -37,7 +55,7 @@
             color: #00d4ff;
         }
 
-        /* Breaking News Banner fixieren */
+        /* Breaking News Banner */
         #breakingNews {
             position: fixed;
             top: 0;
@@ -74,11 +92,10 @@
             }
         }
 
-        /* Header direkt unter Banner */
+        /* Header */
         header {
             position: sticky;
             top: 40px;
-            /* Höhe des Banners */
             z-index: 200;
             background: #f8f8f8;
             padding: 20px;
@@ -97,11 +114,9 @@
             letter-spacing: 1px;
         }
 
-        /* Dark/Light Button */
         #themeToggle {
             position: fixed;
             top: 5px;
-            /* knapp unter Banner */
             right: 20px;
             width: 50px;
             height: 50px;
@@ -124,49 +139,84 @@
             background: #00d4ff;
         }
 
+        /* Hero mit Hintergrund-Schriftzug */
         .hero-container {
+            position: relative;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            background: #e8f5e9;
+            background: url('https://ibb.co/3YyhcyY9') center/cover no-repeat;
             border-radius: 20px;
-            padding: 20px 15px;
+            padding: 60px 15px;
             margin: 100px auto 30px auto;
-            /* Platz für Banner + Header */
             max-width: 950px;
-            transition: background 0.3s, box-shadow 0.3s;
+            animation: fadeIn 1.5s ease-in-out;
         }
 
-        body.dark .hero-container {
-            background: #222;
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        .hero-container:hover {
-            box-shadow: 0 0 25px rgba(29, 185, 84, 0.4);
+        .bg-logo {
+            position: absolute;
+            font-size: 6rem;
+            font-weight: 900;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            white-space: nowrap;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.1);
+            /* default für Light Mode */
         }
 
-        .hero-button {
+        body.dark .bg-logo {
+            color: rgba(255, 255, 255, 0.15);
+            /* für Dark Mode */
+        }
+
+
+        .hero-text,
+        .hero-buttons {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 15px 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-buttons .hero-button {
             background: #1db954;
             color: #fff;
             padding: 10px 25px;
             border-radius: 25px;
             font-weight: 600;
+            margin: 5px;
             transition: 0.3s;
         }
 
-        .hero-button:hover {
+        .hero-buttons .hero-button:hover {
             background: #00d4ff;
             transform: scale(1.05);
         }
 
-        .hero-text {
-            flex: 1 1 auto;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
+        /* Countdown, Matches, Socials, Ticker, Footer */
         .countdown-section {
             margin: 40px 0;
         }
@@ -284,22 +334,35 @@
             color: #ccc;
         }
 
+        /* Responsive */
         @media(max-width:768px) {
+            .bg-logo {
+                font-size: 4rem;
+            }
+
             .hero-text {
                 font-size: 1.3rem;
+            }
+
+            .hero-buttons .hero-button {
+                padding: 8px 20px;
+            }
+
+            #countdown {
+                font-size: 1.5rem;
             }
 
             .matches {
                 width: 90%;
                 padding: 15px;
             }
-
-            #countdown {
-                font-size: 1.5rem;
-            }
         }
 
         @media(max-width:480px) {
+            .bg-logo {
+                font-size: 3rem;
+            }
+
             .hero-text {
                 font-size: 1.1rem;
             }
@@ -310,15 +373,15 @@
                 font-size: 20px;
             }
 
-            .hero-button {
-                padding: 8px 18px;
+            .hero-buttons .hero-button {
+                padding: 6px 15px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Breaking News Banner -->
     <div id="breakingNews">
         <div class="news-wrapper">
             <span class="news-item">Ex-Realstar Roysten Drenthe wegen Schlaganfall im Krankenhaus!</span>
@@ -338,11 +401,14 @@
 
     <!-- Hero -->
     <div class="hero-container">
-        <a href="bundesliga.html" class="hero-button">1. Bundesliga</a>
+        <div class="bg-logo">GoalNewsDE</div>
         <div class="hero-text">Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!</div>
-        <a href="2liga.html" class="hero-button">2. Bundesliga</a>
-        <a href="statistics.html" class="hero-button">Statistiken</a>
-        <a href="news.html" class="hero-button">News</a>
+        <div class="hero-buttons">
+            <a href="bundesliga.html" class="hero-button">1. Bundesliga</a>
+            <a href="2liga.html" class="hero-button">2. Bundesliga</a>
+            <a href="statistics.html" class="hero-button">Statistiken</a>
+            <a href="news.html" class="hero-button">News</a>
+        </div>
     </div>
 
     <!-- Socials -->
@@ -354,11 +420,9 @@
 
     <!-- Countdown -->
     <div class="countdown-section">
-        <h2>⏱ 8. Spieltag startet in:</h2>
+        <h2>⏱ Topspiel startet in:</h2>
         <div id="countdown">lade...</div>
     </div>
-
-    <img class="logo-img" src="https://i.ibb.co/21R6p75W/Logo-1.jpg" alt="Logo GoalNewsDE" width="250">
 
     <!-- Matches -->
     <section>
@@ -397,15 +461,21 @@
     <script src="js/auto-refresh.js"></script>
 
     <script>
-        // 🌙 Dark Mode Toggle
         const toggle = document.getElementById('themeToggle');
+
+        // Setzt den Toggle Text passend zum Dark Mode
+        if (document.documentElement.classList.contains('dark')) toggle.textContent = '☀️';
+
+        // Dark Mode Toggle
         toggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            toggle.textContent = isDark ? '☀️' : '🌙';
         });
 
-        // ⏱ Countdown
-        const matchDate = new Date("October 24, 2025 20:30:00").getTime();
+        // Countdown
+        const matchDate = new Date("October 25, 2025 18:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
         setInterval(() => {
             const now = new Date().getTime();
@@ -418,25 +488,21 @@
             countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
-        // Google Sheets Ticker Integration
+        // Google Sheets Ticker
         const ticker = document.getElementById("ticker");
         const api = SheetsAPI.getInstance();
         const autoRefresh = AutoRefresh.getInstance();
         async function startTicker() {
-            autoRefresh.start(
-                async () => {
-                    const data = await api.fetchTicker();
-                    ticker.innerHTML = "";
-                    const results = data.flat();
-                    results.forEach(text => {
-                        const span = document.createElement("span");
-                        span.textContent = text;
-                        ticker.appendChild(span);
-                    });
-                },
-                5000,
-                "Ticker"
-            );
+            autoRefresh.start(async () => {
+                const data = await api.fetchTicker();
+                ticker.innerHTML = "";
+                const results = data.flat();
+                results.forEach(text => {
+                    const span = document.createElement("span");
+                    span.textContent = text;
+                    ticker.appendChild(span);
+                });
+            }, 5000, "Ticker");
         }
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="startTicker()"></script>
