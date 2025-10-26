@@ -19,7 +19,6 @@
 </head>
 
 <body>
-    <!-- Breaking News -->
     <div id="breakingNews">
         <div class="news-wrapper">
             <span class="news-item">RB Leipzig weiter ungeschlagen – setzen ihre Serie fort!</span>
@@ -28,6 +27,7 @@
             <span class="news-item">Ilkay Gündogan verteidigt Florian Wirtz gegen Kritik.</span>
             <span class="news-item">Werder Bremen gewinnt knapp gegen Union Berlin.</span>
             <span class="news-item">Höchste Heimniederlage: Augsburg 0:6 gegen Leipzig!</span>
+
         </div>
     </div>
 
@@ -95,15 +95,14 @@
     <script src="js/auto-refresh.js"></script>
 
     <script>
-        // Dark Mode
-        const darkMode = localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        if (darkMode) document.body.classList.add('dark');
+        // Seite immer im Dark-Mode starten
+        document.body.classList.add('dark');
 
+        // Dark-Mode Toggle
         const toggle = document.getElementById('themeToggle');
-        toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        toggle.textContent = '☀️'; // Sonnensymbol, weil Dark-Mode aktiv
         toggle.addEventListener('click', () => {
             document.body.classList.toggle('dark');
-            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
             toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
         });
 
@@ -137,12 +136,12 @@
                     });
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
-                    // ticker.innerHTML bleibt leer, kein Fehlertext
+                    // Kein Fehlertext mehr angezeigt
                 }
             }, 5000, "Ticker");
         });
-
     </script>
+
 
     <script async defer src="https://apis.google.com/js/api.js" onload="startTicker()"></script>
 </body>

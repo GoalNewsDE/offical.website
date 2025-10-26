@@ -1,4 +1,6 @@
-/* Global */
+/* =========================
+   🌍 GLOBAL STYLES
+========================= */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -29,34 +31,35 @@ a:hover {
     color: #00d4ff;
 }
 
-/* Breaking News */
+/*============================
+    BREAKING NEWS TICKER 
+=============================*/
 #breakingNews {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    background: #007425;
+    background: #1db954;
     color: #fff;
-    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    height: 40px;
     display: flex;
     align-items: center;
-    overflow: hidden;
-    padding: 0 10px;
-    z-index: 300;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 .news-wrapper {
-    display: flex;
+    display: inline-block;
     white-space: nowrap;
-    animation: scrollNews 50s linear infinite;
-    transform: translateX(100%);
+    will-change: transform;
+    animation: scrollNews 30s linear infinite;
 }
 
 .news-item {
-    margin-right: 50px;
+    display: inline-block;
+    padding: 0 2rem;
 }
 
+/* Animation */
 @keyframes scrollNews {
     0% {
         transform: translateX(100%);
@@ -67,9 +70,12 @@ a:hover {
     }
 }
 
-/* Header */
+
+/* =========================
+   🧠 HEADER
+========================= */
 header {
-    position: sticky;
+    position: static;
     top: 40px;
     z-index: 200;
     background: #f8f8f8;
@@ -89,6 +95,9 @@ body.dark header {
     letter-spacing: 1px;
 }
 
+/* =========================
+   🌙 DARK MODE BUTTON
+========================= */
 #themeToggle {
     position: fixed;
     top: 5px;
@@ -114,7 +123,9 @@ body.dark header {
     background: #00d4ff;
 }
 
-/* Hero */
+/* =========================
+   🏟️ HERO SECTION
+========================= */
 .hero-container {
     position: relative;
     padding: 60px 15px;
@@ -123,6 +134,44 @@ body.dark header {
     z-index: 2;
 }
 
+.hero-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 15px 0;
+    color: #111;
+    transition: color 0.3s;
+}
+
+body.dark .hero-text {
+    color: #fff;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    z-index: 3;
+    position: relative;
+}
+
+.hero-button {
+    background: #1db954;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.hero-button:hover {
+    background: #00d4ff;
+    transform: scale(1.05);
+}
+
+/* =========================
+   🔤 HINTERGRUND-SCHRIFT
+========================= */
 .bg-logo {
     position: absolute;
     font-size: 6rem;
@@ -142,43 +191,22 @@ body.dark .bg-logo {
     color: rgba(255, 255, 255, 0.15);
 }
 
-.hero-text {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 15px 0;
-    position: relative;
-    z-index: 2;
-    transition: color 0.3s;
+/* Responsive Schriftgröße */
+@media(max-width: 768px) {
+    .bg-logo {
+        font-size: 3.5rem;
+    }
 }
 
-body.dark .hero-text {
-    color: #fff;
+@media(max-width: 480px) {
+    .bg-logo {
+        font-size: 2.5rem;
+    }
 }
 
-.hero-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    position: relative;
-    z-index: 2;
-}
-
-.hero-buttons .hero-button {
-    background: #1db954;
-    color: #fff;
-    padding: 10px 25px;
-    border-radius: 25px;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
-.hero-buttons .hero-button:hover {
-    background: #00d4ff;
-    transform: scale(1.05);
-}
-
-/* Countdown */
+/* =========================
+   ⏱ COUNTDOWN
+========================= */
 .countdown-section {
     margin: 40px 0;
 }
@@ -195,7 +223,9 @@ body.dark .hero-text {
     color: #00d4ff;
 }
 
-/* Matches */
+/* =========================
+   ⚽ MATCHES
+========================= */
 .matches {
     max-width: 750px;
     margin: 0 auto 40px auto;
@@ -226,7 +256,9 @@ body.dark .matches {
     margin: 5px 0 15px;
 }
 
-/* Socials */
+/* =========================
+   🌐 SOCIAL LINKS
+========================= */
 .socials {
     margin: 30px 0;
     display: flex;
@@ -248,7 +280,9 @@ body.dark .matches {
     transform: scale(1.05);
 }
 
-/* Ticker */
+/* =========================
+   📰 LIVE TICKER
+========================= */
 .ticker-wrapper {
     width: 95%;
     overflow: hidden;
@@ -286,7 +320,9 @@ body.dark .ticker-wrapper {
     }
 }
 
-/* Footer */
+/* =========================
+   ⚫ FOOTER
+========================= */
 footer {
     background: #f8f8f8;
     padding: 20px;
@@ -300,7 +336,9 @@ body.dark footer {
     color: #ccc;
 }
 
-/* Responsive */
+/* =========================
+   📱 RESPONSIVE DESIGN
+========================= */
 @media(max-width:768px) {
     .hero-text {
         font-size: 1.3rem;
@@ -313,10 +351,6 @@ body.dark footer {
     .matches {
         width: 90%;
         padding: 15px;
-    }
-
-    .bg-logo {
-        font-size: 4rem;
     }
 }
 
@@ -334,9 +368,5 @@ body.dark footer {
     .hero-buttons .hero-button {
         padding: 6px 15px;
         font-size: 0.9rem;
-    }
-
-    .bg-logo {
-        font-size: 3rem;
     }
 }
