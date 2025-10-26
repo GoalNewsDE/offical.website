@@ -9,17 +9,12 @@
     <!-- 🔹 Favicon -->
     <link rel="icon" href="https://i.ibb.co/21R6p75W/Logo-1.jpg" type="image/jpeg">
 
-    <!-- 🔹 Zum Homebildschirm -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
+    <!-- 🔹 PWA / App Infos -->
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1db954">
-
     <link rel="apple-touch-icon" href="https://i.ibb.co/21R6p75W/Logo-1.jpg">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="GoalNewsDE">
-
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1db954">
 
     <style>
         /* 🌍 Global */
@@ -70,10 +65,14 @@
             z-index: 300;
         }
 
+        /* News-Wrapper sofort sichtbar & langsamer */
         .news-wrapper {
             display: flex;
             white-space: nowrap;
-            animation: scrollNews 25s linear infinite;
+            animation: scrollNews 50s linear infinite;
+            /* langsamer scrollen */
+            transform: translateX(100%);
+            /* sofort sichtbar */
         }
 
         .news-item {
@@ -175,14 +174,11 @@
             white-space: nowrap;
             text-align: center;
             color: rgba(0, 0, 0, 0.1);
-            /* default für Light Mode */
         }
 
         body.dark .bg-logo {
             color: rgba(255, 255, 255, 0.15);
-            /* für Dark Mode */
         }
-
 
         .hero-text,
         .hero-buttons {
@@ -199,13 +195,19 @@
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
 
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
         .hero-buttons .hero-button {
             background: #1db954;
             color: #fff;
             padding: 10px 25px;
             border-radius: 25px;
             font-weight: 600;
-            margin: 5px;
             transition: 0.3s;
         }
 
@@ -342,10 +344,6 @@
                 font-size: 1.3rem;
             }
 
-            .hero-buttons .hero-button {
-                padding: 8px 20px;
-            }
-
             #countdown {
                 font-size: 1.5rem;
             }
@@ -372,7 +370,7 @@
             }
 
             .hero-buttons .hero-button {
-                padding: 6px 15px;
+                padding: 8px 18px;
                 font-size: 0.9rem;
             }
         }
@@ -382,13 +380,12 @@
 <body>
     <div id="breakingNews">
         <div class="news-wrapper">
-            <span class="news-item">Ex-Realstar Roysten Drenthe wegen Schlaganfall im Krankenhaus!</span>
-            <span class="news-item">Musiala ist wieder da!</span>
-            <span class="news-item">Lionel Messi verlängert seinen Vertrag bei Inter Miami bis 2028!</span>
-            <span class="news-item">Frauen: DFB-Team im Nations League Halbfinale gegen Frankreich! (24.10, 17:45
-                Uhr)</span>
-            <span class="news-item">St. Pauli empfängt Frankfurt am Samstag mit neuer Abwehr Formation! (15:30
-                Uhr)</span>
+            <span class="news-item">RB Leipzig weiter ungeschlagen – Setzen ihre Serie fort!</span>
+            <span class="news-item">Lukas Kwasniok nach BVB Spiel: "Timo geht es sehr schlecht."</span>
+            <span class="news-item">Nico Schlotterbeck von Borussia Dortmund wählt seine Zukunft 2027.</span>
+            <span class="news-item">Ilkay Gündogan verteidigt Florian Wirtz gegen Kritik.</span>
+            <span class="news-item">Werder Bremen gewinnt knapp gegen Union Berlin.</span>
+            <span class="news-item">Höchste Heimniederlage: Augsburg 0:6 gegen Leipzig!</span>
         </div>
     </div>
 
@@ -418,7 +415,7 @@
 
     <!-- Countdown -->
     <div class="countdown-section">
-        <h2>⏱ Topspiel startet in:</h2>
+        <h2>⏱ Erstes Sonntagsspiel startet in:</h2>
         <div id="countdown">lade...</div>
     </div>
 
@@ -448,63 +445,43 @@
 
     <footer>
         GoalNewsDE © 2025 – Don’t steal our stuff.
-        <a onclick="window.location.href='mailto:info@goalnewsde.de'">Email</a>
+        <a href="mailto:info@goalnewsde.de">Email</a> |
         <a href="agb.html">Datenschutz</a>
     </footer>
 
-    <script src="js/config.js"></script>
-    <script src="js/google-sheets-client.js"></script>
-    <script src="js/table-renderer.js"></script>
-    <script src="js/sheets-api.js"></script>
-    <script src="js/auto-refresh.js"></script>
-
     <script>
-
-        <!-- 🔹 Sofortiger Dark Mode -->
-
+        // 🔹 Sofortiger Dark Mode
         const darkMode = localStorage.getItem('theme') === 'dark' ||
             (localStorage.getItem('theme') === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
         if (darkMode) {
-            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
         }
+
         const toggle = document.getElementById('themeToggle');
+        if (document.body.classList.contains('dark')) toggle.textContent = '☀️';
 
-        // Setzt den Toggle Text passend zum Dark Mode
-        if (document.documentElement.classList.contains('dark')) toggle.textContent = '☀️';
-
-        // Dark Mode Toggle
         toggle.addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             toggle.textContent = isDark ? '☀️' : '🌙';
         });
 
         // Countdown
-        const matchDate = new Date("October 25, 2025 18:30:00").getTime();
+        const matchDate = new Date("October 25, 2025 15:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
+
         setInterval(() => {
             const now = new Date().getTime();
             const diff = matchDate - now;
-            if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; } const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const m = Math.floor((diff % (1000 * 60 *
-                60)) / (1000 * 60)); const s = Math.floor((diff % (1000 * 60)) / 1000); countdownEl.textContent = `${d}d ${h}h ${m}m
-        ${s}s`;
-        }, 1000); // Google Sheets Ticker const ticker=document.getElementById("ticker"); const
-        api = SheetsAPI.getInstance(); const autoRefresh = AutoRefresh.getInstance(); async function startTicker() {
-            autoRefresh.start(async () => {
-                const data = await api.fetchTicker();
-                ticker.innerHTML = "";
-                const results = data.flat();
-                results.forEach(text => {
-                    const span = document.createElement("span");
-                    span.textContent = text;
-                    ticker.appendChild(span);
-                });
-            }, 5000, "Ticker");
-        }
+            if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
+        }, 1000);
     </script>
-    <script async defer src="https://apis.google.com/js/api.js" onload="startTicker()"></script>
 </body>
 
 </html>
