@@ -108,21 +108,35 @@
         // Seite immer im Dark-Mode starten
         document.body.classList.add('dark');
 
-        // Dark-Mode Toggle
+        // =========================
+        // 🌙 DARK MODE
+        // =========================
         const toggle = document.getElementById('themeToggle');
-        toggle.textContent = '☀️'; // Sonnensymbol, weil Dark-Mode aktiv
+        const darkMode = localStorage.getItem('theme') === 'dark'
+            || (localStorage.getItem('theme') === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+        if (darkMode) document.body.classList.add('dark');
+        toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+
         toggle.addEventListener('click', () => {
             document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
             toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
         });
 
-        // Countdown
+        // =========================
+        // ⏱ COUNTDOWN
+        // =========================
         const matchDate = new Date("October 26, 2025 15:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
+
         setInterval(() => {
             const now = new Date().getTime();
             const diff = matchDate - now;
-            if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
+            if (diff < 0) {
+                countdownEl.textContent = "Anpfiff!";
+                return;
+            }
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -130,47 +144,79 @@
             countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
-        // Live-Ticker
+        // =========================
+        // 📰 LIVE TICKER
+        // =========================
         document.addEventListener("DOMContentLoaded", async () => {
             const ticker = document.getElementById("ticker");
+
+            // Sheets API Wrapper
+            class SheetsAPI {
+                static getInstance() {
+                    if (!SheetsAPI.instance) SheetsAPI.instance = new SheetsAPI();
+                    return SheetsAPI.instance;
+                }
+                async fetchTicker() {
+                    // Hier deine eigene API einfügen
+                    // return [["News1", "News2", "News3"]];
+                    try {
+                        const response = await fetch("https://script.google.com/macros/s/YOUR_LIVE_TICKER_WEBAPP_ID/exec");
+                        return await response.json();
+                    } catch (err) {
+                        console.error(err);
+                        return [["Fehler beim Laden des Tickers"]];
+                    }
+                }
+            }
+
+            // AutoRefresh
+            class AutoRefresh {
+                static getInstance() {
+                    if (!AutoRefresh.instance) AutoRefresh.instance = new AutoRefresh();
+                    return AutoRefresh.instance;
+                }
+                start(callback, interval = 5000) {
+                    callback();
+                    setInterval(callback, interval);
+                }
+            }
+
             const api = SheetsAPI.getInstance();
             const autoRefresh = AutoRefresh.getInstance();
             autoRefresh.start(async () => {
-                try {
-                    const data = await api.fetchTicker();
-                    ticker.innerHTML = "";
-                    data.flat().forEach(text => {
-                        const span = document.createElement("span");
-                        span.textContent = text;
-                        ticker.appendChild(span);
-                    });
-                } catch (e) {
-                    console.error("Ticker Fehler:", e);
-                    // Kein Fehlertext mehr angezeigt
-                }
-            }, 5000, "Ticker");
-        });
-        const form = document.getElementById("newsletterForm");
-        const msg = document.getElementById("newsletterMessage");
-
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-            const email = formData.get("email");
-
-            try {
-                const response = await fetch("https://script.google.com/macros/s/AKfycbzGv1-XvC-fhtgLjK9Q7s50m7vZBADLBX5fyGvO698RDEyGbDrbt2TfD78payeHB7JLTQ/exec", {
-                    method: "POST",
-                    body: new URLSearchParams({ email })
+                const data = await api.fetchTicker();
+                ticker.innerHTML = "";
+                data.flat().forEach(text => {
+                    const span = document.createElement("span");
+                    span.textContent = text;
+                    ticker.appendChild(span);
                 });
-                const text = await response.text();
-                msg.textContent = text;
-                form.reset();
-            } catch (err) {
-                msg.textContent = "Fehler beim Absenden.";
-                console.error(err);
-            }
+            }, 5000);
         });
+
+        // =========================
+        // ✉️ NEWSLETTER
+        // =========================
+        const form = document.getElementById('newsletterForm');
+        const message = document.getElementById('newsletterMessage');
+        const webAppURL = "https://script.google.com/macros/s/AKfycbzGv1-XvC-fhtgLjK9Q7s50m7vZBADLBX5fyGvO698RDEyGbDrbt2TfD78payeHB7JLTQ/exec";
+
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = form.email.value;
+
+                try {
+                    const res = await fetch(webAppURL + "?email=" + encodeURIComponent(email), { method: "POST" });
+                    const text = await res.text();
+                    message.textContent = text;
+                    form.reset();
+                } catch (err) {
+                    message.textContent = "Fehler beim Anmelden 😕";
+                    console.error(err);
+                }
+            });
+        }
 
     </script>
 
