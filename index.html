@@ -98,6 +98,7 @@
         // Dark Mode
         const darkMode = localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
         if (darkMode) document.body.classList.add('dark');
+
         const toggle = document.getElementById('themeToggle');
         toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
         toggle.addEventListener('click', () => {
