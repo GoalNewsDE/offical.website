@@ -158,7 +158,7 @@ body.dark .hero-text {
 
 .hero-buttons .hero-button:hover {
     background: #00d4ff;
-    transform: scale(1.05);
+    transform: scale(1.15);
 }
 
 /* Hintergrundschriftzug */
@@ -175,6 +175,18 @@ body.dark .hero-text {
     color: rgba(0, 0, 0, 0.1);
     pointer-events: none;
     transition: color 0.3s;
+}
+
+@media (max-width: 768px) {
+    .bg-logo {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bg-logo {
+        font-size: 3rem;
+    }
 }
 
 body.dark .bg-logo {
@@ -248,7 +260,7 @@ body.dark .matches {
 
 .socials a:hover {
     background: #00d4ff;
-    transform: scale(1.05);
+    transform: scale(1.10);
 }
 
 /* Ticker */
