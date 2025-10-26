@@ -174,20 +174,26 @@ body.dark .hero-text {
     text-align: center;
     color: rgba(0, 0, 0, 0.1);
     pointer-events: none;
-    transition: color 0.3s;
+    transition: color 0.3s, font-size 0.3s;
 }
 
-@media (max-width: 768px) {
+body.dark .bg-logo {
+    color: rgba(255, 255, 255, 0.15);
+}
+
+/* Kleinere Bildschirme */
+@media(max-width:768px) {
     .bg-logo {
         font-size: 4rem;
     }
 }
 
-@media (max-width: 480px) {
+@media(max-width:480px) {
     .bg-logo {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 }
+
 
 body.dark .bg-logo {
     color: rgba(255, 255, 255, 0.15);

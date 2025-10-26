@@ -136,10 +136,11 @@
                     });
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
-                    ticker.innerHTML = "<span>Fehler beim Laden des Tickers...</span>";
+                    // ticker.innerHTML bleibt leer, kein Fehlertext
                 }
             }, 5000, "Ticker");
         });
+
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js" onload="startTicker()"></script>
