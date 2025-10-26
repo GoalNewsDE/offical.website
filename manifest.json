@@ -1,7 +1,7 @@
 {
     "name": "GoalNewsDE",
     "short_name": "GoalNewsDE",
-    "start_url": "/offical.website/",
+    "start_url": "/offical.website/index.html",
     "display": "standalone",
     "background_color": "#111",
     "theme_color": "#1db954",
