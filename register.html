@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Registrierung – GoalNewsDE Community</title>
     <style>
+        /* BODY */
         body {
             font-family: 'Poppins', sans-serif;
             background: #f4f4f4;
@@ -12,8 +13,10 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
 
+        /* CONTAINER */
         .container {
             background: white;
             padding: 30px 20px;
@@ -22,46 +25,91 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 300px;
+            /* horizontale Zentrierung */
+            justify-content: center;
+            /* vertikale Zentrierung innerhalb Box */
+            width: 320px;
         }
 
+        /* ÜBERSCHRIFT */
         h2 {
             color: #1db954;
+            margin-bottom: 20px;
+            font-size: 24px;
             text-align: center;
-            margin-bottom: 15px;
         }
 
-        input,
-        button {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
+        /* INPUTS */
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 40px 10px 10px;
+            /* Platz für Auge */
             border-radius: 5px;
             border: 1px solid #ccc;
+            font-size: 16px;
             text-align: center;
+            box-sizing: border-box;
         }
 
+        /* PASSWORT-AUGE */
+        .togglePwd {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            user-select: none;
+        }
+
+        /* BUTTON */
         button {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0 10px 0;
+            border-radius: 5px;
             background: #1db954;
             color: white;
             border: none;
             cursor: pointer;
+            font-size: 16px;
         }
 
+        button:hover {
+            background: #17a44b;
+        }
+
+        /* LINK */
         a {
             color: #1db954;
             text-decoration: none;
             margin-top: 10px;
+            display: block;
+            font-size: 14px;
             text-align: center;
+        }
+
+        a:hover {
+            color: #13993f;
         }
     </style>
 </head>
 
 <body>
+
     <div class="container">
         <h2>Registrieren</h2>
         <input id="email" placeholder="E-Mail" />
-        <input id="password" type="password" placeholder="Passwort" />
+        <div class="input-wrapper">
+            <input id="password" type="password" placeholder="Passwort" />
+            <span id="togglePwd" class="togglePwd">👁️</span>
+        </div>
         <input id="username" placeholder="Username" />
         <button id="registerBtn">Registrieren</button>
         <a href="login.html">Zurück zum Login</a>
@@ -90,7 +138,20 @@
         const email = document.getElementById("email");
         const password = document.getElementById("password");
         const usernameInput = document.getElementById("username");
+        const toggleBtn = document.getElementById("togglePwd");
 
+        // Passwort anzeigen/verstecken
+        toggleBtn.onclick = () => {
+            if (password.type === "password") {
+                password.type = "text";
+                toggleBtn.textContent = "🙈";
+            } else {
+                password.type = "password";
+                toggleBtn.textContent = "👁️";
+            }
+        };
+
+        // Registrierung
         registerBtn.onclick = async () => {
             if (!email.value || !password.value || !usernameInput.value) {
                 alert("Bitte alle Felder ausfüllen!");
@@ -100,13 +161,15 @@
                 const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
                 const user = userCredential.user;
                 await setDoc(doc(db, "users", user.uid), { username: usernameInput.value.trim() });
-                alert("Konto erstellt! Jetzt zum Login.");
-                window.location.href = "login.html";
+
+                // Weiterleitung auf special.html
+                window.location.href = "special.html";
             } catch (err) {
                 alert(err.message);
             }
         };
     </script>
+
 </body>
 
 </html>
