@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GoalNewsDE Community</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        input,
+        button {
+            margin: 5px 0;
+            padding: 5px;
+        }
+
+        h2 {
+            color: #1db954;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>GoalNewsDE Community</h1>
+
+    <h2>Login / Registrierung</h2>
+    <input id="email" placeholder="E-Mail" />
+    <input id="password" type="password" placeholder="Passwort" />
+    <button id="registerBtn">Registrieren</button>
+    <button id="loginBtn">Einloggen</button>
+
+    <h2> Wer gewinnt die Bundesliga? Dein Tipp</h2>
+    <input id="tipp" placeholder="Dein Tipp" />
+    <button id="submitTip">Abschicken</button>
+
+    <h2>Leaderboard</h2>
+    <ul id="leaderboard"></ul>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }
+            from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs }
+            from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+            authDomain: "goalnewsde-community.firebaseapp.com",
+            projectId: "goalnewsde-community",
+            storageBucket: "goalnewsde-community.firebasestorage.app",
+            messagingSenderId: "134523022055",
+            appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const registerBtn = document.getElementById("registerBtn");
+        const loginBtn = document.getElementById("loginBtn");
+        const submitTip = document.getElementById("submitTip");
+        const leaderboard = document.getElementById("leaderboard");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const tipp = document.getElementById("tipp");
+
+        // Registrierung
+        registerBtn.onclick = () => {
+            createUserWithEmailAndPassword(auth, email.value, password.value)
+                .then(() => alert("Konto erstellt!"))
+                .catch(err => alert(err.message));
+        };
+
+        // Login
+        loginBtn.onclick = () => {
+            signInWithEmailAndPassword(auth, email.value, password.value)
+                .then(() => alert("Eingeloggt!"))
+                .catch(err => alert(err.message));
+        };
+
+        // Tipp speichern
+        submitTip.onclick = async () => {
+            const user = auth.currentUser;
+            if (!user) { alert("Bitte zuerst einloggen!"); return; }
+            await addDoc(collection(db, "tipps"), {
+                user: user.email,
+                tipp: tipp.value
+            });
+            alert("Tipp gespeichert!");
+            loadLeaderboard();
+        };
+
+        // Leaderboard laden
+        async function loadLeaderboard() {
+            leaderboard.innerHTML = "";
+            const querySnapshot = await getDocs(collection(db, "tipps"));
+            querySnapshot.forEach(doc => {
+                const li = document.createElement("li");
+                li.textContent = `${doc.data().user}: ${doc.data().tipp}`;
+                leaderboard.appendChild(li);
+            });
+        }
+
+        // Leaderboard sofort laden
+        loadLeaderboard();
+
+    </script>
+</body>
+
+</html>
