@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registrierung – GoalNewsDE Community</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+        }
+
+        h2 {
+            color: #1db954;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        input,
+        button {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        button {
+            background: #1db954;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        a {
+            color: #1db954;
+            text-decoration: none;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Registrieren</h2>
+        <input id="email" placeholder="E-Mail" />
+        <input id="password" type="password" placeholder="Passwort" />
+        <input id="username" placeholder="Username" />
+        <button id="registerBtn">Registrieren</button>
+        <a href="login.html">Zurück zum Login</a>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+            authDomain: "goalnewsde-community.firebaseapp.com",
+            projectId: "goalnewsde-community",
+            storageBucket: "goalnewsde-community.firebasestorage.app",
+            messagingSenderId: "134523022055",
+            appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const registerBtn = document.getElementById("registerBtn");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const usernameInput = document.getElementById("username");
+
+        registerBtn.onclick = async () => {
+            if (!email.value || !password.value || !usernameInput.value) {
+                alert("Bitte alle Felder ausfüllen!");
+                return;
+            }
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+                const user = userCredential.user;
+                await setDoc(doc(db, "users", user.uid), { username: usernameInput.value.trim() });
+                alert("Konto erstellt! Jetzt zum Login.");
+                window.location.href = "login.html";
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+    </script>
+</body>
+
+</html>

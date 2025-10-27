@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <title>GoalNewsDE Community</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding-top: 40px;
+    }
+
+    .container {
+      width: 400px;
+    }
+
+    h1,
+    h2 {
+      color: #1db954;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input,
+    button {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    button {
+      background: #1db954;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+    }
+
+    li {
+      padding: 5px 0;
+      border-bottom: 1px solid #ccc;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>GoalNewsDE Community</h1>
+
+    <div class="card">
+      <input id="loginEmail" placeholder="E-Mail" />
+      <input id="loginPassword" type="password" placeholder="Passwort" />
+      <button id="loginBtn">Einloggen</button>
+      <a href="register.html">Noch kein Konto? Registrieren</a>
+      <h2>Dein Tipp</h2>
+      <input id="tipp" placeholder="Dein Tipp" />
+      <button id="submitTip">Abschicken</button>
+
+    </div>
+
+    <div class="card">
+      <h2>Leaderboard</h2>
+      <ul id="leaderboard"></ul>
+    </div>
+  </div>
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+      authDomain: "goalnewsde-community.firebaseapp.com",
+      projectId: "goalnewsde-community",
+      storageBucket: "goalnewsde-community.firebasestorage.app",
+      messagingSenderId: "134523022055",
+      appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const submitTip = document.getElementById("submitTip");
+    const leaderboard = document.getElementById("leaderboard");
+    const tipp = document.getElementById("tipp");
+
+    submitTip.onclick = async () => {
+      const user = auth.currentUser;
+      if (!user) { alert("Bitte zuerst registrieren!"); return; }
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const username = userDoc.exists() ? userDoc.data().username : "Anonym";
+
+      await addDoc(collection(db, "tipps"), {
+        user: username,
+        tipp: tipp.value
+      });
+      tipp.value = "";
+      loadLeaderboard();
+    };
+
+    async function loadLeaderboard() {
+      leaderboard.innerHTML = "";
+      const querySnapshot = await getDocs(collection(db, "tipps"));
+      querySnapshot.forEach(doc => {
+        const li = document.createElement("li");
+        li.textContent = `${doc.data().user}: ${doc.data().tipp}`;
+        leaderboard.appendChild(li);
+      });
+    }
+
+    loadLeaderboard();
+  </script>
+</body>
+
+</html>
