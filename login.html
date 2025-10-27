@@ -10,93 +10,137 @@
       background: #f4f4f4;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding-top: 40px;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
 
     .container {
-      width: 400px;
-    }
-
-    h1,
-    h2 {
-      color: #1db954;
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    .card {
       background: white;
-      padding: 30px 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
+      padding: 40px 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      width: 350px;
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    input,
-    button {
-      width: 80%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
       text-align: center;
     }
 
+    h2 {
+      color: #1db954;
+      margin-bottom: 25px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 40px 12px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .togglePwd {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      user-select: none;
+    }
+
     button {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0 10px 0;
+      border-radius: 6px;
       background: #1db954;
       color: white;
       border: none;
       cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
     }
 
-    ul {
+    button:hover {
+      background: #17a44b;
+    }
+
+    a {
+      color: #1db954;
+      text-decoration: none;
+      margin-top: 10px;
+      display: block;
+      font-size: 14px;
+    }
+
+    .leaderboard {
+      width: 100%;
+      margin-top: 25px;
+      border-top: 2px solid #1db954;
+      padding-top: 15px;
+    }
+
+    .leaderboard h3 {
+      color: #1db954;
+      margin-bottom: 12px;
+    }
+
+    .leaderboard ul {
       list-style: none;
       padding: 0;
-      width: 100%;
+      margin: 0;
     }
 
-    li {
-      padding: 5px 0;
-      border-bottom: 1px solid #ccc;
-      text-align: center;
+    .leaderboard li {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 500;
     }
   </style>
 </head>
 
 <body>
-
   <div class="container">
-    <h1>GoalNewsDE Community</h1>
-
-    <div class="card">
-      <input id="loginEmail" placeholder="E-Mail" />
-      <input id="loginPassword" type="password" placeholder="Passwort" />
-      <button id="loginBtn">Einloggen</button>
-      <a href="register.html">Noch kein Konto? Registrieren</a>
-      <h2>Dein Tipp</h2>
-      <input id="tipp" placeholder="Dein Tipp" />
-      <button id="submitTip">Abschicken</button>
-
+    <h2>Login</h2>
+    <input id="email" placeholder="E-Mail" />
+    <div class="input-wrapper">
+      <input id="password" type="password" placeholder="Passwort" />
+      <span id="togglePwd" class="togglePwd">👁️</span>
     </div>
+    <button id="loginBtn">Einloggen</button>
+    <a href="register.html">Noch kein Konto? Registrieren</a>
 
-    <div class="card">
-      <h2>Leaderboard</h2>
-      <ul id="leaderboard"></ul>
+    <h3>Wer gewinnt die Bundesliga?</h3>
+    <div class="input-wrapper">
+      <input id="tipp" placeholder="Verein" />
+    </div>
+    <button id="submitTip">Tipp abschicken</button>
+
+    <div class="leaderboard">
+      <ul id="leaderboardList"></ul>
     </div>
   </div>
 
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
     import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-    // Firebase Config
+    // 🔹 Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
       authDomain: "goalnewsde-community.firebaseapp.com",
@@ -110,35 +154,59 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const submitTip = document.getElementById("submitTip");
-    const leaderboard = document.getElementById("leaderboard");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const toggleBtn = document.getElementById("togglePwd");
+    const loginBtn = document.getElementById("loginBtn");
     const tipp = document.getElementById("tipp");
+    const submitTip = document.getElementById("submitTip");
+    const leaderboardList = document.getElementById("leaderboardList");
 
+    // Passwort-Anzeige
+    toggleBtn.onclick = () => {
+      if (password.type === "password") { password.type = "text"; toggleBtn.textContent = "🙈"; }
+      else { password.type = "password"; toggleBtn.textContent = "👁️"; }
+    };
+
+    // Login
+    loginBtn.onclick = async () => {
+      try {
+        await signInWithEmailAndPassword(auth, email.value, password.value);
+        alert("Erfolgreich eingeloggt!");
+        // sofort weiterleiten auf special.html
+        window.location.href = "special.html";
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+
+    // Tipp speichern
     submitTip.onclick = async () => {
       const user = auth.currentUser;
-      if (!user) { alert("Bitte zuerst registrieren!"); return; }
-
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      const username = userDoc.exists() ? userDoc.data().username : "Anonym";
-
-      await addDoc(collection(db, "tipps"), {
-        user: username,
-        tipp: tipp.value
-      });
+      if (!user) { alert("Bitte zuerst einloggen!"); return; }
+      if (!tipp.value) { alert("Bitte einen Verein eintragen!"); return; }
+      await addDoc(collection(db, "tipps"), { user: user.uid, tipp: tipp.value });
       tipp.value = "";
       loadLeaderboard();
     };
 
+    // Leaderboard laden mit Username + Verein
     async function loadLeaderboard() {
-      leaderboard.innerHTML = "";
-      const querySnapshot = await getDocs(collection(db, "tipps"));
-      querySnapshot.forEach(doc => {
+      leaderboardList.innerHTML = "";
+      const tippsSnapshot = await getDocs(collection(db, "tipps"));
+      for (const docSnap of tippsSnapshot.docs) {
+        const data = docSnap.data(); // {user: uid, tipp: "Bayern"}
+        const userDoc = await getDoc(doc(db, "users", data.user));
+        const username = userDoc.exists() ? userDoc.data().username : "Unbekannt";
+
         const li = document.createElement("li");
-        li.textContent = `${doc.data().user}: ${doc.data().tipp}`;
-        leaderboard.appendChild(li);
-      });
+        li.textContent = `${username}: ${data.tipp}`;
+        leaderboardList.appendChild(li);
+      }
     }
 
+    // sofort Leaderboard laden
     loadLeaderboard();
   </script>
 </body>
