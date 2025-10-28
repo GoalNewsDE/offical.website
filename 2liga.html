@@ -254,22 +254,17 @@
     <script src="js/auto-refresh.js"></script>
 
     <script type="text/javascript">
-      async function init() {
-        const api = SheetsAPI.getInstance();
-        const autoRefresh = AutoRefresh.getInstance();
-        const renderer = TableRenderer.getInstance();
+        async function init() {
+            const api = SheetsAPI.getInstance();
+            const autoRefresh = AutoRefresh.getInstance();
+            const renderer = TableRenderer.getInstance();
 
-        const table2BundesligaData = await api.fetchBundesliga2Table();
-        renderer.render(table2BundesligaData, "table2Bundesliga");
-      }
+            const table2BundesligaData = await api.fetchBundesliga2Table();
+            renderer.render(table2BundesligaData, "table2Bundesliga");
+        }
     </script>
 
-    <script
-      async
-      defer
-      src="https://apis.google.com/js/api.js"
-      onload="init()"
-    ></script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="init()"></script>
 
 </body>
 

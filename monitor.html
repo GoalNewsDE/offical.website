@@ -1,30 +1,56 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <title>GoalNewsDE - Monitoring</title>
-  <style>
-    body { font-family: Arial; background: #0a0a0a; color: #fff; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 10px; border-bottom: 1px solid #333; text-align: left; }
-    th { background: #1a1a1a; }
-  </style>
-</head>
-<body>
-  <h1>GoalNewsDE Monitoring</h1>
-  <p>Hier siehst du Ladezeiten deiner Seiten (lokal gemessen im Browser).</p>
-  <table id="logTable">
-    <tr><th>Zeit</th><th>Seite</th><th>Ladezeit (ms)</th></tr>
-  </table>
 
-  <script>
-    const logs = JSON.parse(localStorage.getItem("monitor_logs") || "[]");
-    const table = document.getElementById("logTable");
-    logs.slice(-20).reverse().forEach(log => {
-      const row = document.createElement("tr");
-      row.innerHTML = `<td>${log.time}</td><td>${log.page}</td><td>${log.load_time}</td>`;
-      table.appendChild(row);
-    });
-  </script>
+<head>
+    <meta charset="UTF-8">
+    <title>GoalNewsDE - Monitoring</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            text-align: left;
+        }
+
+        th {
+            background: #1a1a1a;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>GoalNewsDE Monitoring</h1>
+    <p>Hier siehst du Ladezeiten deiner Seiten (lokal gemessen im Browser).</p>
+    <table id="logTable">
+        <tr>
+            <th>Zeit</th>
+            <th>Seite</th>
+            <th>Ladezeit (ms)</th>
+        </tr>
+    </table>
+
+    <script>
+        const logs = JSON.parse(localStorage.getItem("monitor_logs") || "[]");
+        const table = document.getElementById("logTable");
+        logs.slice(-20).reverse().forEach(log => {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${log.time}</td><td>${log.page}</td><td>${log.load_time}</td>`;
+            table.appendChild(row);
+        });
+    </script>
 </body>
+
 </html>

@@ -35,7 +35,7 @@
     <header>
         <div class="logo">GoalNewsDE</div>
     </header>
-    <button id="themeToggle">🌙</button>
+    s
 
     <!-- Hero -->
     <div class="hero-container">
@@ -104,13 +104,7 @@
         // Seite immer im Dark-Mode starten
         document.body.classList.add('dark');
 
-        // Dark-Mode Toggle
-        const toggle = document.getElementById('themeToggle');
-        toggle.textContent = '☀️'; // Sonnensymbol, weil Dark-Mode aktiv
-        toggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-        });
+
 
         // Countdown
         const matchDate = new Date("October 31, 2025 20:30:00").getTime();
