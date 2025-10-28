@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoalNewsDE - Fußballquiz</title>
+  <link rel="icon" href="https://i.ibb.co/21R6p75W/Logo-1.jpg" type="image/jpeg">
+  <meta name="theme-color" content="#1db954">
+  <style>
+    /* ==== QUIZ DESIGN ==== */
+    body {
+      background: radial-gradient(circle at center, #0f0f0f 0%, #000 100%);
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(250deg, #1bff0b,#0f0f0f , #1bff0b);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 20px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #1db954;
+      text-shadow: 0 0 10px rgba(29,185,84,0.7);
+    }
+
+    .quiz-container {
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid #1db954;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(29, 185, 84, 0.5);
+      max-width: 550px;
+      margin: 60px auto;
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1s ease;
+    }
+
+    #frage {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    #antwort {
+      width: 80%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 1rem;
+      text-align: center;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    #antwort:focus {
+      border: 2px solid #1db954;
+      box-shadow: 0 0 10px #1db954;
+    }
+
+    button {
+      background: #1db954;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      margin-top: 18px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #17a84d;
+      box-shadow: 0 0 15px #1db954;
+      transform: scale(1.05);
+    }
+
+    #result {
+      margin-top: 18px;
+      font-weight: 600;
+      color: #1db954;
+      text-shadow: 0 0 8px rgba(29, 185, 84, 0.6);
+      min-height: 20px;
+    }
+
+    .next-btn {
+      display: none;
+      background: #111;
+      border: 1px solid #1db954;
+      color: #1db954;
+      margin-top: 20px;
+    }
+
+    .next-btn:hover {
+      background: #1db954;
+      color: #000;
+      box-shadow: 0 0 15px #1db954;
+    }
+
+    footer {
+      margin-top: 80px;
+      font-size: 0.9rem;
+      color: #888;
+      padding-bottom: 30px;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(15px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+
+<body>
+  <header> GoalNewsDE 30 Follower Fußball-Quiz</header>
+
+  <div class="quiz-container">
+    <p id="frage"></p>
+    <input id="antwort" placeholder="Antwort eingeben...">
+    <br>
+    <button onclick="checkAntwort()">Prüfen</button>
+    <button class="next-btn" id="next" onclick="nextQuestion()">Nächste Frage ➜</button>
+    <p id="result"></p>
+  </div>
+
+  <footer>GoalNewsDE © 2025 – Danke Für die 30 Follower</footer>
+
+  <script>
+    const quiz = [
+      { frage: "Wer ist der Rekordtorschütze der Bundesliga?", antworten: ["Harry Kane", "Kane", "kane", "harry kane"] },
+      { frage: "Welches Land gewann die Fußball-WM 2014?", antworten: ["deutschland", "germany", "Deutschland", "DE"] },
+      { frage: "Welcher Verein gewann die Champions League 2020?", antworten: ["Bayern München", "FC Bayern", "Bayern", "fc bayern", "bayern", "bayern münchen"] },
+      { frage: "Wie viele Spieler einer Manschaft stehen bei Anpfiff auf dem Feld?", antworten: ["11", "elf"] }
+    ];
+
+    let i = 0;
+    const frageEl = document.getElementById("frage");
+    const antwortEl = document.getElementById("antwort");
+    const resultEl = document.getElementById("result");
+    const nextBtn = document.getElementById("next");
+
+    frageEl.textContent = quiz[i].frage;
+
+    function checkAntwort() {
+      const input = antwortEl.value.trim().toLowerCase();
+      const richtigeAntworten = quiz[i].antworten;
+
+      if (richtigeAntworten.includes(input)) {
+        resultEl.textContent = "✅ Richtig!";
+        resultEl.style.color = "#1db954";
+        nextBtn.style.display = "inline-block";
+      } else {
+        resultEl.textContent = "❌ Falsch! Richtige Antworten: " + richtigeAntworten.join(", ");
+        resultEl.style.color = "red";
+        nextBtn.style.display = "inline-block";
+      }
+    }
+
+    function nextQuestion() {
+      i++;
+      if (i >= quiz.length) {
+        frageEl.textContent = " Du hast das Quiz beendet!";
+        antwortEl.style.display = "none";
+        document.querySelector("button").style.display = "none";
+        nextBtn.style.display = "none";
+        resultEl.textContent = "Danke fürs Mitmachen! ";
+      } else {
+        frageEl.textContent = quiz[i].frage;
+        antwortEl.value = "";
+        resultEl.textContent = "";
+        nextBtn.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
