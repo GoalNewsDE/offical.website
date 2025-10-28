@@ -199,7 +199,7 @@ header .logo {
     display: inline-block;
     white-space: nowrap;
     /* Alles in einer Linie */
-    animation: tickerScroll 12s linear infinite;
+    animation: tickerScroll 25s linear infinite;
     /* schneller als vorher */
     font-weight: 500;
     color: #1db954;
