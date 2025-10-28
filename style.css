@@ -185,30 +185,27 @@ header .logo {
 }
 
 
+
 /* ========== Live-Ticker ========== */
 .ticker-wrapper {
     background: #1a1a1a;
     overflow: hidden;
     padding: 15px 0;
-    margin: 50px 0;
     border-left: 4px solid #1db954;
-    white-space: nowrap;
-    /* verhindert Umbruch */
+    width: 100%;
 }
 
 .ticker {
     display: inline-block;
-    padding-left: 100%;
-    /* Start außerhalb */
-    animation: tickerScroll 15s linear infinite;
+    white-space: nowrap;
+    /* Alles in einer Linie */
+    animation: tickerScroll 12s linear infinite;
     /* schneller als vorher */
-}
-
-.ticker span {
-    display: inline-block;
-    padding: 0 50px;
     font-weight: 500;
     color: #1db954;
+    font-size: 1rem;
+    padding-left: 100%;
+    /* Start rechts außerhalb */
 }
 
 @keyframes tickerScroll {
@@ -220,6 +217,13 @@ header .logo {
         transform: translateX(-100%);
     }
 }
+
+/* Optional: Abstand zwischen News, falls JS Trennzeichen nutzt */
+.ticker span {
+    display: inline-block;
+    padding: 0 50px;
+}
+
 
 /* ========== Footer ========== */
 footer {

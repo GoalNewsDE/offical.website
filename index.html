@@ -125,21 +125,18 @@
             const ticker = document.getElementById("ticker");
             const api = SheetsAPI.getInstance();
             const autoRefresh = AutoRefresh.getInstance();
+
             autoRefresh.start(async () => {
                 try {
-                    const data = await api.fetchTicker();
-                    ticker.innerHTML = "";
-                    data.flat().forEach(text => {
-                        const span = document.createElement("span");
-                        span.textContent = text;
-                        ticker.appendChild(span);
-                    });
+                    const data = await api.fetchTicker(); // Array von Arrays aus Sheets
+                    const flatData = data.flat();        // Alles flach machen
+                    ticker.textContent = flatData.join(' • '); // Alles in einer Linie, Trennzeichen optional
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
-                    // Kein Fehlertext mehr angezeigt
                 }
             }, 5000, "Ticker");
         });
+
     </script>
 
 
