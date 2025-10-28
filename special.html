@@ -86,7 +86,6 @@
 <body>
 
     <h1>⚡ Fun Special Page ⚡</h1>
-
     <p id="fact">Klicke auf einen Button, um eine Aktion auszulösen!</p>
 
     <button id="newFact">Neuer Fun Fact</button>
@@ -95,6 +94,13 @@
     <div id="icon"></div>
 
     <script>
+        // 🚨 Zugriffsschutz – Weiterleitung auf 403, falls manuell geöffnet
+        document.addEventListener("DOMContentLoaded", () => {
+            if (document.referrer === "" || !document.referrer.includes("goalnewsde.github.io")) {
+                window.location.href = "/official.website/403.html";
+            }
+        });
+
         const facts = [
             "Fun Fact: Ein Fußballspiel hat durchschnittlich 22 Spieler auf dem Feld.",
             "Wusstest du? Lionel Messi hat über 700 Karriere-Tore erzielt.",
@@ -103,7 +109,6 @@
             "Fun Fact: Der höchste Sieg in einem WM-Spiel war 10:1 (Ungarn – El Salvador, 1982)."
         ];
 
-        // Quizfragen
         const quizQuestions = [
             { question: "Wer hat die meisten WM-Tore erzielt?", answers: ["miroslav klose", "klose"] },
             { question: "Wie viele Spieler stehen normalerweise bei einem Fußballspiel auf dem Feld?", answers: ["22", "22 spieler"] },
@@ -132,18 +137,16 @@
         const quizBtn = document.getElementById("quizBtn");
         const icon = document.getElementById("icon");
 
-        // Fun Fact anzeigen
         newFactBtn.addEventListener("click", () => {
             const index = Math.floor(Math.random() * facts.length);
             factElement.textContent = facts[index];
         });
 
-        // Quiz starten
         quizBtn.addEventListener("click", () => {
             const index = Math.floor(Math.random() * quizQuestions.length);
             const q = quizQuestions[index];
             const answer = prompt("Quiz:\n" + q.question);
-            if (!answer) return; // Abbrechen
+            if (!answer) return;
             if (q.answers.includes(answer.toLowerCase().trim())) {
                 alert("✅ Richtig! Super!");
             } else {
@@ -151,7 +154,6 @@
             }
         });
 
-        // Mouse-follow Icon
         document.addEventListener("mousemove", (e) => {
             icon.style.transform = `translate(${e.clientX - 20}px, ${e.clientY - 20}px)`;
         });

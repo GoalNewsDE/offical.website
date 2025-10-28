@@ -122,6 +122,7 @@
 
         document.addEventListener("DOMContentLoaded", async () => {
             const ticker = document.getElementById("ticker");
+            const wrapper = ticker.parentElement;
             const api = SheetsAPI.getInstance();
             const autoRefresh = AutoRefresh.getInstance();
 
@@ -131,26 +132,34 @@
                     const flatData = data.flat();
                     ticker.textContent = flatData.join(' • ');
 
-                    // Berechne Breite des Textes
+                    // Berechne Breite des Textes und Wrapper
                     const textWidth = ticker.offsetWidth;
-                    const wrapperWidth = ticker.parentElement.offsetWidth;
+                    const wrapperWidth = wrapper.offsetWidth;
 
-                    // Animation in ms: je länger der Text, desto länger die Dauer
+                    // Geschwindigkeit: je länger der Text, desto länger die Dauer
                     const duration = (textWidth + wrapperWidth) * 15; // Zahl anpassen für Geschwindigkeit
 
+                    // Entferne alte Animation (falls vorhanden)
+                    ticker.style.animation = "none";
+                    // Trigger Reflow zum Neustarten
+                    void ticker.offsetWidth;
+                    // Setze neue Animation
                     ticker.style.animation = `scrollTicker ${duration}ms linear infinite`;
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
                 }
             }
 
+            // Erstes Laden
+            updateTicker();
+
+            // Automatisches Update alle 5 Sekunden
             autoRefresh.start(updateTicker, 5000, "Ticker");
         });
 
 
+
     </script>
-
-
     <script async defer src="https://apis.google.com/js/api.js" onload="startTicker()"></script>
 </body>
 

@@ -191,27 +191,24 @@ header .logo {
     background: #1a1a1a;
     overflow: hidden;
     padding: 10px 0;
-    /* Platz oben und unten */
     border-left: 4px solid #1db954;
     width: 100%;
     display: flex;
     align-items: center;
-    /* vertikal zentrieren */
+    /* vertikal zentriert */
     height: 40px;
     /* Containerhöhe passend zur Schrift */
+    position: relative;
 }
 
 .ticker {
     display: inline-block;
     white-space: nowrap;
-    /* alles in einer Linie */
     font-weight: 500;
     color: #1db954;
     font-size: 1rem;
     line-height: 1;
-    /* passt in Containerhöhe */
-    animation: scrollTicker 15s linear infinite;
-    /* Geschwindigkeit anpassen */
+    will-change: transform;
 }
 
 @keyframes scrollTicker {
