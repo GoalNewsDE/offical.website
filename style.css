@@ -193,30 +193,31 @@ header .logo {
     padding: 15px 0;
     border-left: 4px solid #1db954;
     width: 100%;
+    position: relative;
 }
 
 .ticker {
     display: inline-block;
     white-space: nowrap;
-    /* Alles in einer Linie */
-    animation: tickerScroll 25s linear infinite;
-    /* schneller als vorher */
     font-weight: 500;
     color: #1db954;
     font-size: 1rem;
-    padding-left: 100%;
-    /* Start rechts außerhalb */
+    position: absolute;
+    /* absolut, damit wir Breite berücksichtigen */
+    will-change: transform;
 }
 
-@keyframes tickerScroll {
+
+@keyframes scrollTicker {
     0% {
-        transform: translateX(0%);
+        transform: translateX(100%);
     }
 
     100% {
         transform: translateX(-100%);
     }
 }
+
 
 /* Optional: Abstand zwischen News, falls JS Trennzeichen nutzt */
 .ticker span {

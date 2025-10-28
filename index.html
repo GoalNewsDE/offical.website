@@ -35,7 +35,7 @@
     <header>
         <div class="logo">GoalNewsDE</div>
     </header>
-    s
+
 
     <!-- Hero -->
     <div class="hero-container">
@@ -120,22 +120,33 @@
             countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
-        // Live-Ticker
         document.addEventListener("DOMContentLoaded", async () => {
             const ticker = document.getElementById("ticker");
             const api = SheetsAPI.getInstance();
             const autoRefresh = AutoRefresh.getInstance();
 
-            autoRefresh.start(async () => {
+            async function updateTicker() {
                 try {
-                    const data = await api.fetchTicker(); // Array von Arrays aus Sheets
-                    const flatData = data.flat();        // Alles flach machen
-                    ticker.textContent = flatData.join(' • '); // Alles in einer Linie, Trennzeichen optional
+                    const data = await api.fetchTicker();
+                    const flatData = data.flat();
+                    ticker.textContent = flatData.join(' • ');
+
+                    // Berechne Breite des Textes
+                    const textWidth = ticker.offsetWidth;
+                    const wrapperWidth = ticker.parentElement.offsetWidth;
+
+                    // Animation in ms: je länger der Text, desto länger die Dauer
+                    const duration = (textWidth + wrapperWidth) * 15; // Zahl anpassen für Geschwindigkeit
+
+                    ticker.style.animation = `scrollTicker ${duration}ms linear infinite`;
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
                 }
-            }, 5000, "Ticker");
+            }
+
+            autoRefresh.start(updateTicker, 5000, "Ticker");
         });
+
 
     </script>
 
