@@ -184,6 +184,7 @@ header .logo {
     color: #1db954;
 }
 
+
 /* ========== Live-Ticker ========== */
 .ticker-wrapper {
     background: #1a1a1a;
@@ -191,19 +192,28 @@ header .logo {
     padding: 15px 0;
     margin: 50px 0;
     border-left: 4px solid #1db954;
+    white-space: nowrap;
+    /* verhindert Umbruch */
+}
+
+.ticker {
+    display: inline-block;
+    padding-left: 100%;
+    /* Start außerhalb */
+    animation: tickerScroll 15s linear infinite;
+    /* schneller als vorher */
 }
 
 .ticker span {
     display: inline-block;
     padding: 0 50px;
-    animation: tickerScroll 20s linear infinite;
     font-weight: 500;
     color: #1db954;
 }
 
 @keyframes tickerScroll {
     0% {
-        transform: translateX(100%);
+        transform: translateX(0%);
     }
 
     100% {
