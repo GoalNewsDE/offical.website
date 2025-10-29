@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>GoalNewsDE Kommentare</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+      margin: 0;
+    }
+    .comment-box {
+      width: 450px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: none;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    button {
+      background: #1db954;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #17a44b;
+    }
+    .comment {
+      background: #f0f0f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+      text-align: left;
+      position: relative;
+    }
+    .comment small {
+      color: gray;
+    }
+    .delete-btn {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      background: none;
+      border: none;
+      color: red;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h2> Kommentare</h2>
+
+  <div class="comment-box">
+    <textarea id="commentInput" placeholder="Schreibe einen Kommentar..." rows="3"></textarea>
+    <button id="sendComment">Absenden</button>
+  </div>
+
+  <div id="commentsContainer"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      deleteDoc,
+      doc,
+      serverTimestamp,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+    // 🔥 Deine Firebase Config (gleich wie bei deinem Login-System)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+      authDomain: "goalnewsde-community.firebaseapp.com",
+      projectId: "goalnewsde-community",
+      storageBucket: "goalnewsde-community.firebasestorage.app",
+      messagingSenderId: "134523022055",
+      appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const commentInput = document.getElementById("commentInput");
+    const sendComment = document.getElementById("sendComment");
+    const commentsContainer = document.getElementById("commentsContainer");
+
+    // 🔹 Kommentar abschicken
+    sendComment.onclick = async () => {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Bitte melde dich an, um zu kommentieren!");
+        return;
+      }
+      const text = commentInput.value.trim();
+      if (!text) return alert("Bitte etwas schreiben!");
+
+      await addDoc(collection(db, "comments"), {
+        userId: user.uid,
+        email: user.email,
+        text,
+        created: serverTimestamp()
+      });
+
+      commentInput.value = "";
+      loadComments();
+    };
+
+    // 🔹 Kommentare laden
+    async function loadComments() {
+      commentsContainer.innerHTML = "";
+      const q = query(collection(db, "comments"), orderBy("created", "desc"));
+      const snapshot = await getDocs(q);
+      const user = auth.currentUser;
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const div = document.createElement("div");
+        div.className = "comment";
+        div.innerHTML = `
+          <p>${data.text}</p>
+          <small>${data.email || "Unbekannt"}</small>
+        `;
+        if (user && data.userId === user.uid) {
+          const del = document.createElement("button");
+          del.textContent = "🗑";
+          del.className = "delete-btn";
+          del.onclick = async () => {
+            if (confirm("Kommentar wirklich löschen?")) {
+              await deleteDoc(doc(db, "comments", docSnap.id));
+              loadComments();
+            }
+          };
+          div.appendChild(del);
+        }
+        commentsContainer.appendChild(div);
+      });
+    }
+
+    // 🔹 Nur schreiben, wenn angemeldet
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        commentInput.disabled = false;
+        sendComment.disabled = false;
+      } else {
+        commentInput.disabled = true;
+        sendComment.disabled = true;
+      }
+      loadComments();
+    });
+  </script>
+</body>
+</html>
