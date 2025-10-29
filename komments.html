@@ -67,7 +67,7 @@
   </style>
 </head>
 <body>
-  <h2> Kommentare</h2>
+  <h2>💬 Kommentare</h2>
 
   <div class="comment-box">
     <textarea id="commentInput" placeholder="Schreibe einen Kommentar..." rows="3"></textarea>
@@ -78,23 +78,24 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged
+    import { 
+      getAuth, 
+      onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      getDocs,
-      deleteDoc,
-      doc,
-      serverTimestamp,
-      query,
-      orderBy
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      getDocs, 
+      deleteDoc, 
+      doc, 
+      serverTimestamp, 
+      query, 
+      orderBy,
+      getDoc
     } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-    // 🔥 Deine Firebase Config (gleich wie bei deinem Login-System)
+    // 🔹 Firebase Config (wie in deinem Login-System)
     const firebaseConfig = {
       apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
       authDomain: "goalnewsde-community.firebaseapp.com",
@@ -124,7 +125,6 @@
 
       await addDoc(collection(db, "comments"), {
         userId: user.uid,
-        email: user.email,
         text,
         created: serverTimestamp()
       });
@@ -140,14 +140,21 @@
       const snapshot = await getDocs(q);
       const user = auth.currentUser;
 
-      snapshot.forEach((docSnap) => {
+      for (const docSnap of snapshot.docs) {
         const data = docSnap.data();
+
+        // Username aus der users-Collection abrufen
+        const userDoc = await getDoc(doc(db, "users", data.userId));
+        const username = userDoc.exists() ? userDoc.data().username : "Unbekannt";
+
         const div = document.createElement("div");
         div.className = "comment";
         div.innerHTML = `
           <p>${data.text}</p>
-          <small>${data.email || "Unbekannt"}</small>
+          <small>${username}</small>
         `;
+
+        // Papierkorb nur für eigene Kommentare
         if (user && data.userId === user.uid) {
           const del = document.createElement("button");
           del.textContent = "🗑";
@@ -160,8 +167,9 @@
           };
           div.appendChild(del);
         }
+
         commentsContainer.appendChild(div);
-      });
+      }
     }
 
     // 🔹 Nur schreiben, wenn angemeldet
@@ -178,3 +186,5 @@
   </script>
 </body>
 </html>
+
+
