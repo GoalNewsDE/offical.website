@@ -15,7 +15,6 @@
     <meta name="theme-color" content="#1db954">
     <link rel="apple-touch-icon" href="https://i.ibb.co/21R6p75W/Logo-1.jpg">
     <link rel="manifest" href="manifest.json">
-
 </head>
 
 <body>
@@ -27,7 +26,6 @@
             <span class="news-item">Ilkay Gündogan verteidigt Florian Wirtz gegen Kritik.</span>
             <span class="news-item">Werder Bremen gewinnt knapp gegen Union Berlin.</span>
             <span class="news-item">Höchste Heimniederlage: Augsburg 0:6 gegen Leipzig!</span>
-
         </div>
     </div>
 
@@ -35,7 +33,6 @@
     <header>
         <div class="logo">GoalNewsDE</div>
     </header>
-
 
     <!-- Hero -->
     <div class="hero-container">
@@ -47,10 +44,9 @@
             <a href="statistics.html" class="hero-button">Statistiken</a>
             <a href="news.html" class="hero-button">News</a>
             <a href="login.html" class="hero-button">Secret</a>
-            <a href="komments.html" class="hero-button"> Spiel Komentare</a>
+            <a href="komments.html" class="hero-button"> Kommentar Forum</a>
         </div>
     </div>
-
 
     <!-- Socials -->
     <div class="socials">
@@ -70,8 +66,9 @@
         <h4>Freitag:</h4>
         <h3>FC Augsburg - Borussia Dortmund</h3>
         <h4>Samstag:</h4>
-        <h3>Mainz 05 - Werder Bremen (15:30 Uhr)<br>
-            RB Laeipzig - VfB Stuttgart (15:30 Uhr)<br>
+        <h3>
+            Mainz 05 - Werder Bremen (15:30 Uhr)<br>
+            RB Leipzig - VfB Stuttgart (15:30 Uhr)<br>
             Union Berlin - SC Freiburg (15:30 Uhr)<br>
             FC St. Pauli - Bor. Mönchengladbach (15:30 Uhr)<br>
             FC Heidenheim - Eintracht Frankfurt (15:30 Uhr)<br>
@@ -79,7 +76,8 @@
         </h3>
         <h4>Sonntag:</h4>
         <h3>1. FC Köln - Hamburger SV (15:30 Uhr)<br>
-            VfL Wolfsburg - TSG Hoffenheim (17:30 Uhr)</h3>
+            VfL Wolfsburg - TSG Hoffenheim (17:30 Uhr)
+        </h3>
     </div>
 
     <!-- Live-Ticker -->
@@ -104,15 +102,19 @@
         // Seite immer im Dark-Mode starten
         document.body.classList.add('dark');
 
-
-
         // Countdown
         const matchDate = new Date("October 31, 2025 20:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
+
         setInterval(() => {
             const now = new Date().getTime();
             const diff = matchDate - now;
-            if (diff < 0) { countdownEl.textContent = "Anpfiff!"; return; }
+
+            if (diff < 0) {
+                countdownEl.textContent = "Anpfiff!";
+                return;
+            }
+
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -120,9 +122,9 @@
             countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
+        // Live-Ticker
         document.addEventListener("DOMContentLoaded", async () => {
             const ticker = document.getElementById("ticker");
-            const wrapper = ticker.parentElement;
             const api = SheetsAPI.getInstance();
             const autoRefresh = AutoRefresh.getInstance();
 
@@ -132,35 +134,23 @@
                     const flatData = data.flat();
                     ticker.textContent = flatData.join(' • ');
 
-                    // Berechne Breite des Textes und Wrapper
+                    // Berechne Breite des Textes
                     const textWidth = ticker.offsetWidth;
-                    const wrapperWidth = wrapper.offsetWidth;
+                    const wrapperWidth = ticker.parentElement.offsetWidth;
 
-                    // Geschwindigkeit: je länger der Text, desto länger die Dauer
-                    const duration = (textWidth + wrapperWidth) * 15; // Zahl anpassen für Geschwindigkeit
-
-                    // Entferne alte Animation (falls vorhanden)
-                    ticker.style.animation = "none";
-                    // Trigger Reflow zum Neustarten
-                    void ticker.offsetWidth;
-                    // Setze neue Animation
+                    // Animation in ms: je länger der Text, desto länger die Dauer
+                    const duration = (textWidth + wrapperWidth) * 15;
                     ticker.style.animation = `scrollTicker ${duration}ms linear infinite`;
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
                 }
             }
 
-            // Erstes Laden
-            updateTicker();
-
-            // Automatisches Update alle 5 Sekunden
             autoRefresh.start(updateTicker, 5000, "Ticker");
         });
-
-
-
     </script>
-    <script async defer src="https://apis.google.com/js/api.js" onload="startTicker()"></script>
+
+    <script async defer src="https://apis.google.com/js/api.js"></script>
 </body>
 
 </html>
