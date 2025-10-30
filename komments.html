@@ -2,25 +2,36 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GoalNewsDE Kommentare</title>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f5f5f5;
+      background: linear-gradient(250deg, #1db954, #000000, #1db954);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 30px;
+      padding: 20px;
       margin: 0;
+      min-height: 100vh;
     }
+
+    h2 {
+      color: white;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
     .comment-box {
-      width: 450px;
+      width: 100%;
+      max-width: 500px;
       background: white;
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 12px;
       box-shadow: 0 5px 12px rgba(0,0,0,0.15);
       margin-bottom: 20px;
     }
+
     textarea {
       width: 100%;
       padding: 12px;
@@ -30,29 +41,38 @@
       font-size: 15px;
       box-sizing: border-box;
     }
+
     button {
       background: #1db954;
       color: white;
       border: none;
       padding: 10px 16px;
       border-radius: 6px;
-      margin-top: 8px;
+      margin-top: 10px;
       cursor: pointer;
+      font-size: 16px;
+      width: 100%;
     }
+
     button:hover {
       background: #17a44b;
     }
+
     .comment {
-      background: #f0f0f0;
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 8px;
       padding: 12px;
       margin-top: 10px;
       text-align: left;
       position: relative;
+      word-wrap: break-word;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
+
     .comment small {
       color: gray;
     }
+
     .delete-btn {
       position: absolute;
       top: 6px;
@@ -62,7 +82,23 @@
       color: red;
       cursor: pointer;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 16px;
+    }
+
+    /* 🔹 Mobile Optimierung */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .comment-box {
+        padding: 15px;
+      }
+      button {
+        font-size: 15px;
+      }
+      textarea {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -78,24 +114,13 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
     import { 
-      getAuth, 
-      onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-    import { 
-      getFirestore, 
-      collection, 
-      addDoc, 
-      getDocs, 
-      deleteDoc, 
-      doc, 
-      serverTimestamp, 
-      query, 
-      orderBy,
-      getDoc
+      getFirestore, collection, addDoc, getDocs, deleteDoc, doc, 
+      serverTimestamp, query, orderBy, getDoc 
     } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-    // 🔹 Firebase Config (wie in deinem Login-System)
+    // 🔹 Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
       authDomain: "goalnewsde-community.firebaseapp.com",
@@ -113,7 +138,6 @@
     const sendComment = document.getElementById("sendComment");
     const commentsContainer = document.getElementById("commentsContainer");
 
-    // 🔹 Kommentar abschicken
     sendComment.onclick = async () => {
       const user = auth.currentUser;
       if (!user) {
@@ -133,7 +157,6 @@
       loadComments();
     };
 
-    // 🔹 Kommentare laden
     async function loadComments() {
       commentsContainer.innerHTML = "";
       const q = query(collection(db, "comments"), orderBy("created", "desc"));
@@ -142,8 +165,6 @@
 
       for (const docSnap of snapshot.docs) {
         const data = docSnap.data();
-
-        // Username aus der users-Collection abrufen
         const userDoc = await getDoc(doc(db, "users", data.userId));
         const username = userDoc.exists() ? userDoc.data().username : "Unbekannt";
 
@@ -154,7 +175,6 @@
           <small>${username}</small>
         `;
 
-        // Papierkorb nur für eigene Kommentare
         if (user && data.userId === user.uid) {
           const del = document.createElement("button");
           del.textContent = "🗑";
@@ -172,15 +192,9 @@
       }
     }
 
-    // 🔹 Nur schreiben, wenn angemeldet
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        commentInput.disabled = false;
-        sendComment.disabled = false;
-      } else {
-        commentInput.disabled = true;
-        sendComment.disabled = true;
-      }
+      commentInput.disabled = !user;
+      sendComment.disabled = !user;
       loadComments();
     });
   </script>
