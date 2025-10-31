@@ -1,220 +1,209 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GoalNewsDE Kommentare</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(250deg, #1db954, #000000, #1db954);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      margin: 0;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoalNewsDE Kommentare</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(250deg, #1db954, #000000, #1db954);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
 
-    h2 {
-      color: white;
-      margin-bottom: 20px;
-      text-align: center;
-    }
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    .comment-box {
-      width: 100%;
-      max-width: 500px;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 12px rgba(0,0,0,0.15);
-      margin-bottom: 20px;
-    }
+        .comment-box {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+        }
 
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      resize: none;
-      font-size: 15px;
-      box-sizing: border-box;
-    }
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: none;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
 
-    button {
-      background: #1db954;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      margin-top: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      width: 100%;
-    }
+        button {
+            background: #1db954;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            text-decoration: none;
+        }
 
-    button:hover {
-      background: #17a44b;
-    }
+        button:hover {
+            background: #17a44b;
+        }
 
-    .comment {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 10px;
-      text-align: left;
-      position: relative;
-      word-wrap: break-word;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
+        .comment {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            text-align: left;
+            position: relative;
+            word-wrap: break-word;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .comment small {
-      color: gray;
-    }
+        .comment small {
+            color: gray;
+        }
 
-    .delete-btn {
-      position: absolute;
-      top: 6px;
-      right: 8px;
-      background: none;
-      border: none;
-      color: red;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 16px;
-    }
+        .delete-btn {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
 
-    /* 🔹 Mobile Optimierung */
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      .comment-box {
-        padding: 15px;
-      }
-      button {
-        font-size: 15px;
-      }
-      textarea {
-        font-size: 14px;
-      }
-    }
+        /* 🔹 Mobile Optimierung */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
 
-    .hero-button {
-        background: #1db954;
-        color: #fff;
-        padding: 10px 25px;
-        border-radius: 25px;
-        font-weight: 600;
-        transition: 0.3s;
-    }
+            .comment-box {
+                padding: 15px;
+            }
 
-.hero-button:hover {
-    background: #00d4ff;
-    transform: scale(1.05);
-}    
-  </style>
+            button {
+                font-size: 15px;
+            }
+
+            textarea {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <h2>💬 Kommentare</h2>
+    <h2>💬 Kommentare</h2>
 
-  <div class="comment-box">
-    <textarea id="commentInput" placeholder="Schreibe einen Kommentar..." rows="3"></textarea>
-    <button id="sendComment">Absenden</button>
-  </div>
+    <div class="comment-box">
+        <textarea id="commentInput" placeholder="Schreibe einen Kommentar..." rows="3"></textarea>
+        <button id="sendComment">Absenden</button>
+    </div>
 
-  <div id="commentsContainer"></div>
-  <a href="index.html" class="hero-button"> Startseite</a>
-  
+    <div id="commentsContainer"></div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-    import { 
-      getFirestore, collection, addDoc, getDocs, deleteDoc, doc, 
-      serverTimestamp, query, orderBy, getDoc 
-    } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+        import {
+            getFirestore, collection, addDoc, getDocs, deleteDoc, doc,
+            serverTimestamp, query, orderBy, getDoc
+        } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-    // 🔹 Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
-      authDomain: "goalnewsde-community.firebaseapp.com",
-      projectId: "goalnewsde-community",
-      storageBucket: "goalnewsde-community.firebasestorage.app",
-      messagingSenderId: "134523022055",
-      appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
-    };
+        // 🔹 Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+            authDomain: "goalnewsde-community.firebaseapp.com",
+            projectId: "goalnewsde-community",
+            storageBucket: "goalnewsde-community.firebasestorage.app",
+            messagingSenderId: "134523022055",
+            appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    const commentInput = document.getElementById("commentInput");
-    const sendComment = document.getElementById("sendComment");
-    const commentsContainer = document.getElementById("commentsContainer");
+        const commentInput = document.getElementById("commentInput");
+        const sendComment = document.getElementById("sendComment");
+        const commentsContainer = document.getElementById("commentsContainer");
 
-    sendComment.onclick = async () => {
-      const user = auth.currentUser;
-      if (!user) {
-        alert("Bitte melde dich an, um zu kommentieren!");
-        return;
-      }
-      const text = commentInput.value.trim();
-      if (!text) return alert("Bitte etwas schreiben!");
+        sendComment.onclick = async () => {
+            const user = auth.currentUser;
+            if (!user) {
+                alert("Bitte melde dich an, um zu kommentieren!");
+                return;
+            }
+            const text = commentInput.value.trim();
+            if (!text) return alert("Bitte etwas schreiben!");
 
-      await addDoc(collection(db, "comments"), {
-        userId: user.uid,
-        text,
-        created: serverTimestamp()
-      });
+            await addDoc(collection(db, "comments"), {
+                userId: user.uid,
+                text,
+                created: serverTimestamp()
+            });
 
-      commentInput.value = "";
-      loadComments();
-    };
+            commentInput.value = "";
+            loadComments();
+        };
 
-    async function loadComments() {
-      commentsContainer.innerHTML = "";
-      const q = query(collection(db, "comments"), orderBy("created", "desc"));
-      const snapshot = await getDocs(q);
-      const user = auth.currentUser;
+        async function loadComments() {
+            commentsContainer.innerHTML = "";
+            const q = query(collection(db, "comments"), orderBy("created", "desc"));
+            const snapshot = await getDocs(q);
+            const user = auth.currentUser;
 
-      for (const docSnap of snapshot.docs) {
-        const data = docSnap.data();
-        const userDoc = await getDoc(doc(db, "users", data.userId));
-        const username = userDoc.exists() ? userDoc.data().username : "Unbekannt";
+            for (const docSnap of snapshot.docs) {
+                const data = docSnap.data();
+                const userDoc = await getDoc(doc(db, "users", data.userId));
+                const username = userDoc.exists() ? userDoc.data().username : "Unbekannt";
 
-        const div = document.createElement("div");
-        div.className = "comment";
-        div.innerHTML = `
+                const div = document.createElement("div");
+                div.className = "comment";
+                div.innerHTML = `
           <p>${data.text}</p>
           <small>${username}</small>
         `;
 
-        if (user && data.userId === user.uid) {
-          const del = document.createElement("button");
-          del.textContent = "🗑";
-          del.className = "delete-btn";
-          del.onclick = async () => {
-            if (confirm("Kommentar wirklich löschen?")) {
-              await deleteDoc(doc(db, "comments", docSnap.id));
-              loadComments();
+                if (user && data.userId === user.uid) {
+                    const del = document.createElement("button");
+                    del.textContent = "🗑";
+                    del.className = "delete-btn";
+                    del.onclick = async () => {
+                        if (confirm("Kommentar wirklich löschen?")) {
+                            await deleteDoc(doc(db, "comments", docSnap.id));
+                            loadComments();
+                        }
+                    };
+                    div.appendChild(del);
+                }
+
+                commentsContainer.appendChild(div);
             }
-          };
-          div.appendChild(del);
         }
 
-        commentsContainer.appendChild(div);
-      }
-    }
-
-    onAuthStateChanged(auth, (user) => {
-      commentInput.disabled = !user;
-      sendComment.disabled = !user;
-      loadComments();
-    });
-  </script>
+        onAuthStateChanged(auth, (user) => {
+            commentInput.disabled = !user;
+            sendComment.disabled = !user;
+            loadComments();
+        });
+    </script>
 </body>
+
 </html>
-
-
