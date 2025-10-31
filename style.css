@@ -43,7 +43,7 @@ a {
 
 .news-wrapper {
     display: inline-block;
-    animation: scrollNews 30s linear infinite;
+    animation: scrollNews 25s linear infinite;
 }
 
 .news-item {
@@ -74,12 +74,14 @@ header {
     z-index: 999;
 }
 
+/* Logo */
 header .logo {
-    font-size: 1.8rem;
+    font-size: 2.8rem;
     font-weight: 700;
     color: var(--accent);
 }
 
+/* Navigation */
 header nav {
     display: flex;
     gap: 20px;
@@ -87,7 +89,7 @@ header nav {
 
 header nav a {
     font-weight: 500;
-    padding: 6px 10px;
+    padding: 6px 12px;
     border-radius: var(--radius);
     transition: all var(--transition);
 }
@@ -97,7 +99,7 @@ header nav a:hover {
     color: #000;
 }
 
-/* ---------- Burger Menu for Mobile ---------- */
+/* Burger Menu */
 .burger {
     display: none;
     flex-direction: column;
@@ -106,11 +108,12 @@ header nav a:hover {
 }
 
 .burger span {
-    width: 25px;
+    display: block;
+    width: 30px;
     height: 3px;
     background: var(--text);
     border-radius: 2px;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .burger.active span:nth-child(1) {
@@ -125,6 +128,7 @@ header nav a:hover {
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
+/* Mobile Navigation */
 @media (max-width: 900px) {
     header nav {
         position: fixed;
@@ -136,7 +140,7 @@ header nav a:hover {
         background: var(--card);
         padding-top: 100px;
         gap: 25px;
-        transition: right 0.3s ease;
+        transition: right 0.4s ease;
     }
 
     header nav.active {
@@ -152,7 +156,6 @@ header nav a:hover {
 .hero-container {
     text-align: center;
     padding: 80px 20px 40px;
-    color: var(--text);
 }
 
 .hero-container .hero-text {
@@ -211,25 +214,14 @@ header nav a:hover {
     padding: 12px 20px;
     overflow: hidden;
     margin: 30px 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .ticker {
     display: inline-block;
     white-space: nowrap;
-}
-
-/* ---------- Footer ---------- */
-footer {
-    background: var(--card);
-    color: var(--muted);
-    text-align: center;
-    padding: 25px 20px;
-    font-size: 0.9rem;
-}
-
-footer a {
-    color: var(--accent);
-    margin: 0 8px;
 }
 
 /* ---------- Problem melden Bereich ---------- */
@@ -248,7 +240,6 @@ footer a {
     transition: var(--transition);
 }
 
-/* Button als Label für CSS-only Toggle */
 #reportButton {
     background: var(--accent);
     color: #000;
@@ -268,7 +259,7 @@ footer a {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Formular hidden by default */
+/* Formular hidden by default (CSS-only toggle) */
 #reportForm {
     width: 100%;
     max-width: 500px;
@@ -281,7 +272,6 @@ footer a {
     transition: max-height 0.6s ease, opacity 0.6s ease;
 }
 
-/* Formular sichtbar wenn Checkbox aktiv */
 #toggleReport:checked~#reportForm {
     max-height: 800px;
     opacity: 1;
@@ -308,7 +298,6 @@ footer a {
     box-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
 }
 
-/* Absenden Button */
 #sendReport {
     background: var(--accent);
     color: #000;
@@ -328,18 +317,18 @@ footer a {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Überschrift & Labels */
-#reportForm h3 {
-    color: var(--accent);
-    margin-bottom: 10px;
+/* ---------- Footer ---------- */
+footer {
+    background: var(--card);
+    color: var(--muted);
+    text-align: center;
+    padding: 25px 20px;
+    font-size: 0.9rem;
 }
 
-#reportForm label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    color: var(--muted);
-    text-align: left;
+footer a {
+    color: var(--accent);
+    margin: 0 8px;
 }
 
 /* ---------- Responsive ---------- */
