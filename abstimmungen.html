@@ -5,17 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GoalNewsDE Abstimmungen</title>
 <style>
-body { font-family: 'Poppins', sans-serif; background:#121212; color:white; padding:20px; }
-h2,h3 { color:#1db954; }
-button { background:#1db954; color:white; border:none; padding:10px 16px; border-radius:8px; cursor:pointer; margin:5px 0; }
-button:hover { background:#17a44b; }
-#pollForm { display:none; margin-top:20px; background:rgba(255,255,255,0.05); padding:20px; border-radius:12px; }
-#results { margin-top:20px; }
-.result-bar { height:28px; background:#1db954; border-radius:12px; margin-bottom:5px; text-align:right; padding-right:10px; line-height:28px; color:white; transition: width 0.3s; }
-.admin-section { margin-top:30px; padding:20px; background:rgba(255,255,255,0.1); border-radius:12px; }
-input, select { padding:8px; border-radius:6px; border:none; margin-right:5px; }
-.poll-container { margin-bottom:40px; border:1px solid rgba(255,255,255,0.1); padding:15px; border-radius:12px; }
+body { 
+    font-family: 'Poppins', sans-serif; 
+    background:#121212; 
+    color:white; 
+    padding:20px; 
+}
+h2,h3 { 
+    color:#1db954; 
+}
+.poll-container { 
+    background: rgba(255,255,255,0.05); 
+    padding:20px; 
+    border-radius:16px; 
+    margin-bottom:30px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    transition: transform 0.2s;
+}
+.poll-container:hover { transform: translateY(-5px); }
+.poll-title { font-size: 1.5em; margin-bottom:15px; }
+button { 
+    background:#1db954; 
+    color:white; 
+    border:none; 
+    padding:10px 16px; 
+    border-radius:12px; 
+    cursor:pointer; 
+    margin:5px 5px 10px 0; 
+    font-weight:bold; 
+    transition: 0.2s; 
+}
+button:hover { 
+    background: linear-gradient(90deg,#1db954,#17a44b); 
+    transform: scale(1.05); 
+}
+.result-bar { 
+    height:30px; 
+    border-radius:12px; 
+    margin-bottom:10px; 
+    line-height:30px; 
+    color:white; 
+    font-weight:bold;
+    background: linear-gradient(90deg,#1db954,#17a44b); 
+    text-align:right; 
+    padding-right:10px; 
+    transition: width 0.3s ease-in-out; 
+}
+.admin-section { 
+    margin-top:40px; 
+    padding:25px; 
+    background: rgba(255,255,255,0.08); 
+    border-radius:16px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5); 
+}
+input, select { 
+    padding:10px; 
+    border-radius:8px; 
+    border:none; 
+    margin-right:8px; 
+    background: rgba(255,255,255,0.1); 
+    color:white; 
+}
+input::placeholder { color: rgba(255,255,255,0.6); }
+.poll-options { display:flex; flex-wrap:wrap; }
 </style>
+
 </head>
 <body>
 
