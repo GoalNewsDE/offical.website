@@ -32,31 +32,24 @@
     <!-- Header -->
     <header>
         <div class="logo">GoalNewsDE</div>
-    </header>
-
-
-
-    <!-- Hero -->
-    <div class="hero-container">
-        <div class="bg-logo">GoalNewsDE</div>
-        <div class="hero-text">Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!</div>
-        <div class="hero-buttons">
-            <a href="bundesliga.html" class="hero-button">1. Bundesliga</a>
-            <a href="2liga.html" class="hero-button">2. Bundesliga</a>
-            <a href="letzter spieltag.html" class="hero-button">Letzter Spieltag</a>
-            <a href="statistics.html" class="hero-button">Statistiken</a>
-            <a href="news.html" class="hero-button">News</a>
-            <a href="login.html" class="hero-button">Secret</a>
-            <a href="comments.html" class="hero-button"> Kommentar Forum</a>
-            <a href="abstimmungen.html" class="hero-button">Abstimmungen</a>
+        <nav>
+            <a href="bundesliga.html">Bundesliga</a>
+            <a href="2liga.html">2. Bundesliga</a>
+            <a href="letzter spieltag.html">Letzter Spieltag</a>
+            <a href="statistics.html">Statistiken</a>
+            <a href="news.html">News</a>
+            <a href="comments.html">Forum</a>
+            <a href="abstimmungen.html">Abstimmungen</a>
+            <a href="login.html">Secret</a>
+            <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y">WhatsApp</a>
+            <a href="https://www.youtube.com/@Goalnewsde">YouTube</a>
+        </nav>
+        <div class="burger">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-    </div>
-
-    <!-- Socials -->
-    <div class="socials">
-        <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
-        <a href="https://youtube.com/" target="_blank">YouTube</a>
-    </div>
+    </header>
 
     <!-- Countdown -->
     <div class="countdown-section">
@@ -96,48 +89,31 @@
     </footer>
 
     <!-- 🔹 Problem melden Bereich -->
-    <div id="reportSection" style="text-align:center; margin:50px 0;">
-        <button id="reportButton" style="
-        background:#1db954;
-        color:white;
-        border:none;
-        padding:12px 20px;
-        border-radius:10px;
-        cursor:pointer;
-        font-size:16px;
-        box-shadow:0 0 10px rgba(0,0,0,0.3);
-      ">⚠️ Problem melden</button>
+    <div id="reportSection">
+        <!-- versteckte Checkbox -->
+        <input type="checkbox" id="toggleReport" hidden>
 
-        <div id="reportForm" style="display:none; margin-top:20px;">
+        <!-- Label wird zum Button -->
+        <label for="toggleReport" id="reportButton">⚠️ Problem melden</label>
+
+        <!-- Formular -->
+        <div id="reportForm">
             <h3>🛠️ Fehler melden</h3>
-            <label for="errorType">Art des Fehlers:</label><br>
-            <select id="errorType" style="padding:8px; margin:8px; border-radius:6px;">
+            <label for="errorType">Art des Fehlers:</label>
+            <select id="errorType">
                 <option value="Sicherheitsfehler">Sicherheitsfehler</option>
                 <option value="Anzeigeproblem">Anzeigeproblem</option>
                 <option value="Falsche Information">Falsche Information</option>
                 <option value="Kommentarproblem">Kommentarproblem</option>
                 <option value="Anderes">Anderes</option>
-            </select><br>
+            </select>
 
-            <textarea id="errorDescription" rows="4" placeholder="Beschreibe den Fehler..." style="
-          width:80%;
-          padding:10px;
-          border-radius:8px;
-          border:1px solid #ccc;
-          resize:none;
-        "></textarea><br>
+            <textarea id="errorDescription" rows="4" placeholder="Beschreibe den Fehler..."></textarea>
 
-            <button id="sendReport" type="button" style="
-          background:#1db954;
-          color:white;
-          border:none;
-          padding:10px 20px;
-          border-radius:8px;
-          cursor:pointer;
-          margin-top:10px;
-        ">📨 Absenden</button>
+            <button id="sendReport" type="button">📨 Absenden</button>
         </div>
     </div>
+
 
     <!-- Scripts -->
     <script src="js/config.js"></script>
@@ -184,7 +160,7 @@
 
                     const textWidth = ticker.offsetWidth;
                     const wrapperWidth = ticker.parentElement.offsetWidth;
-                    const duration = (textWidth + wrapperWidth) * 15;
+                    const duration = (textWidth + wrapperWidth) * 25;
                     ticker.style.animation = `scrollTicker ${duration}ms linear infinite`;
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
@@ -250,6 +226,21 @@
         }
         bgLogo.addEventListener('mouseenter', activateGlow);
         bgLogo.addEventListener('touchstart', activateGlow);
+
+        const burger = document.querySelector(".burger");
+        const nav = document.querySelector("nav");
+
+        burger.addEventListener("click", () => {
+            burger.classList.toggle("active");
+            nav.classList.toggle("active");
+        });
+        const reportButton = document.getElementById("reportButton");
+        const reportForm = document.getElementById("reportForm");
+
+        reportButton.addEventListener("click", () => {
+            reportForm.classList.toggle("active");
+        });
+
 
     </script>
 
