@@ -32,36 +32,39 @@
     <!-- Header -->
     <header>
         <div class="logo">GoalNewsDE</div>
-        <nav>
-            <a href="bundesliga.html">Bundesliga</a>
-            <a href="2liga.html">2. Bundesliga</a>
-            <a href="letzter spieltag.html">Letzter Spieltag</a>
-            <a href="statistics.html">Statistiken</a>
-            <a href="news.html">News</a>
-            <a href="comments.html">Forum</a>
-            <a href="abstimmungen.html">Abstimmungen</a>
-            <a href="login.html">Secret</a>
-            <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y">WhatsApp</a>
-            <a href="https://www.youtube.com/@Goalnewsde">YouTube</a>
-        </nav>
-        <div class="burger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
     </header>
 
-    <!-- Countdown -->
+    <!-- Hero & Matches -->
+    <div class="hero-container"></div>
+    <!-- Hero -->
+    <div class="hero-container">
+        <div class="bg-logo">GoalNewsDE</div>
+        <div class="hero-text">Offizielle Website von GoalNewsDE – Alle Fußball-News auf einen Blick!</div>
+        <div class="hero-buttons">
+            <a href="bundesliga.html" class="hero-button">1. Bundesliga</a>
+            <a href="2liga.html" class="hero-button">2. Bundesliga</a>
+            <a href="letzter spieltag.html" class="hero-button">Letzter Spieltag</a>
+            <a href="statistics.html" class="hero-button">Statistiken</a>
+            <a href="news.html" class="hero-button">News</a>
+            <a href="login.html" class="hero-button">Secret</a>
+            <a href="comments.html" class="hero-button"> Kommentar Forum</a>
+            <a href="abstimmungen.html" class="hero-button">Abstimmungen</a>
+        </div>
+    </div>
+    <div class="socials">
+        <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
+        <a href="https://youtube.com/" target="_blank">YouTube</a>
+    </div>
+
     <div class="countdown-section">
-        <h2>⏱️ 1. Samstagspiel des 9. Spieltag startet in:</h2>
+        <h2>⏱️ Spieltag 9 startet in:</h2>
         <div id="countdown">lade...</div>
     </div>
 
-    <!-- Matches -->
     <div class="matches">
         <h2>⚽ Bundesliga - Spieltag 9 (31. Oktober - 2. November)</h2>
         <h4>Freitag:</h4>
-        <h3>FC Augsburg 0:1 Borussia Dortmund (FT)</h3>
+        <h3>FC Augsburg - Borussia Dortmund</h3>
         <h4>Samstag:</h4>
         <h3>
             Mainz 05 - Werder Bremen (15:30 Uhr)<br>
@@ -69,10 +72,11 @@
             Union Berlin - SC Freiburg (15:30 Uhr)<br>
             FC St. Pauli - Bor. Mönchengladbach (15:30 Uhr)<br>
             FC Heidenheim - Eintracht Frankfurt (15:30 Uhr)<br>
-            <h2>Topspiel: Bayer Leverkusen - Bayern München (18:30 Uhr)</h2>
+            <strong>Topspiel: Bayer Leverkusen - Bayern München (18:30 Uhr)</strong>
         </h3>
         <h4>Sonntag:</h4>
-        <h3>1. FC Köln - Hamburger SV (15:30 Uhr)<br>
+        <h3>
+            1. FC Köln - Hamburger SV (15:30 Uhr)<br>
             VfL Wolfsburg - TSG Hoffenheim (17:30 Uhr)
         </h3>
     </div>
@@ -88,32 +92,49 @@
         <a href="mailto:info@goalnewsde.de">Email</a> | <a href="agb.html">Datenschutz</a>
     </footer>
 
-    <!-- 🔹 Problem melden Bereich -->
-    <div id="reportSection">
-        <!-- versteckte Checkbox -->
-        <input type="checkbox" id="toggleReport" hidden>
+    <!-- Problem melden -->
+    <div id="reportSection" style="text-align:center; margin:50px 0;">
+        <button id="reportButton" style="
+            background:#1db954;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:10px;
+            cursor:pointer;
+            font-size:16px;
+            box-shadow:0 0 10px rgba(0,0,0,0.3);
+        ">⚠️ Problem melden</button>
 
-        <!-- Label wird zum Button -->
-        <label for="toggleReport" id="reportButton">⚠️ Problem melden</label>
-
-        <!-- Formular -->
-        <div id="reportForm">
+        <div id="reportForm" style="display:none; margin-top:20px;">
             <h3>🛠️ Fehler melden</h3>
-            <label for="errorType">Art des Fehlers:</label>
-            <select id="errorType">
+            <label for="errorType">Art des Fehlers:</label><br>
+            <select id="errorType" style="padding:8px; margin:8px; border-radius:6px;">
                 <option value="Sicherheitsfehler">Sicherheitsfehler</option>
                 <option value="Anzeigeproblem">Anzeigeproblem</option>
                 <option value="Falsche Information">Falsche Information</option>
                 <option value="Kommentarproblem">Kommentarproblem</option>
                 <option value="Anderes">Anderes</option>
-            </select>
+            </select><br>
 
-            <textarea id="errorDescription" rows="4" placeholder="Beschreibe den Fehler..."></textarea>
+            <textarea id="errorDescription" rows="4" placeholder="Beschreibe den Fehler..." style="
+                width:80%;
+                padding:10px;
+                border-radius:8px;
+                border:1px solid #ccc;
+                resize:none;
+            "></textarea><br>
 
-            <button id="sendReport" type="button">📨 Absenden</button>
+            <button id="sendReport" type="button" style="
+                background:#1db954;
+                color:white;
+                border:none;
+                padding:10px 20px;
+                border-radius:8px;
+                cursor:pointer;
+                margin-top:10px;
+            ">📨 Absenden</button>
         </div>
     </div>
-
 
     <!-- Scripts -->
     <script src="js/config.js"></script>
@@ -123,11 +144,11 @@
     <script src="js/auto-refresh.js"></script>
 
     <script>
-        // Seite immer im Dark-Mode starten
+        // Dark Mode
         document.body.classList.add('dark');
 
         // Countdown
-        const matchDate = new Date("November 1, 2025 15:30:00").getTime();
+        const matchDate = new Date("October 31, 2025 20:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
 
         setInterval(() => {
@@ -160,7 +181,7 @@
 
                     const textWidth = ticker.offsetWidth;
                     const wrapperWidth = ticker.parentElement.offsetWidth;
-                    const duration = (textWidth + wrapperWidth) * 25;
+                    const duration = (textWidth + wrapperWidth) * 15;
                     ticker.style.animation = `scrollTicker ${duration}ms linear infinite`;
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
@@ -170,7 +191,7 @@
         });
     </script>
 
-    <!-- 🔹 Firebase Problem melden Script (ohne Anmeldung nötig) -->
+    <!-- Firebase Problem melden -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
@@ -198,8 +219,7 @@
                 reportForm.style.display = reportForm.style.display === "none" ? "block" : "none";
             });
 
-            sendReport.addEventListener("click", async (event) => {
-                event.preventDefault();
+            sendReport.addEventListener("click", async () => {
                 const type = errorType.value;
                 const description = errorDescription.value.trim();
                 if (!description) return alert("Bitte eine Beschreibung eingeben!");
@@ -219,29 +239,6 @@
                 }
             });
         });
-        const bgLogo = document.querySelector('.bg-logo');
-        function activateGlow() {
-            bgLogo.classList.add('active');
-            setTimeout(() => bgLogo.classList.remove('active'), 2000);
-        }
-        bgLogo.addEventListener('mouseenter', activateGlow);
-        bgLogo.addEventListener('touchstart', activateGlow);
-
-        const burger = document.querySelector(".burger");
-        const nav = document.querySelector("nav");
-
-        burger.addEventListener("click", () => {
-            burger.classList.toggle("active");
-            nav.classList.toggle("active");
-        });
-        const reportButton = document.getElementById("reportButton");
-        const reportForm = document.getElementById("reportForm");
-
-        reportButton.addEventListener("click", () => {
-            reportForm.classList.toggle("active");
-        });
-
-
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js"></script>

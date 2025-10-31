@@ -1,57 +1,68 @@
-/* ---------- Root Variables ---------- */
-:root {
-    --bg: #121212;
-    --card: #1e1e1e;
-    --text: #fff;
-    --muted: #aaa;
-    --accent: #1db954;
-    --accent-hover: #1ed760;
-    --border: #333;
-    --radius: 12px;
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    --transition: 0.3s ease-in-out;
-    --font-main: 'Inter', sans-serif;
-}
-
-/* ---------- Global Styles ---------- */
+/* ========== Allgemein ========== */
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: var(--font-main);
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background: var(--bg);
-    color: var(--text);
+    background-color: #0f0f0f;
+    color: #eee;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
+/* Links */
 a {
-    color: inherit;
+    color: #1db954;
     text-decoration: none;
+    transition: color 0.3s;
 }
 
-/* ---------- Breaking News Ticker ---------- */
+a:hover {
+    color: #14a34a;
+}
+
+/* ========== Header ========== */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    background: linear-gradient(90deg, #1db954, #14a34a);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+header .logo {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+/* ========== Breaking News ========== */
 #breakingNews {
-    background: var(--accent);
-    color: #000;
-    padding: 10px 20px;
+    background: #111;
     overflow: hidden;
-    white-space: nowrap;
+    border-left: 4px solid #1db954;
 }
 
 .news-wrapper {
-    display: inline-block;
-    animation: scrollNews 25s linear infinite;
+    display: flex;
+    animation: scroll 25s linear infinite;
 }
 
 .news-item {
-    margin-right: 50px;
+    padding: 0 50px;
     font-weight: 600;
+    white-space: nowrap;
+    color: #1db954;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
-@keyframes scrollNews {
+@keyframes scroll {
     0% {
         transform: translateX(100%);
     }
@@ -61,291 +72,330 @@ a {
     }
 }
 
-/* ---------- Header ---------- */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background: var(--card);
-    box-shadow: var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 999;
-}
-
-header .logo {
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: var(--accent);
-}
-
-/* Navigation */
-header nav {
-    display: flex;
-    gap: 20px;
-    transition: right 0.4s ease;
-}
-
-header nav a {
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: var(--radius);
-    transition: all var(--transition);
-}
-
-header nav a:hover {
-    background: var(--accent-hover);
-    color: #000;
-}
-
-/* ---------- Burger Menu ---------- */
-.burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-}
-
-.burger span {
-    display: block;
-    width: 30px;
-    height: 3px;
-    background: var(--text);
-    border-radius: 2px;
-    transition: all 0.4s ease;
-}
-
-.burger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.burger.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.burger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-}
-
-/* Mobile Nav */
-@media (max-width: 900px) {
-    header nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        height: 100vh;
-        width: 250px;
-        flex-direction: column;
-        background: var(--card);
-        padding-top: 100px;
-        gap: 25px;
-        box-shadow: var(--shadow);
-    }
-
-    header nav.active {
-        right: 0;
-    }
-
-    .burger {
-        display: flex;
-    }
-}
-
-/* ---------- Hero Section ---------- */
+/* ========== Hero Section ========== */
 .hero-container {
     text-align: center;
-    padding: 80px 20px 40px;
+    padding: 80px 20px;
+    position: relative;
+    overflow: hidden;
 }
 
-.hero-container .hero-text {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 25px;
+.bg-logo {
+    font-size: 10rem;
+    color: rgba(29, 185, 84, 0.07);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    font-weight: 900;
+    letter-spacing: 10px;
+    text-transform: none;
+    transition: all 0.3s ease;
+    pointer-events: auto;
 }
 
-.hero-buttons a {
-    display: inline-block;
-    margin: 5px 10px;
-    padding: 10px 20px;
-    background: var(--accent);
-    color: #000;
-    border-radius: var(--radius);
-    font-weight: 600;
-    transition: all var(--transition);
+.bg-logo.active {
+    color: rgba(29, 255, 84, 0.5);
+    transform: translate(-50%, -50%) scale(1.08);
+    text-shadow: 0 0 25px rgba(29, 255, 84, 0.6);
 }
 
-.hero-buttons a:hover {
-    background: var(--accent-hover);
+.hero-text {
+    font-size: 1.6rem;
+    margin-bottom: 40px;
+    z-index: 1;
+    position: relative;
+    font-weight: 500;
 }
 
-/* ---------- Countdown ---------- */
+/* Hero Buttons */
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-button {
+    background: linear-gradient(145deg, #1db954, #14a34a);
+    color: #fff;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    animation: glowPulse 2.5s infinite alternate;
+    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.hero-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+}
+
+.hero-button:hover::after {
+    top: 0;
+    left: 0;
+}
+
+.hero-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6), 0 12px 35px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 8px 20px rgba(29, 185, 84, 0.7), 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* ========== Socials ========== */
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 25px 0;
+}
+
+.socials a {
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 8px 15px;
+    border-radius: 25px;
+    background: #1db954;
+    transition: transform 0.2s, background 0.3s;
+    color: #fff;
+}
+
+.socials a:hover {
+    transform: scale(1.1);
+    background: #14a34a;
+}
+
+/* ========== Countdown ========== */
 .countdown-section {
     text-align: center;
-    padding: 40px 20px;
+    margin: 50px 0;
 }
 
-#countdown {
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-top: 10px;
-    color: var(--accent);
+.countdown-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #1db954;
 }
 
-/* ---------- Matches ---------- */
+/* ========== Matches ========== */
 .matches {
-    background: var(--card);
-    padding: 40px 30px;
-    margin: 30px auto;
-    max-width: 800px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    padding: 30px 20px;
+    max-width: 950px;
+    margin: auto;
+    background: #111;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 .matches h2,
 .matches h3,
 .matches h4 {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
-/* ---------- Live-Ticker ---------- */
+.matches h2 {
+    color: #1db954;
+}
+
+.matches h2.topspiel {
+    color: gold;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+/* ========== Live-Ticker ========== */
 .ticker-wrapper {
-    background: #222;
-    padding: 12px 20px;
+    background: #1a1a1a;
     overflow: hidden;
-    margin: 30px auto;
-    max-width: 800px;
+    padding: 10px 0;
+    border-left: 4px solid #1db954;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    position: relative;
 }
 
 .ticker {
     display: inline-block;
     white-space: nowrap;
+    font-weight: 500;
+    color: #1db954;
+    font-size: 1rem;
+    line-height: 1;
+    will-change: transform;
 }
 
-/* ---------- Problem melden ---------- */
-#reportSection {
-    max-width: 700px;
-    margin: 50px auto;
-    background: var(--card);
-    padding: 40px 30px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+@keyframes scrollTicker {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
+/* ========== Problem melden Button ========== */
 #reportButton {
-    background: var(--accent);
-    color: #000;
+    background: linear-gradient(145deg, #1db954, #14a34a);
+    color: #fff;
     border: none;
-    padding: 14px 28px;
-    border-radius: var(--radius);
+    padding: 14px 26px;
+    border-radius: 30px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    animation: glowPulse 2.5s infinite alternate;
+}
+
+#reportButton::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+}
+
+#reportButton:hover::after {
+    top: 0;
+    left: 0;
 }
 
 #reportButton:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px) scale(1.03);
+    transform: translateY(-2px) scale(1.05);
 }
 
-/* Formular versteckt initial */
-#reportForm {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.6s ease, opacity 0.6s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-#toggleReport:checked~#reportForm {
-    max-height: 800px;
-    opacity: 1;
-}
-
-#reportForm select,
-#reportForm textarea {
-    width: 100%;
-    background: #1b1c1d;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px;
-    color: var(--text);
-    font-size: 0.95rem;
-    resize: none;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-
-#reportForm select:focus,
-#reportForm textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
-}
-
-#sendReport {
-    background: var(--accent);
-    color: #000;
-    border: none;
-    padding: 12px 25px;
-    border-radius: var(--radius);
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-#sendReport:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px) scale(1.03);
-}
-
-/* ---------- Footer ---------- */
+/* ========== Footer ========== */
 footer {
-    background: var(--card);
-    color: var(--muted);
     text-align: center;
-    padding: 25px 20px;
+    padding: 25px;
+    background: #111;
     font-size: 0.9rem;
+    color: #aaa;
 }
 
-footer a {
-    color: var(--accent);
-    margin: 0 8px;
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 600px) {
-
-    .matches,
-    .hero-container,
-    #reportSection {
-        padding: 30px 20px;
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+    .hero-container .bg-logo {
+        font-size: 4.5rem;
     }
 
-    #reportButton,
-    #sendReport {
-        width: 90%;
+    .hero-text {
+        font-size: 1.3rem;
+    }
+
+    .hero-buttons {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .hero-button {
+        flex: 1 1 calc(50% - 10px);
+    }
+
+    .matches {
+        max-width: 95%;
+    }
+
+    footer {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 15px;
+        padding: 0 10px;
+    }
+
+    header .logo {
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+    }
+
+    .hero-container {
+        padding: 60px 15px;
+    }
+
+    .bg-logo {
+        font-size: 2.8rem;
+        top: 55%;
+    }
+
+    .hero-text {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hero-button {
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 0;
         font-size: 0.95rem;
     }
 
-    #reportForm select,
-    #reportForm textarea {
-        font-size: 0.9rem;
+    .news-item {
+        padding: 0 25px;
     }
 
-    .hero-container .hero-text {
-        font-size: 1.2rem;
+    .matches {
+        padding: 20px 15px;
+        border-radius: 12px;
     }
 
-    header nav {
-        gap: 20px;
-        padding-top: 80px;
+    .socials {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #reportButton {
+        width: 80%;
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    footer {
+        font-size: 0.8rem;
+        padding: 15px 10px;
     }
 }
