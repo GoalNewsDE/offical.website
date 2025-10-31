@@ -100,6 +100,20 @@
         font-size: 14px;
       }
     }
+
+    .hero-button {
+        background: #1db954;
+        color: #fff;
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+.hero-button:hover {
+    background: #00d4ff;
+    transform: scale(1.05);
+}    
   </style>
 </head>
 <body>
@@ -111,6 +125,8 @@
   </div>
 
   <div id="commentsContainer"></div>
+  <a href="index.html" class="hero-button"> Startseite</a>
+  
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
