@@ -15,19 +15,6 @@
     <meta name="theme-color" content="#1db954">
     <link rel="apple-touch-icon" href="https://i.ibb.co/21R6p75W/Logo-1.jpg">
     <link rel="manifest" href="manifest.json">
-
-    <style>
-        /* Suchfeld Ergebnis-Liste */
-        #searchResults li:hover {
-            background: #1db95422;
-            border-radius: 5px;
-        }
-        #searchResults a {
-            color: #1db954;
-            font-weight: bold;
-            text-decoration: none;
-        }
-    </style>
 </head>
 
 <body>
@@ -47,19 +34,7 @@
         <div class="logo">GoalNewsDE</div>
     </header>
 
-    <!-- 🔹 Suchfeld direkt unter Header -->
-    <div id="searchContainer" style="text-align:center; margin:20px;">
-        <input type="text" id="searchInput" placeholder="Suche auf GoalNewsDE..." style="
-            padding:10px;
-            width:80%;
-            max-width:500px;
-            border-radius:8px;
-            border:1px solid #ccc;
-            font-size:16px;
-        " onkeyup="searchFunction()">
-
-        <ul id="searchResults" style="list-style:none; padding:0; margin-top:10px;"></ul>
-    </div>
+    
 
     <!-- Hero -->
     <div class="hero-container">
@@ -72,7 +47,7 @@
             <a href="statistics.html" class="hero-button">Statistiken</a>
             <a href="news.html" class="hero-button">News</a>
             <a href="login.html" class="hero-button">Secret</a>
-            <a href="comments.html" class="hero-button">Kommentar Forum</a>
+            <a href="comments.html" class="hero-button"> Kommentar Forum</a>
             <a href="abstimmungen.html" class="hero-button">Abstimmungen</a>
         </div>
     </div>
@@ -122,46 +97,46 @@
 
     <!-- 🔹 Problem melden Bereich -->
     <div id="reportSection" style="text-align:center; margin:50px 0;">
-        <button id="reportButton" style="
-            background:#1db954;
-            color:white;
-            border:none;
-            padding:12px 20px;
-            border-radius:10px;
-            cursor:pointer;
-            font-size:16px;
-            box-shadow:0 0 10px rgba(0,0,0,0.3);
-        ">⚠️ Problem melden</button>
+      <button id="reportButton" style="
+        background:#1db954;
+        color:white;
+        border:none;
+        padding:12px 20px;
+        border-radius:10px;
+        cursor:pointer;
+        font-size:16px;
+        box-shadow:0 0 10px rgba(0,0,0,0.3);
+      ">⚠️ Problem melden</button>
 
-        <div id="reportForm" style="display:none; margin-top:20px;">
-            <h3>🛠️ Fehler melden</h3>
-            <label for="errorType">Art des Fehlers:</label><br>
-            <select id="errorType" style="padding:8px; margin:8px; border-radius:6px;">
-                <option value="Sicherheitsfehler">Sicherheitsfehler</option>
-                <option value="Anzeigeproblem">Anzeigeproblem</option>
-                <option value="Falsche Information">Falsche Information</option>
-                <option value="Kommentarproblem">Kommentarproblem</option>
-                <option value="Anderes">Anderes</option>
-            </select><br>
+      <div id="reportForm" style="display:none; margin-top:20px;">
+        <h3>🛠️ Fehler melden</h3>
+        <label for="errorType">Art des Fehlers:</label><br>
+        <select id="errorType" style="padding:8px; margin:8px; border-radius:6px;">
+          <option value="Sicherheitsfehler">Sicherheitsfehler</option>
+          <option value="Anzeigeproblem">Anzeigeproblem</option>
+          <option value="Falsche Information">Falsche Information</option>
+          <option value="Kommentarproblem">Kommentarproblem</option>
+          <option value="Anderes">Anderes</option>
+        </select><br>
 
-            <textarea id="errorDescription" rows="4" placeholder="Beschreibe den Fehler..." style="
-                width:80%;
-                padding:10px;
-                border-radius:8px;
-                border:1px solid #ccc;
-                resize:none;
-            "></textarea><br>
+        <textarea id="errorDescription" rows="4" placeholder="Beschreibe den Fehler..." style="
+          width:80%;
+          padding:10px;
+          border-radius:8px;
+          border:1px solid #ccc;
+          resize:none;
+        "></textarea><br>
 
-            <button id="sendReport" type="button" style="
-                background:#1db954;
-                color:white;
-                border:none;
-                padding:10px 20px;
-                border-radius:8px;
-                cursor:pointer;
-                margin-top:10px;
-            ">📨 Absenden</button>
-        </div>
+        <button id="sendReport" type="button" style="
+          background:#1db954;
+          color:white;
+          border:none;
+          padding:10px 20px;
+          border-radius:8px;
+          cursor:pointer;
+          margin-top:10px;
+        ">📨 Absenden</button>
+      </div>
     </div>
 
     <!-- Scripts -->
@@ -217,76 +192,59 @@
             }
             autoRefresh.start(updateTicker, 5000, "Ticker");
         });
-
-        // 🔹 Problem melden
-        document.addEventListener("DOMContentLoaded", () => {
-            const reportButton = document.getElementById("reportButton");
-            const reportForm = document.getElementById("reportForm");
-            const sendReport = document.getElementById("sendReport");
-            const errorType = document.getElementById("errorType");
-            const errorDescription = document.getElementById("errorDescription");
-
-            reportButton.addEventListener("click", () => {
-                reportForm.style.display = reportForm.style.display === "none" ? "block" : "none";
-            });
-
-            sendReport.addEventListener("click", async (event) => {
-                event.preventDefault();
-                const type = errorType.value;
-                const description = errorDescription.value.trim();
-                if (!description) return alert("Bitte eine Beschreibung eingeben!");
-
-                try {
-                    await addDoc(collection(db, "reports"), {
-                        type,
-                        description,
-                        created: serverTimestamp()
-                    });
-                    alert("✅ Vielen Dank! Dein Bericht wurde anonym gesendet.");
-                    errorDescription.value = "";
-                    reportForm.style.display = "none";
-                } catch (e) {
-                    console.error("Fehler beim Senden:", e);
-                    alert("❌ Fehler beim Senden. Bitte später erneut versuchen.");
-                }
-            });
-        });
-
-        // 🔹 Suchfunktion Variante 1
-        const pages = [
-            { title: "1. Bundesliga", url: "bundesliga.html" },
-            { title: "2. Bundesliga", url: "2liga.html" },
-            { title: "Letzter Spieltag", url: "letzter spieltag.html" },
-            { title: "Statistiken", url: "statistics.html" },
-            { title: "News", url: "news.html" },
-            { title: "Secret Login", url: "login.html" },
-            { title: "Kommentar Forum", url: "comments.html" },
-            { title: "Abstimmungen", url: "abstimmungen.html" }
-        ];
-
-        function searchFunction() {
-            const input = document.getElementById("searchInput").value.toLowerCase();
-            const resultsContainer = document.getElementById("searchResults");
-            resultsContainer.innerHTML = ""; // vorherige Ergebnisse löschen
-
-            if (!input) return;
-
-            const filtered = pages.filter(page => page.title.toLowerCase().includes(input));
-
-            if (filtered.length === 0) {
-                resultsContainer.innerHTML = "<li>Keine Ergebnisse gefunden.</li>";
-                return;
-            }
-
-            filtered.forEach(page => {
-                const li = document.createElement("li");
-                li.innerHTML = `<a href="${page.url}">${page.title}</a>`;
-                li.style.padding = "5px 0";
-                resultsContainer.appendChild(li);
-            });
-        }
     </script>
 
+    <!-- 🔹 Firebase Problem melden Script (ohne Anmeldung nötig) -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+      import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+        authDomain: "goalnewsde-community.firebaseapp.com",
+        projectId: "goalnewsde-community",
+        storageBucket: "goalnewsde-community.firebasestorage.app",
+        messagingSenderId: "134523022055",
+        appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const reportButton = document.getElementById("reportButton");
+        const reportForm = document.getElementById("reportForm");
+        const sendReport = document.getElementById("sendReport");
+        const errorType = document.getElementById("errorType");
+        const errorDescription = document.getElementById("errorDescription");
+
+        reportButton.addEventListener("click", () => {
+          reportForm.style.display = reportForm.style.display === "none" ? "block" : "none";
+        });
+
+        sendReport.addEventListener("click", async (event) => {
+          event.preventDefault();
+          const type = errorType.value;
+          const description = errorDescription.value.trim();
+          if (!description) return alert("Bitte eine Beschreibung eingeben!");
+
+          try {
+            await addDoc(collection(db, "reports"), {
+              type,
+              description,
+              created: serverTimestamp()
+            });
+            alert("✅ Vielen Dank! Dein Bericht wurde anonym gesendet.");
+            errorDescription.value = "";
+            reportForm.style.display = "none";
+          } catch (e) {
+            console.error("Fehler beim Senden:", e);
+            alert("❌ Fehler beim Senden. Bitte später erneut versuchen.");
+          }
+        });
+      });
+    </script>
+
+    <script async defer src="https://apis.google.com/js/api.js"></script>
 </body>
 </html>
-
