@@ -34,7 +34,7 @@
         <div class="logo">GoalNewsDE</div>
     </header>
 
-    
+
 
     <!-- Hero -->
     <div class="hero-container">
@@ -97,7 +97,7 @@
 
     <!-- 🔹 Problem melden Bereich -->
     <div id="reportSection" style="text-align:center; margin:50px 0;">
-      <button id="reportButton" style="
+        <button id="reportButton" style="
         background:#1db954;
         color:white;
         border:none;
@@ -108,18 +108,18 @@
         box-shadow:0 0 10px rgba(0,0,0,0.3);
       ">⚠️ Problem melden</button>
 
-      <div id="reportForm" style="display:none; margin-top:20px;">
-        <h3>🛠️ Fehler melden</h3>
-        <label for="errorType">Art des Fehlers:</label><br>
-        <select id="errorType" style="padding:8px; margin:8px; border-radius:6px;">
-          <option value="Sicherheitsfehler">Sicherheitsfehler</option>
-          <option value="Anzeigeproblem">Anzeigeproblem</option>
-          <option value="Falsche Information">Falsche Information</option>
-          <option value="Kommentarproblem">Kommentarproblem</option>
-          <option value="Anderes">Anderes</option>
-        </select><br>
+        <div id="reportForm" style="display:none; margin-top:20px;">
+            <h3>🛠️ Fehler melden</h3>
+            <label for="errorType">Art des Fehlers:</label><br>
+            <select id="errorType" style="padding:8px; margin:8px; border-radius:6px;">
+                <option value="Sicherheitsfehler">Sicherheitsfehler</option>
+                <option value="Anzeigeproblem">Anzeigeproblem</option>
+                <option value="Falsche Information">Falsche Information</option>
+                <option value="Kommentarproblem">Kommentarproblem</option>
+                <option value="Anderes">Anderes</option>
+            </select><br>
 
-        <textarea id="errorDescription" rows="4" placeholder="Beschreibe den Fehler..." style="
+            <textarea id="errorDescription" rows="4" placeholder="Beschreibe den Fehler..." style="
           width:80%;
           padding:10px;
           border-radius:8px;
@@ -127,7 +127,7 @@
           resize:none;
         "></textarea><br>
 
-        <button id="sendReport" type="button" style="
+            <button id="sendReport" type="button" style="
           background:#1db954;
           color:white;
           border:none;
@@ -136,7 +136,7 @@
           cursor:pointer;
           margin-top:10px;
         ">📨 Absenden</button>
-      </div>
+        </div>
     </div>
 
     <!-- Scripts -->
@@ -196,55 +196,64 @@
 
     <!-- 🔹 Firebase Problem melden Script (ohne Anmeldung nötig) -->
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-      import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
-        authDomain: "goalnewsde-community.firebaseapp.com",
-        projectId: "goalnewsde-community",
-        storageBucket: "goalnewsde-community.firebasestorage.app",
-        messagingSenderId: "134523022055",
-        appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
-      };
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+            authDomain: "goalnewsde-community.firebaseapp.com",
+            projectId: "goalnewsde-community",
+            storageBucket: "goalnewsde-community.firebasestorage.app",
+            messagingSenderId: "134523022055",
+            appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+        };
 
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const reportButton = document.getElementById("reportButton");
-        const reportForm = document.getElementById("reportForm");
-        const sendReport = document.getElementById("sendReport");
-        const errorType = document.getElementById("errorType");
-        const errorDescription = document.getElementById("errorDescription");
+        document.addEventListener("DOMContentLoaded", () => {
+            const reportButton = document.getElementById("reportButton");
+            const reportForm = document.getElementById("reportForm");
+            const sendReport = document.getElementById("sendReport");
+            const errorType = document.getElementById("errorType");
+            const errorDescription = document.getElementById("errorDescription");
 
-        reportButton.addEventListener("click", () => {
-          reportForm.style.display = reportForm.style.display === "none" ? "block" : "none";
-        });
-
-        sendReport.addEventListener("click", async (event) => {
-          event.preventDefault();
-          const type = errorType.value;
-          const description = errorDescription.value.trim();
-          if (!description) return alert("Bitte eine Beschreibung eingeben!");
-
-          try {
-            await addDoc(collection(db, "reports"), {
-              type,
-              description,
-              created: serverTimestamp()
+            reportButton.addEventListener("click", () => {
+                reportForm.style.display = reportForm.style.display === "none" ? "block" : "none";
             });
-            alert("✅ Vielen Dank! Dein Bericht wurde anonym gesendet.");
-            errorDescription.value = "";
-            reportForm.style.display = "none";
-          } catch (e) {
-            console.error("Fehler beim Senden:", e);
-            alert("❌ Fehler beim Senden. Bitte später erneut versuchen.");
-          }
+
+            sendReport.addEventListener("click", async (event) => {
+                event.preventDefault();
+                const type = errorType.value;
+                const description = errorDescription.value.trim();
+                if (!description) return alert("Bitte eine Beschreibung eingeben!");
+
+                try {
+                    await addDoc(collection(db, "reports"), {
+                        type,
+                        description,
+                        created: serverTimestamp()
+                    });
+                    alert("✅ Vielen Dank! Dein Bericht wurde anonym gesendet.");
+                    errorDescription.value = "";
+                    reportForm.style.display = "none";
+                } catch (e) {
+                    console.error("Fehler beim Senden:", e);
+                    alert("❌ Fehler beim Senden. Bitte später erneut versuchen.");
+                }
+            });
         });
-      });
+        const bgLogo = document.querySelector('.bg-logo');
+        function activateGlow() {
+            bgLogo.classList.add('active');
+            setTimeout(() => bgLogo.classList.remove('active'), 2000);
+        }
+        bgLogo.addEventListener('mouseenter', activateGlow);
+        bgLogo.addEventListener('touchstart', activateGlow);
+
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js"></script>
 </body>
+
 </html>

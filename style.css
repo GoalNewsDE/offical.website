@@ -10,9 +10,9 @@ body {
     background-color: #0f0f0f;
     color: #eee;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* Links */
 a {
     color: #1db954;
     text-decoration: none;
@@ -38,12 +38,6 @@ header .logo {
     font-weight: 800;
     color: #fff;
     letter-spacing: 2px;
-}
-
-/* ========== Theme Toggle ========== */
-#themeToggle {
-    display: none;
-    /* Dark Mode ist Standard, Toggle entfernt */
 }
 
 /* ========== Breaking News ========== */
@@ -82,21 +76,31 @@ header .logo {
     text-align: center;
     padding: 80px 20px;
     position: relative;
+    overflow: hidden;
 }
 
-.hero-container .bg-logo {
-    font-size: 6rem;
-    color: rgba(29, 185, 84, 0.1);
+.bg-logo {
+    font-size: 10rem;
+    color: rgba(29, 185, 84, 0.07);
     position: absolute;
-    top: 30%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 0;
     font-weight: 900;
-    letter-spacing: 10px;
+    text-transform: none;
+    transition: all 0.3s ease;
+    pointer-events: auto;
 }
 
-.hero-container .hero-text {
+/* Grünleuchten beim direkten Hover */
+.bg-logo.active {
+    color: rgba(29, 255, 84, 0.5);
+    transform: translate(-50%, -50%) scale(1.08);
+    text-shadow: 0 0 25px rgba(29, 255, 84, 0.6);
+}
+
+.hero-text {
     font-size: 1.6rem;
     margin-bottom: 40px;
     z-index: 1;
@@ -104,29 +108,66 @@ header .logo {
     font-weight: 500;
 }
 
-/* Hero Buttons modern */
+/* ========== Buttons ========== */
 .hero-buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
+    position: relative;
+    z-index: 2;
 }
 
+/* Coole, futuristische Buttons */
 .hero-button {
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
     background: linear-gradient(145deg, #1db954, #14a34a);
     color: #fff;
-    padding: 12px 28px;
-    border-radius: 50px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    animation: glowPulse 2.5s infinite alternate;
+}
+
+.hero-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+}
+
+.hero-button:hover::after {
+    top: 0;
+    left: 0;
 }
 
 .hero-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6), 0 12px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* Pulsierender Glow-Effekt */
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 8px 20px rgba(29, 185, 84, 0.7), 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
 }
 
 /* ========== Socials ========== */
@@ -184,7 +225,11 @@ header .logo {
     color: #1db954;
 }
 
-
+/* Topspiel gold */
+.matches h2.topspiel {
+    color: gold;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
 
 /* ========== Live-Ticker ========== */
 .ticker-wrapper {
@@ -195,9 +240,7 @@ header .logo {
     width: 100%;
     display: flex;
     align-items: center;
-    /* vertikal zentriert */
     height: 40px;
-    /* Containerhöhe passend zur Schrift */
     position: relative;
 }
 
@@ -221,13 +264,49 @@ header .logo {
     }
 }
 
-
-/* Optional: Abstand zwischen News, falls JS Trennzeichen nutzt */
 .ticker span {
     display: inline-block;
     padding: 0 50px;
 }
 
+/* ========== Problem melden Button ========== */
+#reportButton {
+    background: linear-gradient(145deg, #1db954, #14a34a);
+    color: #fff;
+    border: none;
+    padding: 14px 26px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    animation: glowPulse 2.5s infinite alternate;
+}
+
+#reportButton::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+}
+
+#reportButton:hover::after {
+    top: 0;
+    left: 0;
+}
+
+#reportButton:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6), 0 12px 35px rgba(0, 0, 0, 0.4);
+}
 
 /* ========== Footer ========== */
 footer {
@@ -238,14 +317,30 @@ footer {
     color: #aaa;
 }
 
-/* ========== Responsive ========== */
-@media (max-width: 768px) {
-    .hero-container .bg-logo {
-        font-size: 3.5rem;
+/* ========== Mobile Optimization ========== */
+@media (max-width: 480px) {
+    body {
+        font-size: 15px;
+        padding: 0 10px;
+    }
+
+    header .logo {
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+    }
+
+    .hero-container {
+        padding: 60px 15px;
+    }
+
+    .bg-logo {
+        font-size: 2.8rem;
+        top: 55%;
     }
 
     .hero-text {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
+        margin-bottom: 25px;
     }
 
     .hero-buttons {
@@ -253,17 +348,62 @@ footer {
         gap: 12px;
     }
 
+    .hero-button {
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 0;
+        font-size: 0.95rem;
+    }
+
     .news-item {
         padding: 0 25px;
     }
+
+    .matches {
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+
+    .socials {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #reportButton {
+        width: 80%;
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    footer {
+        font-size: 0.8rem;
+        padding: 15px 10px;
+    }
 }
 
-@media (max-width: 480px) {
-    .hero-container .bg-logo {
-        font-size: 2.5rem;
+@media (max-width: 768px) {
+    .bg-logo {
+        font-size: 4.5rem;
     }
 
     .hero-text {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
+    }
+
+    .hero-buttons {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .hero-button {
+        flex: 1 1 calc(50% - 10px);
+    }
+
+    .matches {
+        max-width: 95%;
+    }
+
+    footer {
+        font-size: 0.85rem;
     }
 }
