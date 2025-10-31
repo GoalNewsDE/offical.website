@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoalNewsDE Abstimmung</title>
+<style>
+  body { font-family: 'Poppins', sans-serif; padding: 20px; background: #121212; color: #fff; }
+  button { background: #1db954; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; margin: 5px 0; }
+  button:hover { background: #17a44b; }
+  #pollForm { display: none; margin-top: 20px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; }
+  #results { margin-top: 20px; }
+  .result-bar { height: 24px; background: #1db954; border-radius: 12px; margin-bottom: 5px; text-align: right; padding-right: 10px; line-height: 24px; color: #fff; }
+  .admin-section { margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 12px; }
+  input { padding: 8px; border-radius: 6px; border: none; margin-right: 5px; }
+</style>
+</head>
+<body>
+
+<h2>📊 Abstimmung</h2>
+<button id="pollButton">🗳️ Abstimmen</button>
+
+<div id="pollForm">
+  <p>Wähle eine Option:</p>
+  <div id="optionsContainer"></div>
+</div>
+
+<h3>Ergebnisse:</h3>
+<div id="results"></div>
+
+<!-- Admin Bereich -->
+<div id="adminSection" class="admin-section" style="display:none;">
+  <h3>⚙️ Admin-Panel</h3>
+  <input type="text" id="newOption" placeholder="Neue Option">
+  <button id="addOptionBtn">➕ Hinzufügen</button>
+  <div id="adminOptions"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { 
+  getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, increment, onSnapshot, getDoc 
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+// 🔹 Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+  authDomain: "goalnewsde-community.firebaseapp.com",
+  projectId: "goalnewsde-community",
+  storageBucket: "goalnewsde-community.firebasestorage.app",
+  messagingSenderId: "134523022055",
+  appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// 🔹 Elemente
+const pollButton = document.getElementById("pollButton");
+const pollForm = document.getElementById("pollForm");
+const optionsContainer = document.getElementById("optionsContainer");
+const resultsDiv = document.getElementById("results");
+const adminSection = document.getElementById("adminSection");
+const newOptionInput = document.getElementById("newOption");
+const addOptionBtn = document.getElementById("addOptionBtn");
+const adminOptionsDiv = document.getElementById("adminOptions");
+
+// 🔹 Admin IDs
+const adminUIDs = ["DEIN_UID", "UID_DEINES_FREUNDES"]; // hier Firebase UIDs der Admins eintragen
+
+// 🔹 Formular ausklappen
+pollButton.addEventListener("click", () => {
+  pollForm.style.display = pollForm.style.display === "none" ? "block" : "none";
+});
+
+// 🔹 Optionen laden und live aktualisieren
+const optionsCol = collection(db, "pollOptions");
+
+onSnapshot(optionsCol, snapshot => {
+  optionsContainer.innerHTML = "";
+  resultsDiv.innerHTML = "";
+  adminOptionsDiv.innerHTML = "";
+
+  let totalVotes = 0;
+  snapshot.docs.forEach(docSnap => totalVotes += docSnap.data().votes || 0);
+
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+    const option = docSnap.id;
+    const votes = data.votes || 0;
+    const percent = totalVotes > 0 ? Math.round((votes / totalVotes) * 100) : 0;
+
+    // Abstimmungs-Buttons für Besucher
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.addEventListener("click", async () => {
+      if(localStorage.getItem("voted")) { alert("Du hast schon abgestimmt!"); return; }
+      localStorage.setItem("voted","true");
+      await updateDoc(doc(db, "pollOptions", option), { votes: increment(1) });
+    });
+    optionsContainer.appendChild(btn);
+
+    // Ergebnisse
+    const bar = document.createElement("div");
+    bar.className = "result-bar";
+    bar.style.width = percent + "%";
+    bar.textContent = `${votes} (${percent}%)`;
+    resultsDiv.innerHTML += `<p>${option}</p>`;
+    resultsDiv.appendChild(bar);
+
+    // Admin Panel
+    if(window.currentUserIsAdmin){
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "❌ Löschen";
+      delBtn.style.marginLeft = "10px";
+      delBtn.addEventListener("click", async () => {
+        if(confirm(`Option "${option}" wirklich löschen?`)){
+          await deleteDoc(doc(db, "pollOptions", option));
+        }
+      });
+      const div = document.createElement("div");
+      div.textContent = option;
+      div.appendChild(delBtn);
+      adminOptionsDiv.appendChild(div);
+    }
+  });
+});
+
+// 🔹 Admin Login Check
+onAuthStateChanged(auth, async user => {
+  if(user && adminUIDs.includes(user.uid)){
+    window.currentUserIsAdmin = true;
+    adminSection.style.display = "block";
+  } else {
+    window.currentUserIsAdmin = false;
+    adminSection.style.display = "none";
+  }
+});
+
+// 🔹 Admin: Neue Option hinzufügen
+addOptionBtn.addEventListener("click", async () => {
+  const option = newOptionInput.value.trim();
+  if(!option) return alert("Bitte Option eingeben!");
+  await setDoc(doc(db, "pollOptions", option), { votes: 0 });
+  newOptionInput.value = "";
+});
+</script>
+</body>
+</html>
