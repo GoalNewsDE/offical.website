@@ -3,45 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoalNewsDE Abstimmung</title>
+<title>GoalNewsDE Abstimmungen</title>
 <style>
-  body { font-family: 'Poppins', sans-serif; padding: 20px; background: #121212; color: #fff; }
-  button { background: #1db954; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; margin: 5px 0; }
-  button:hover { background: #17a44b; }
-  #pollForm { display: none; margin-top: 20px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; }
-  #results { margin-top: 20px; }
-  .result-bar { height: 24px; background: #1db954; border-radius: 12px; margin-bottom: 5px; text-align: right; padding-right: 10px; line-height: 24px; color: #fff; }
-  .admin-section { margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 12px; }
-  input { padding: 8px; border-radius: 6px; border: none; margin-right: 5px; }
+body { font-family: 'Poppins', sans-serif; background:#121212; color:white; padding:20px; }
+h2,h3 { color:#1db954; }
+button { background:#1db954; color:white; border:none; padding:10px 16px; border-radius:8px; cursor:pointer; margin:5px 0; }
+button:hover { background:#17a44b; }
+#pollForm { display:none; margin-top:20px; background:rgba(255,255,255,0.05); padding:20px; border-radius:12px; }
+#results { margin-top:20px; }
+.result-bar { height:28px; background:#1db954; border-radius:12px; margin-bottom:5px; text-align:right; padding-right:10px; line-height:28px; color:white; transition: width 0.3s; }
+.admin-section { margin-top:30px; padding:20px; background:rgba(255,255,255,0.1); border-radius:12px; }
+input, select { padding:8px; border-radius:6px; border:none; margin-right:5px; }
+.poll-container { margin-bottom:40px; border:1px solid rgba(255,255,255,0.1); padding:15px; border-radius:12px; }
 </style>
 </head>
 <body>
 
-<h2>📊 Abstimmung</h2>
-<button id="pollButton">🗳️ Abstimmen</button>
+<h2>📊 GoalNewsDE Abstimmungen</h2>
 
-<div id="pollForm">
-  <p>Wähle eine Option:</p>
-  <div id="optionsContainer"></div>
-</div>
-
-<h3>Ergebnisse:</h3>
-<div id="results"></div>
+<div id="pollsContainer"></div>
 
 <!-- Admin Bereich -->
 <div id="adminSection" class="admin-section" style="display:none;">
-  <h3>⚙️ Admin-Panel</h3>
-  <input type="text" id="newOption" placeholder="Neue Option">
-  <button id="addOptionBtn">➕ Hinzufügen</button>
-  <div id="adminOptions"></div>
+<h3>⚙️ Admin-Panel</h3>
+<input type="text" id="newPollTitle" placeholder="Titel der Abstimmung">
+<input type="text" id="newOption" placeholder="Option hinzufügen">
+<button id="addOptionBtn">➕ Option</button>
+<button id="createPollBtn">🆕 Neue Abstimmung erstellen</button>
+<div id="adminPolls"></div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-import { 
-  getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, increment, onSnapshot, getDoc 
-} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, updateDoc, deleteDoc, increment, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 // 🔹 Firebase Config
 const firebaseConfig = {
@@ -57,95 +52,107 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+// 🔹 Admin UIDs
+const adminUIDs = ["g7Lsh9MshAOkwbyHcO3NFsnUpZl1","lwRnonWRhMOeYedZLAldySkEKso2"];
+let currentUserIsAdmin = false;
+
 // 🔹 Elemente
-const pollButton = document.getElementById("pollButton");
-const pollForm = document.getElementById("pollForm");
-const optionsContainer = document.getElementById("optionsContainer");
-const resultsDiv = document.getElementById("results");
+const pollsContainer = document.getElementById("pollsContainer");
 const adminSection = document.getElementById("adminSection");
+const newPollTitle = document.getElementById("newPollTitle");
 const newOptionInput = document.getElementById("newOption");
 const addOptionBtn = document.getElementById("addOptionBtn");
-const adminOptionsDiv = document.getElementById("adminOptions");
+const createPollBtn = document.getElementById("createPollBtn");
+const adminPollsDiv = document.getElementById("adminPolls");
 
-// 🔹 Admin IDs
-const adminUIDs = ["g7Lsh9MshAOkwbyHcO3NFsnUpZl1", "lwRnonWRhMOeYedZLAldySkEKso2"]; // hier Firebase UIDs der Admins eintragen
+// 🔹 Hilfsfunktion: polls laden
+async function loadPolls() {
+  pollsContainer.innerHTML = "";
+  const pollsSnap = await getDocs(collection(db,"polls"));
+  pollsSnap.forEach(async pollDoc => {
+    const pollData = pollDoc.data();
+    const pollId = pollDoc.id;
 
-// 🔹 Formular ausklappen
-pollButton.addEventListener("click", () => {
-  pollForm.style.display = pollForm.style.display === "none" ? "block" : "none";
-});
-
-// 🔹 Optionen laden und live aktualisieren
-const optionsCol = collection(db, "pollOptions");
-
-onSnapshot(optionsCol, snapshot => {
-  optionsContainer.innerHTML = "";
-  resultsDiv.innerHTML = "";
-  adminOptionsDiv.innerHTML = "";
-
-  let totalVotes = 0;
-  snapshot.docs.forEach(docSnap => totalVotes += docSnap.data().votes || 0);
-
-  snapshot.forEach(docSnap => {
-    const data = docSnap.data();
-    const option = docSnap.id;
-    const votes = data.votes || 0;
-    const percent = totalVotes > 0 ? Math.round((votes / totalVotes) * 100) : 0;
-
-    // Abstimmungs-Buttons für Besucher
-    const btn = document.createElement("button");
-    btn.textContent = option;
-    btn.addEventListener("click", async () => {
-      if(localStorage.getItem("voted")) { alert("Du hast schon abgestimmt!"); return; }
-      localStorage.setItem("voted","true");
-      await updateDoc(doc(db, "pollOptions", option), { votes: increment(1) });
-    });
-    optionsContainer.appendChild(btn);
-
-    // Ergebnisse
-    const bar = document.createElement("div");
-    bar.className = "result-bar";
-    bar.style.width = percent + "%";
-    bar.textContent = `${votes} (${percent}%)`;
-    resultsDiv.innerHTML += `<p>${option}</p>`;
-    resultsDiv.appendChild(bar);
-
-    // Admin Panel
-    if(window.currentUserIsAdmin){
-      const delBtn = document.createElement("button");
-      delBtn.textContent = "❌ Löschen";
-      delBtn.style.marginLeft = "10px";
-      delBtn.addEventListener("click", async () => {
-        if(confirm(`Option "${option}" wirklich löschen?`)){
-          await deleteDoc(doc(db, "pollOptions", option));
+    const pollDiv = document.createElement("div");
+    pollDiv.className = "poll-container";
+    pollDiv.innerHTML = `<h3>${pollData.title}</h3>`;
+    
+    // Optionen Buttons
+    const optionsContainer = document.createElement("div");
+    for(const option of Object.keys(pollData.options)){
+      const btn = document.createElement("button");
+      btn.textContent = option;
+      btn.addEventListener("click", async ()=>{
+        const votedKey = `voted_${pollId}`;
+        const prevVote = localStorage.getItem(votedKey);
+        // Stimme ändern: vorherige Option abziehen
+        if(prevVote){
+          await updateDoc(doc(db,"polls",pollId), {[`options.${prevVote}`]: increment(-1)});
         }
+        await updateDoc(doc(db,"polls",pollId), {[`options.${option}`]: increment(1)});
+        localStorage.setItem(votedKey,option);
       });
-      const div = document.createElement("div");
-      div.textContent = option;
-      div.appendChild(delBtn);
-      adminOptionsDiv.appendChild(div);
+      optionsContainer.appendChild(btn);
     }
+    pollDiv.appendChild(optionsContainer);
+
+    // Ergebnisse Balken
+    const resultsDiv = document.createElement("div");
+    resultsDiv.id = "results_" + pollId;
+    pollDiv.appendChild(resultsDiv);
+
+    pollsContainer.appendChild(pollDiv);
+
+    // Live Updates
+    onSnapshot(doc(db,"polls",pollId), docSnap=>{
+      const data = docSnap.data();
+      const resultsDiv = document.getElementById("results_" + pollId);
+      resultsDiv.innerHTML = "";
+      const totalVotes = Object.values(data.options).reduce((a,b)=>a+b,0);
+      for(const [opt,votes] of Object.entries(data.options)){
+        const percent = totalVotes>0?Math.round((votes/totalVotes)*100):0;
+        const bar = document.createElement("div");
+        bar.className = "result-bar";
+        bar.style.width = percent + "%";
+        bar.textContent = `${votes} (${percent}%)`;
+        resultsDiv.appendChild(document.createElement("p")).textContent = opt;
+        resultsDiv.appendChild(bar);
+      }
+    });
   });
-});
+}
 
 // 🔹 Admin Login Check
-onAuthStateChanged(auth, async user => {
+onAuthStateChanged(auth,user=>{
   if(user && adminUIDs.includes(user.uid)){
-    window.currentUserIsAdmin = true;
+    currentUserIsAdmin = true;
     adminSection.style.display = "block";
-  } else {
-    window.currentUserIsAdmin = false;
-    adminSection.style.display = "none";
   }
 });
 
-// 🔹 Admin: Neue Option hinzufügen
-addOptionBtn.addEventListener("click", async () => {
+// 🔹 Admin: Neue Abstimmung erstellen
+createPollBtn.addEventListener("click", async ()=>{
+  const title = newPollTitle.value.trim();
+  if(!title) return alert("Bitte Titel eingeben!");
+  const pollRef = doc(collection(db,"polls"));
+  await setDoc(pollRef, { title, options:{} });
+  newPollTitle.value="";
+  loadPolls();
+});
+
+// 🔹 Admin: Option hinzufügen
+addOptionBtn.addEventListener("click", async ()=>{
   const option = newOptionInput.value.trim();
   if(!option) return alert("Bitte Option eingeben!");
-  await setDoc(doc(db, "pollOptions", option), { votes: 0 });
-  newOptionInput.value = "";
+  const pollsSnap = await getDocs(collection(db,"polls"));
+  if(pollsSnap.empty) return alert("Erstelle zuerst eine Abstimmung!");
+  const lastPoll = pollsSnap.docs[pollsSnap.docs.length-1];
+  await updateDoc(doc(db,"polls",lastPoll.id), { [`options.${option}`]: 0 });
+  newOptionInput.value="";
+  loadPolls();
 });
+
+loadPolls();
 </script>
 </body>
 </html>
