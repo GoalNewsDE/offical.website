@@ -91,6 +91,50 @@
         <a href="mailto:info@goalnewsde.de">Email</a> | <a href="agb.html">Datenschutz</a>
     </footer>
 
+    <!-- 🔹 Problem melden Bereich -->
+    <div id="reportSection" style="text-align:center; margin:50px 0;">
+      <button id="reportButton" style="
+        background:#1db954;
+        color:white;
+        border:none;
+        padding:12px 20px;
+        border-radius:10px;
+        cursor:pointer;
+        font-size:16px;
+        box-shadow:0 0 10px rgba(0,0,0,0.3);
+      ">⚠️ Problem melden</button>
+
+      <div id="reportForm" style="display:none; margin-top:20px;">
+        <h3>🛠️ Fehler melden</h3>
+        <label for="errorType">Art des Fehlers:</label><br>
+        <select id="errorType" style="padding:8px; margin:8px; border-radius:6px;">
+          <option value="Sicherheitsfehler">Sicherheitsfehler</option>
+          <option value="Anzeigeproblem">Anzeigeproblem</option>
+          <option value="Falsche Information">Falsche Information</option>
+          <option value="Kommentarproblem">Kommentarproblem</option>
+          <option value="Anderes">Anderes</option>
+        </select><br>
+
+        <textarea id="errorDescription" rows="4" placeholder="Beschreibe den Fehler..." style="
+          width:80%;
+          padding:10px;
+          border-radius:8px;
+          border:1px solid #ccc;
+          resize:none;
+        "></textarea><br>
+
+        <button id="sendReport" type="button" style="
+          background:#1db954;
+          color:white;
+          border:none;
+          padding:10px 20px;
+          border-radius:8px;
+          cursor:pointer;
+          margin-top:10px;
+        ">📨 Absenden</button>
+      </div>
+    </div>
+
     <!-- Scripts -->
     <script src="js/config.js"></script>
     <script src="js/google-sheets-client.js"></script>
@@ -134,23 +178,69 @@
                     const flatData = data.flat();
                     ticker.textContent = flatData.join(' • ');
 
-                    // Berechne Breite des Textes
                     const textWidth = ticker.offsetWidth;
                     const wrapperWidth = ticker.parentElement.offsetWidth;
-
-                    // Animation in ms: je länger der Text, desto länger die Dauer
                     const duration = (textWidth + wrapperWidth) * 15;
                     ticker.style.animation = `scrollTicker ${duration}ms linear infinite`;
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
                 }
             }
-
             autoRefresh.start(updateTicker, 5000, "Ticker");
         });
     </script>
 
+    <!-- 🔹 Firebase Problem melden Script (ohne Anmeldung nötig) -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+      import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+        authDomain: "goalnewsde-community.firebaseapp.com",
+        projectId: "goalnewsde-community",
+        storageBucket: "goalnewsde-community.firebasestorage.app",
+        messagingSenderId: "134523022055",
+        appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const reportButton = document.getElementById("reportButton");
+        const reportForm = document.getElementById("reportForm");
+        const sendReport = document.getElementById("sendReport");
+        const errorType = document.getElementById("errorType");
+        const errorDescription = document.getElementById("errorDescription");
+
+        reportButton.addEventListener("click", () => {
+          reportForm.style.display = reportForm.style.display === "none" ? "block" : "none";
+        });
+
+        sendReport.addEventListener("click", async (event) => {
+          event.preventDefault();
+          const type = errorType.value;
+          const description = errorDescription.value.trim();
+          if (!description) return alert("Bitte eine Beschreibung eingeben!");
+
+          try {
+            await addDoc(collection(db, "reports"), {
+              type,
+              description,
+              created: serverTimestamp()
+            });
+            alert("✅ Vielen Dank! Dein Bericht wurde anonym gesendet.");
+            errorDescription.value = "";
+            reportForm.style.display = "none";
+          } catch (e) {
+            console.error("Fehler beim Senden:", e);
+            alert("❌ Fehler beim Senden. Bitte später erneut versuchen.");
+          }
+        });
+      });
+    </script>
+
     <script async defer src="https://apis.google.com/js/api.js"></script>
 </body>
-
 </html>
