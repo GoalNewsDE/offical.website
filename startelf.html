@@ -3,167 +3,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Startelf – GoalNewsDE</title>
+<title>GoalNewsDE - Dynamische Startelf</title>
 <style>
-body { font-family: "Poppins", sans-serif; background: radial-gradient(circle at center, #0a1a2f, #060c18); color: white; margin: 0; padding: 0; text-align: center; }
-h1 { margin-top: 20px; font-size: 28px; letter-spacing: 1px; }
-.field { width: 90%; max-width: 600px; aspect-ratio: 2/3; background: linear-gradient(to bottom, #0b3d0b, #063f06); border: 3px solid #ffffff33; border-radius: 20px; margin: 30px auto; position: relative; overflow: hidden; }
-.circle { width: 60px; height: 60px; background: #004cff; border: 3px solid white; border-radius: 50%; position: absolute; display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; font-size: 12px; cursor: pointer; transition: transform 0.2s; }
-.circle:hover { transform: scale(1.1); }
-.player-number { font-weight: bold; font-size: 16px; }
-.team-label { font-size: 20px; margin: 10px 0; }
-.admin-panel { margin: 20px auto; background: #0a1730; padding: 15px; border-radius: 10px; max-width: 600px; text-align: left; }
-.admin-panel select, .admin-panel button { padding: 6px; margin: 5px 0; border-radius: 5px; border: none; outline: none; }
-.admin-panel button { background: #0066ff; color: white; cursor: pointer; }
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: radial-gradient(circle at center, #0a4d28 0%, #062815 100%);
+        color: white;
+        overflow-x: hidden;
+    }
+
+    header {
+        text-align: center;
+        padding: 15px;
+        font-size: 1.6em;
+        font-weight: 600;
+        background: #111;
+        border-bottom: 3px solid #00ff66;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+        padding: 40px;
+        flex-wrap: wrap;
+    }
+
+    .team {
+        flex: 1;
+        min-width: 320px;
+        max-width: 600px;
+        background: linear-gradient(160deg, #0e572a, #09401f);
+        border-radius: 20px;
+        box-shadow: 0 0 25px rgba(0, 255, 100, 0.25);
+        padding: 20px;
+    }
+
+    .team h2 {
+        text-align: center;
+        font-size: 1.3em;
+        border-bottom: 2px solid rgba(255,255,255,0.3);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+
+    .field {
+        position: relative;
+        width: 100%;
+        padding-top: 140%;
+        background: linear-gradient(#0a8a3a, #06642a);
+        border-radius: 12px;
+        border: 3px solid #fff;
+        overflow: hidden;
+    }
+
+    .field::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: rgba(255,255,255,0.4);
+        transform: translateX(-50%);
+    }
+
+    .player {
+        position: absolute;
+        width: 60px;
+        text-align: center;
+        transform: translate(-50%, -50%);
+        transition: transform 0.3s ease;
+    }
+
+    .circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #ffcc00;
+        color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 1.2em;
+        box-shadow: 0 0 15px rgba(255,255,0,0.5);
+        margin: 0 auto;
+        transition: 0.3s;
+    }
+
+    .player:hover .circle {
+        transform: scale(1.1);
+        background: #fff000;
+    }
+
+    .name {
+        font-size: 0.8em;
+        margin-top: 4px;
+        text-shadow: 0 0 5px rgba(0,0,0,0.6);
+    }
+
+    /* Admin Controls */
+    #adminPanel {
+        text-align: center;
+        background: #111;
+        padding: 15px;
+        display: none;
+    }
+    #formationSelect {
+        background: #00ff66;
+        border: none;
+        color: #000;
+        font-weight: bold;
+        padding: 8px 12px;
+        border-radius: 6px;
+    }
 </style>
 </head>
 <body>
 
-<h1>Startelf – GoalNewsDE</h1>
+<header>GoalNewsDE - Startelf Vergleich</header>
 
-<div id="adminPanel" class="admin-panel" style="display:none;">
-  <h3>⚙️ Admin-Einstellungen</h3>
-  <label>Team:</label>
-  <select id="teamSelect">
-    <option value="home">Heim</option>
-    <option value="away">Auswärts</option>
-  </select><br>
-  <label>Formation:</label>
-  <select id="formationSelect">
-    <option value="4-4-2">4-4-2</option>
-    <option value="4-3-3">4-3-3</option>
-    <option value="3-5-2">3-5-2</option>
-    <option value="4-2-3-1">4-2-3-1</option>
-    <option value="4-4-1-1">4-4-1-1</option>
-    <option value="5-3-2">5-3-2</option>
-  </select><br>
-  <button id="updateFormation">Formation speichern</button>
+<div id="adminPanel">
+    <label>Formation wählen: </label>
+    <select id="formationSelect">
+        <option value="4-4-2">4-4-2</option>
+        <option value="4-3-3">4-3-3</option>
+        <option value="3-5-2">3-5-2</option>
+        <option value="5-3-2">5-3-2</option>
+    </select>
 </div>
 
-<div class="team-label">Heim-Team</div>
-<div id="homeField" class="field"></div>
+<div class="wrapper">
+    <div class="team" id="teamA">
+        <h2>FC Bayern München</h2>
+        <div class="field" id="fieldA"></div>
+    </div>
 
-<div class="team-label">Auswärts-Team</div>
-<div id="awayField" class="field"></div>
+    <div class="team" id="teamB">
+        <h2>Borussia Dortmund</h2>
+        <div class="field" id="fieldB"></div>
+    </div>
+</div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+<script>
+/* Beispielhafte UIDs der Admins */
+const adminUIDs = ["adminUID_1", "adminUID_2"];
+const currentUID = "adminUID_1"; // später automatisch aus Firebase gesetzt
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
-  authDomain: "goalnewsde-community.firebaseapp.com",
-  projectId: "goalnewsde-community",
-  storageBucket: "goalnewsde-community.firebasestorage.app",
-  messagingSenderId: "134523022055",
-  appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-const ADMIN_UIDS = ["g7Lsh9MshAOkwbyHcO3NFsnUpZl1","lwRnonWRhMOeYedZLAldySkEKso2"];
-let isAdmin = false;
-
-const formations = {
-  "4-4-2": [[1],[2,3,4,5],[6,7,8,9],[10,11]],
-  "4-3-3": [[1],[2,3,4,5],[6,7,8],[9,10,11]],
-  "3-5-2": [[1],[2,3,4],[5,6,7,8,9],[10,11]],
-  "4-2-3-1": [[1],[2,3,4,5],[6,7],[8,9,10],[11]],
-  "4-4-1-1": [[1],[2,3,4,5],[6,7,8,9],[10],[11]],
-  "5-3-2": [[1],[2,3,4,5,6],[7,8,9],[10,11]]
-};
-
-let teams = {};
-
-// Sicherstellen, dass Team existiert
-async function ensureTeamExists(teamName){
-  const ref = doc(db,"startelf",teamName);
-  const snap = await getDoc(ref);
-  if(!snap.exists()){
-    await setDoc(ref,{formation:"4-4-2", players:[]});
-  }
-  return ref;
+/* Wenn Admin → Steuerfeld anzeigen */
+if (adminUIDs.includes(currentUID)) {
+    document.getElementById('adminPanel').style.display = 'block';
 }
 
-// Team laden & live Updates
-async function loadTeam(teamName){
-  const teamRef = await ensureTeamExists(teamName);
+/* Beispiel-Spieler */
+const teamAPlayers = [
+    "Neuer","Mazraoui","de Ligt","Upamecano","Davies",
+    "Kimmich","Goretzka","Musiala","Coman","Kane","Sané"
+];
+const teamBPlayers = [
+    "Kobel","Ryerson","Hummels","Schlotterbeck","Bensebaini",
+    "Can","Brandt","Sabitzer","Malen","Füllkrug","Adeyemi"
+];
 
-  onSnapshot(teamRef,(docSnap)=>{
-    const data = docSnap.data();
-    if(!data.players) data.players=[];
-    teams[teamName] = data;
-    renderTeam(teamName);
-  });
-}
+/* Positionierung nach Formation */
+function setFormation(teamField, players, formation) {
+    teamField.innerHTML = "";
 
-// Team rendern
-function renderTeam(teamName){
-  const field = document.getElementById(teamName+"Field");
-  field.innerHTML="";
-  const team = teams[teamName];
-  const form = formations[team.formation] || formations["4-4-2"];
-  const rect = field.getBoundingClientRect();
-  const width = rect.width;
-  const height = rect.height;
-  const yGap = height/(form.length+1);
-  let playerIndex = 0;
+    const rows = formation.split('-').map(n => parseInt(n));
+    const total = rows.reduce((a,b)=>a+b,1); // +1 für Torwart
+    let playerIndex = 0;
 
-  for(let i=0;i<form.length;i++){
-    const line = form[i];
-    const xGap = width/(line.length+1);
-    for(let j=0;j<line.length;j++){
-      const p = team.players[playerIndex];
-      const x = xGap*(j+1);
-      const y = yGap*(i+1);
-      const div = document.createElement("div");
-      div.className="circle";
-      div.style.left=`${x-30}px`;
-      div.style.top=`${y-30}px`;
-      div.innerHTML = p && p.name!="?" ? `<div class="player-number">${p.number}</div><div>${p.name}</div>` : "+";
+    const stepY = 100 / (rows.length + 1);
+    let currentY = 100 - stepY; // Torwart unten
 
-      if(isAdmin){
-        div.onclick = async()=>{
-          const name = prompt("Spielername eingeben:",p?p.name:"");
-          if(name===null) return;
-          const number = prompt("Nummer eingeben:",p?p.number:"");
-          if(number===null) return;
+    // Torwart
+    addPlayer(teamField, players[playerIndex++], currentY, 50);
 
-          const playersCopy = [...team.players];
-          while(playersCopy.length <= playerIndex){
-              playersCopy.push({name:"?", number:"?"});
-          }
-          playersCopy[playerIndex] = {name, number};
-
-          await setDoc(doc(db,"startelf",teamName), {formation: team.formation, players: playersCopy}, {merge:true});
+    // Linien
+    for (let i = 0; i < rows.length; i++) {
+        currentY -= stepY;
+        const count = rows[i];
+        const stepX = 100 / (count + 1);
+        for (let j = 0; j < count; j++) {
+            const x = stepX * (j + 1);
+            const y = currentY;
+            addPlayer(teamField, players[playerIndex++], y, x);
         }
-      }
-
-      field.appendChild(div);
-      playerIndex++;
     }
-  }
 }
 
-// Formation speichern
-document.getElementById("updateFormation").onclick = async()=>{
-  const teamName = document.getElementById("teamSelect").value;
-  const formation = document.getElementById("formationSelect").value;
-  const team = teams[teamName];
-  await setDoc(doc(db,"startelf",teamName), {formation, players: team.players}, {merge:true});
+/* Spieler erzeugen */
+function addPlayer(field, name, top, left) {
+    const player = document.createElement("div");
+    player.className = "player";
+    player.style.top = top + "%";
+    player.style.left = left + "%";
+    const circle = document.createElement("div");
+    circle.className = "circle";
+    circle.textContent = field.children.length + 1;
+    const label = document.createElement("div");
+    label.className = "name";
+    label.textContent = name;
+    player.appendChild(circle);
+    player.appendChild(label);
+    field.appendChild(player);
 }
 
-// Auth & Ladefunktion
-onAuthStateChanged(auth,user=>{
-  if(user && ADMIN_UIDS.includes(user.uid)){
-    isAdmin=true;
-    document.getElementById("adminPanel").style.display="block";
-  }
-  loadTeam("home");
-  loadTeam("away");
+/* Initial */
+const fieldA = document.getElementById("fieldA");
+const fieldB = document.getElementById("fieldB");
+setFormation(fieldA, teamAPlayers, "4-3-3");
+setFormation(fieldB, teamBPlayers, "4-3-3");
+
+/* Admin kann Formation ändern */
+document.getElementById("formationSelect").addEventListener("change", e => {
+    const formation = e.target.value;
+    setFormation(fieldA, teamAPlayers, formation);
+    setFormation(fieldB, teamBPlayers, formation);
 });
 </script>
 </body>
