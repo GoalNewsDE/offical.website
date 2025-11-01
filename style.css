@@ -41,7 +41,7 @@ header .logo {
     color: #fff;
 }
 
-
+/* ===== Breaking News ===== */
 #breakingNews {
     background: #111;
     overflow: hidden;
@@ -70,12 +70,9 @@ header .logo {
     0% {
         transform: translateX(0);
     }
-
     100% {
         transform: translateX(-50%);
     }
-
-    /* scroll durch die Hälfte, weil Inhalt doppelt */
 }
 
 #breakingNews:hover .news-wrapper {
@@ -108,7 +105,6 @@ header .logo {
     0% {
         transform: translateX(0);
     }
-
     100% {
         transform: translateX(-100%);
     }
@@ -171,11 +167,12 @@ header .logo {
     font-weight: 700;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
 }
 
 .hero-button:hover {
-    transform: translateY(-3px) scale(1.05);
+    transform: scale(1.1);
+    background: #14a34a;
 }
 
 /* ===== Socials ===== */
@@ -289,13 +286,14 @@ footer {
 
     .hero-buttons {
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
+        align-items: center;
     }
 
     .hero-button {
-        width: 100%;
-        max-width: 250px;
-        padding: 10px 0;
+        width: 80%;
+        max-width: 300px;
+        padding: 12px 0;
     }
 
     .socials {
