@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Startelf – GoalNewsDE</title>
+<link rel="icon" href="https://i.ibb.co/21R6p75W/icon.png">
+<style>
+    body {
+        font-family: "Poppins", sans-serif;
+        background: radial-gradient(circle at center, #0a1a2f, #060c18);
+        color: white;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    h1 {
+        margin-top: 20px;
+        font-size: 28px;
+        letter-spacing: 1px;
+    }
+
+    .field {
+        width: 90%;
+        max-width: 600px;
+        aspect-ratio: 2/3;
+        background: linear-gradient(to bottom, #0b3d0b, #063f06);
+        border: 3px solid #ffffff33;
+        border-radius: 20px;
+        margin: 30px auto;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .circle {
+        width: 60px;
+        height: 60px;
+        background: #004cff;
+        border: 3px solid white;
+        border-radius: 50%;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: white;
+        font-size: 12px;
+        transition: transform 0.2s;
+    }
+
+    .circle:hover {
+        transform: scale(1.1);
+    }
+
+    .player-number {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .team-label {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+
+    .admin-panel {
+        margin: 20px auto;
+        background: #0a1730;
+        padding: 15px;
+        border-radius: 10px;
+        max-width: 600px;
+    }
+
+    .admin-panel input, select, button {
+        padding: 6px;
+        margin: 5px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+    }
+
+    .admin-panel button {
+        background: #0066ff;
+        color: white;
+        cursor: pointer;
+    }
+
+</style>
+</head>
+<body>
+
+<h1>Startelf – GoalNewsDE</h1>
+
+<div id="adminPanel" class="admin-panel" style="display:none;">
+    <h3>⚙️ Admin-Einstellungen</h3>
+    <label>Formation:</label>
+    <select id="formation">
+        <option value="4-4-2">4-4-2</option>
+        <option value="4-3-3">4-3-3</option>
+        <option value="3-5-2">3-5-2</option>
+        <option value="4-2-3-1">4-2-3-1</option>
+    </select><br>
+    <label>Team:</label>
+    <select id="teamSelect">
+        <option value="home">Heim</option>
+        <option value="away">Auswärts</option>
+    </select><br>
+    <label>Spielername:</label>
+    <input type="text" id="playerName" placeholder="Name"><br>
+    <label>Nummer:</label>
+    <input type="number" id="playerNumber" min="1" max="99"><br>
+    <button onclick="addPlayer()">Spieler hinzufügen</button>
+</div>
+
+<div class="team-label">Heim-Team</div>
+<div id="homeField" class="field"></div>
+
+<div class="team-label">Auswärts-Team</div>
+<div id="awayField" class="field"></div>
+
+<script>
+    // Beispielhafte Admin UIDs:
+    const ADMIN_UIDS = ["g7Lsh9MshAOkwbyHcO3NFsnUpZl1", "lwRnonWRhMOeYedZLAldySkEKso2"];
+    
+    const formations = {
+        "4-4-2": [[1],[2,3,4,5],[6,7,8,9],[10,11]],
+        "4-3-3": [[1],[2,3,4,5],[6,7,8],[9,10,11]],
+        "3-5-2": [[1],[2,3,4],[5,6,7,8,9],[10,11]],
+        "4-2-3-1": [[1],[2,3,4,5],[6,7],[8,9,10],[11]]
+    };
+
+    let teams = {
+        home: { formation: "4-4-2", players: [] },
+        away: { formation: "4-4-2", players: [] }
+    };
+
+    // Admin sichtbar machen
+    if (ADMIN_UIDS.includes(currentUserUID)) {
+        document.getElementById("adminPanel").style.display = "block";
+    }
+
+    function renderTeam(teamName) {
+        const field = document.getElementById(teamName + "Field");
+        field.innerHTML = "";
+
+        const team = teams[teamName];
+        const form = formations[team.formation];
+
+        const height = field.clientHeight;
+        const width = field.clientWidth;
+
+        const yGap = height / (form.length + 1);
+
+        let playerIndex = 0;
+        for (let i = 0; i < form.length; i++) {
+            const line = form[i];
+            const xGap = width / (line.length + 1);
+            for (let j = 0; j < line.length; j++) {
+                const p = team.players[playerIndex] || {name: "?", number: "?"};
+                const x = xGap * (j + 1);
+                const y = yGap * (i + 1);
+                const div = document.createElement("div");
+                div.className = "circle";
+                div.style.left = (x - 30) + "px";
+                div.style.top = (y - 30) + "px";
+                div.innerHTML = `<div class="player-number">${p.number}</div><div>${p.name}</div>`;
+                field.appendChild(div);
+                playerIndex++;
+            }
+        }
+    }
+
+    function addPlayer() {
+        const teamName = document.getElementById("teamSelect").value;
+        const name = document.getElementById("playerName").value;
+        const number = document.getElementById("playerNumber").value;
+        teams[teamName].players.push({name, number});
+        renderTeam(teamName);
+    }
+
+    document.getElementById("formation").addEventListener("change", e => {
+        const form = e.target.value;
+        const teamName = document.getElementById("teamSelect").value;
+        teams[teamName].formation = form;
+        renderTeam(teamName);
+    });
+
+    renderTeam("home");
+    renderTeam("away");
+</script>
+
+</body>
+</html>
