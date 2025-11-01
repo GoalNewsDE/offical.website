@@ -1,124 +1,69 @@
-/* === GLOBAL === */
+/* ===================== Allgemein ===================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", system-ui, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background: radial-gradient(circle at top, #0f1115, #050607);
-    color: #f2f2f2;
+    background-color: #0f0f0f;
+    color: #eee;
+    line-height: 1.6;
     overflow-x: hidden;
-    min-height: 100vh;
 }
 
-/* === SCROLLBAR === */
-::-webkit-scrollbar {
-    width: 10px;
+a {
+    color: #1db954;
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #1db954, #158a3c);
-    border-radius: 6px;
+a:hover {
+    color: #14a34a;
 }
 
-/* === HEADER === */
-/* === HEADER === */
+/* ===================== Header ===================== */
 header {
     position: sticky;
+    /* bleibt beim Scrollen oben */
     top: 0;
-    background: rgba(15, 17, 21, 0.8);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 1rem 2rem;
+    z-index: 999;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    padding: 15px 0;
+    background: linear-gradient(90deg, #1db954, #14a34a);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
 header .logo {
+    font-size: 2rem;
     font-weight: 800;
-    font-size: 1.8rem;
-    letter-spacing: 0.5px;
-    color: #1db954;
-    text-transform: none;
-    /* <— Groß-/Kleinschreibung beibehalten */
-    text-shadow: 0 0 12px rgba(29, 185, 84, 0.4);
-}
-
-
-/* === HERO === */
-.hero-container {
-    position: relative;
-    text-align: center;
-    padding: 6rem 1rem 4rem;
-}
-
-.bg-logo {
-    position: absolute;
-    inset: 0;
-    font-size: 10rem;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.03);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 0;
-    user-select: none;
-}
-
-.hero-text {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    z-index: 1;
-    position: relative;
-}
-
-.hero-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    z-index: 2;
-    position: relative;
-}
-
-.hero-button {
-    padding: 0.9rem 1.6rem;
-    background: linear-gradient(145deg, #1db954, #17a047);
-    border-radius: 999px;
     color: #fff;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
+    letter-spacing: 2px;
 }
 
-.hero-button:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 0 18px rgba(29, 185, 84, 0.4);
-}
 
-/* === BREAKING NEWS === */
+/* ===================== Breaking News ===================== */
 #breakingNews {
-    background: #1db954;
-    color: #fff;
+    background: #111;
     overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-    font-weight: 500;
-    padding: 0.6rem 0;
+    border-left: 4px solid #1db954;
 }
 
 .news-wrapper {
-    display: inline-block;
-    animation: scroll 40s linear infinite;
+    display: flex;
+    animation: scroll 25s linear infinite;
 }
 
 .news-item {
-    margin-right: 3rem;
+    padding: 0 50px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #1db954;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
 @keyframes scroll {
@@ -131,97 +76,199 @@ header .logo {
     }
 }
 
-/* === COUNTDOWN === */
-.countdown-section {
+/* ===================== Hero Section ===================== */
+.hero-container {
     text-align: center;
-    padding: 3rem 1rem;
-    background: rgba(255, 255, 255, 0.02);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px 20px 60px 20px;
+    /* weniger oben, damit Buttons näher an Header */
+    position: relative;
+    overflow: hidden;
 }
 
-.countdown-section h2 {
-    font-size: 1.6rem;
-    color: #1db954;
-    margin-bottom: 0.5rem;
+.bg-logo {
+    font-size: 8rem;
+    color: rgba(29, 185, 84, 0.07);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    font-weight: 900;
+    pointer-events: none;
 }
 
-#countdown {
-    font-size: 2rem;
+.hero-text {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    z-index: 1;
+    position: relative;
+    font-weight: 500;
+}
+
+/* Hero Buttons direkt unter Text ohne Abstand */
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
+    /* entfernt Abstand nach oben */
+}
+
+/* ===================== Buttons ===================== */
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-button {
+    padding: 14px 32px;
+    border-radius: 50px;
     font-weight: 700;
-    letter-spacing: 1px;
-}
-
-/* === MATCHES === */
-.matches {
-    text-align: center;
-    padding: 3rem 1rem;
-}
-
-.matches h2 {
-    font-size: 1.8rem;
-    color: #1db954;
-    margin-bottom: 1.5rem;
-}
-
-.matches h3,
-.matches h4 {
-    font-weight: 400;
-    line-height: 1.6;
-    color: #ddd;
-}
-
-.matches strong {
+    text-transform: uppercase;
+    background: linear-gradient(145deg, #1db954, #14a34a);
     color: #fff;
-    font-weight: 700;
+    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    animation: glowPulse 2.5s infinite alternate;
 }
 
-/* === SOCIALS === */
+.hero-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+}
+
+.hero-button:hover::after {
+    top: 0;
+    left: 0;
+}
+
+.hero-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6), 0 12px 35px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 8px 20px rgba(29, 185, 84, 0.7), 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* ===================== Socials ===================== */
 .socials {
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    margin: 2rem 0;
+    gap: 25px;
+    padding: 25px 0;
 }
 
 .socials a {
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 8px 15px;
+    border-radius: 25px;
+    background: #1db954;
+    transition: transform 0.2s, background 0.3s;
     color: #fff;
-    text-decoration: none;
-    background: rgba(255, 255, 255, 0.08);
-    padding: 0.6rem 1.2rem;
-    border-radius: 12px;
-    transition: 0.3s;
 }
 
 .socials a:hover {
-    background: #1db954;
-    color: #111;
+    transform: scale(1.1);
+    background: #14a34a;
 }
 
-/* === LIVE-TICKER === */
+/* ===================== Countdown ===================== */
+.countdown-section {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.countdown-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #1db954;
+}
+
+.countdown-section #countdown {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1db954;
+}
+
+/* ===================== Matches ===================== */
+.matches {
+    padding: 30px 20px;
+    max-width: 950px;
+    margin: auto;
+    background: #111;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.matches h2,
+.matches h3,
+.matches h4 {
+    margin-bottom: 12px;
+}
+
+.matches h2 {
+    color: #1db954;
+}
+
+.matches h2.topspiel {
+    color: gold;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+/* ===================== Live-Ticker ===================== */
 .ticker-wrapper {
-    position: relative;
+    background: #1a1a1a;
     overflow: hidden;
-    height: 45px;
-    /* Höhe des Tickers */
-    background: rgba(18, 18, 18, 0.95);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 10px 0;
+    border-left: 4px solid #1db954;
+    width: 100%;
     display: flex;
     align-items: center;
-    padding-left: 10px;
-    font-family: "Poppins", sans-serif;
+    height: 40px;
+    position: relative;
 }
 
 .ticker {
     display: inline-block;
     white-space: nowrap;
     font-weight: 500;
-    font-size: 1rem;
     color: #1db954;
+    font-size: 1rem;
     line-height: 1;
     will-change: transform;
-    /* Keine feste Animation hier – JS steuert Dauer und Start */
+}
+
+.ticker span {
+    display: inline-block;
+    padding: 0 50px;
 }
 
 @keyframes scrollTicker {
@@ -234,44 +281,129 @@ header .logo {
     }
 }
 
-/* Optional: schöner Glow Effekt */
-.ticker span {
-    padding-right: 2rem;
-    text-shadow: 0 0 6px rgba(29, 185, 84, 0.4);
+/* ===================== Problem melden Button ===================== */
+#reportButton {
+    background: linear-gradient(145deg, #1db954, #14a34a);
+    color: #fff;
+    border: none;
+    padding: 14px 26px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    animation: glowPulse 2.5s infinite alternate;
 }
 
-
-/* === REPORT SECTION === */
-#reportSection button {
-    transition: all 0.3s ease;
+#reportButton::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    transition: all 0.5s;
 }
 
-#reportSection button:hover {
-    background: #17a047;
-    transform: translateY(-2px);
+#reportButton:hover::after {
+    top: 0;
+    left: 0;
 }
 
-/* === FOOTER === */
+#reportButton:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6), 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+/* ===================== Footer ===================== */
 footer {
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 25px;
+    background: #111;
     font-size: 0.9rem;
-    color: #888;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(6px);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: #aaa;
 }
 
-footer a {
-    color: #1db954;
-    margin: 0 8px;
-    text-decoration: none;
+/* ===================== Mobile Optimization ===================== */
+@media (max-width: 480px) {
+    body {
+        font-size: 15px;
+        padding: 0 10px;
+    }
+
+    header .logo {
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+    }
+
+    .hero-container {
+        padding: 60px 15px;
+    }
+
+    .bg-logo {
+        font-size: 4.5rem;
+        top: 55%;
+        color: rgba(29, 185, 84, 0.15);
+        text-shadow: 0 0 20px rgba(29, 255, 84, 0.2);
+    }
+
+    .hero-text {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hero-button {
+        width: 100%;
+        max-width: 280px;
+        padding: 14px 0;
+        font-size: 1rem;
+        border-radius: 40px;
+        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.6), 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .news-item {
+        padding: 0 25px;
+    }
+
+    .matches {
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+
+    .socials {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #reportButton {
+        width: 80%;
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    .countdown-section #countdown {
+        font-size: 2rem;
+    }
+
+    footer {
+        font-size: 0.8rem;
+        padding: 15px 10px;
+    }
 }
 
-/* === RESPONSIVE === */
 @media (max-width: 768px) {
     .bg-logo {
-        font-size: 5rem;
+        font-size: 4.5rem;
     }
 
     .hero-text {
@@ -279,11 +411,19 @@ footer a {
     }
 
     .hero-buttons {
-        gap: 0.7rem;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .hero-button {
-        font-size: 0.9rem;
-        padding: 0.7rem 1.3rem;
+        flex: 1 1 calc(50% - 10px);
+    }
+
+    .matches {
+        max-width: 95%;
+    }
+
+    footer {
+        font-size: 0.85rem;
     }
 }
