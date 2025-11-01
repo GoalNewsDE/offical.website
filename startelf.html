@@ -64,23 +64,13 @@
         overflow: hidden;
     }
 
-    .field::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: rgba(255,255,255,0.4);
-        transform: translateX(-50%);
-    }
-
     .player {
         position: absolute;
         width: 60px;
         text-align: center;
         transform: translate(-50%, -50%);
         transition: transform 0.3s ease;
+        cursor: pointer;
     }
 
     .circle {
@@ -138,6 +128,7 @@
         <option value="4-3-3">4-3-3</option>
         <option value="3-5-2">3-5-2</option>
         <option value="5-3-2">5-3-2</option>
+        <option value="4-2-3-1">4-2-3-1</option>
     </select>
 </div>
 
@@ -154,81 +145,90 @@
 </div>
 
 <script>
-/* Beispielhafte UIDs der Admins */
-const adminUIDs = ["adminUID_1", "adminUID_2"];
-const currentUID = "adminUID_1"; // später automatisch aus Firebase gesetzt
+// 🔹 Admin UIDs
+const adminUIDs = ["g7Lsh9MshAOkwbyHcO3NFsnUpZl1", "lwRnonWRhMOeYedZLAldySkEKso2"];
+const currentUID = "g7Lsh9MshAOkwbyHcO3NFsnUpZl1"; // aus Firebase später
 
-/* Wenn Admin → Steuerfeld anzeigen */
-if (adminUIDs.includes(currentUID)) {
-    document.getElementById('adminPanel').style.display = 'block';
+if(adminUIDs.includes(currentUID)){
+    document.getElementById("adminPanel").style.display = "block";
 }
 
-/* Beispiel-Spieler */
-const teamAPlayers = [
-    "Neuer","Mazraoui","de Ligt","Upamecano","Davies",
-    "Kimmich","Goretzka","Musiala","Coman","Kane","Sané"
-];
-const teamBPlayers = [
-    "Kobel","Ryerson","Hummels","Schlotterbeck","Bensebaini",
-    "Can","Brandt","Sabitzer","Malen","Füllkrug","Adeyemi"
-];
+// 🔹 Spieler Arrays mit Objekten
+let teamAPlayers = Array(11).fill().map(()=>({name:"?", number:"?"}));
+let teamBPlayers = Array(11).fill().map(()=>({name:"?", number:"?"}));
 
-/* Positionierung nach Formation */
-function setFormation(teamField, players, formation) {
-    teamField.innerHTML = "";
+// 🔹 Aktuelle Formation
+let currentFormation = "4-3-3";
 
-    const rows = formation.split('-').map(n => parseInt(n));
-    const total = rows.reduce((a,b)=>a+b,1); // +1 für Torwart
-    let playerIndex = 0;
-
+// 🔹 Positionierung
+function setFormation(field, players, formation){
+    field.innerHTML = "";
+    const rows = formation.split('-').map(n=>parseInt(n));
     const stepY = 100 / (rows.length + 1);
     let currentY = 100 - stepY; // Torwart unten
+    let index = 0;
 
     // Torwart
-    addPlayer(teamField, players[playerIndex++], currentY, 50);
+    addPlayer(field, players[index++], currentY, 50);
 
-    // Linien
-    for (let i = 0; i < rows.length; i++) {
+    for(let i=0;i<rows.length;i++){
         currentY -= stepY;
         const count = rows[i];
         const stepX = 100 / (count + 1);
-        for (let j = 0; j < count; j++) {
+        for(let j=0;j<count;j++){
             const x = stepX * (j + 1);
-            const y = currentY;
-            addPlayer(teamField, players[playerIndex++], y, x);
+            addPlayer(field, players[index++], currentY, x);
         }
     }
 }
 
-/* Spieler erzeugen */
-function addPlayer(field, name, top, left) {
+// 🔹 Spieler erzeugen
+function addPlayer(field, playerObj, top, left){
     const player = document.createElement("div");
     player.className = "player";
     player.style.top = top + "%";
     player.style.left = left + "%";
+
     const circle = document.createElement("div");
     circle.className = "circle";
-    circle.textContent = field.children.length + 1;
+    circle.textContent = playerObj.number !== "?" ? playerObj.number : "";
+
     const label = document.createElement("div");
     label.className = "name";
-    label.textContent = name;
+    label.textContent = playerObj.name;
+
+    // Nur Admin kann bearbeiten
+    if(adminUIDs.includes(currentUID)){
+        circle.onclick = () => {
+            const name = prompt("Spielername eingeben:", playerObj.name);
+            const number = prompt("Nummer eingeben:", playerObj.number);
+            if(name && number){
+                playerObj.name = name;
+                playerObj.number = number;
+                setFormation(fieldA, teamAPlayers, currentFormation);
+                setFormation(fieldB, teamBPlayers, currentFormation);
+            }
+        }
+    }
+
     player.appendChild(circle);
     player.appendChild(label);
     field.appendChild(player);
 }
 
-/* Initial */
+// 🔹 Initial Render
 const fieldA = document.getElementById("fieldA");
 const fieldB = document.getElementById("fieldB");
-setFormation(fieldA, teamAPlayers, "4-3-3");
-setFormation(fieldB, teamBPlayers, "4-3-3");
+setFormation(fieldA, teamAPlayers, currentFormation);
+setFormation(fieldB, teamBPlayers, currentFormation);
 
-/* Admin kann Formation ändern */
-document.getElementById("formationSelect").addEventListener("change", e => {
-    const formation = e.target.value;
-    setFormation(fieldA, teamAPlayers, formation);
-    setFormation(fieldB, teamBPlayers, formation);
+// 🔹 Admin kann Formation ändern
+document.getElementById("formationSelect").addEventListener("change", e=>{
+    currentFormation = e.target.value;
+    setFormation(fieldA, teamAPlayers, currentFormation);
+    setFormation(fieldB, teamBPlayers, currentFormation);
 });
 </script>
+
 </body>
 </html>
