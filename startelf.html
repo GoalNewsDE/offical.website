@@ -6,109 +6,18 @@
 <title>Startelf – GoalNewsDE</title>
 <link rel="icon" href="https://i.ibb.co/21R6p75W/icon.png">
 <style>
-    body {
-        font-family: "Poppins", sans-serif;
-        background: radial-gradient(circle at center, #0a1a2f, #060c18);
-        color: white;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-    }
-
-    h1 {
-        margin-top: 20px;
-        font-size: 28px;
-        letter-spacing: 1px;
-    }
-
-    .field {
-        width: 90%;
-        max-width: 600px;
-        aspect-ratio: 2/3;
-        background: linear-gradient(to bottom, #0b3d0b, #063f06);
-        border: 3px solid #ffffff33;
-        border-radius: 20px;
-        margin: 30px auto;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .circle {
-        width: 60px;
-        height: 60px;
-        background: #004cff;
-        border: 3px solid white;
-        border-radius: 50%;
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        color: white;
-        font-size: 12px;
-        transition: transform 0.2s;
-    }
-
-    .circle:hover {
-        transform: scale(1.1);
-    }
-
-    .player-number {
-        font-weight: bold;
-        font-size: 16px;
-    }
-
-    .team-label {
-        font-size: 20px;
-        margin: 10px 0;
-    }
-
-    .admin-panel {
-        margin: 20px auto;
-        background: #0a1730;
-        padding: 15px;
-        border-radius: 10px;
-        max-width: 600px;
-    }
-
-    .admin-panel input, select, button {
-        padding: 6px;
-        margin: 5px;
-        border-radius: 5px;
-        border: none;
-        outline: none;
-    }
-
-    .admin-panel button {
-        background: #0066ff;
-        color: white;
-        cursor: pointer;
-    }
+    body { font-family: "Poppins", sans-serif; background: radial-gradient(circle at center, #0a1a2f, #060c18); color: white; margin: 0; padding: 0; text-align: center; }
+    h1 { margin-top: 20px; font-size: 28px; letter-spacing: 1px; }
+    .field { width: 90%; max-width: 600px; aspect-ratio: 2/3; background: linear-gradient(to bottom, #0b3d0b, #063f06); border: 3px solid #ffffff33; border-radius: 20px; margin: 30px auto; position: relative; overflow: hidden; }
+    .circle { width: 60px; height: 60px; background: #004cff; border: 3px solid white; border-radius: 50%; position: absolute; display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; font-size: 12px; cursor: pointer; transition: transform 0.2s; }
+    .circle:hover { transform: scale(1.1); }
+    .player-number { font-weight: bold; font-size: 16px; }
+    .team-label { font-size: 20px; margin: 10px 0; }
 </style>
 </head>
 <body>
-<h1>Startelf – GoalNewsDE</h1>
 
-<div id="adminPanel" class="admin-panel" style="display:none;">
-    <h3>⚙️ Admin-Einstellungen</h3>
-    <label>Formation:</label>
-    <select id="formation">
-        <option value="4-4-2">4-4-2</option>
-        <option value="4-3-3">4-3-3</option>
-        <option value="3-5-2">3-5-2</option>
-        <option value="4-2-3-1">4-2-3-1</option>
-    </select><br>
-    <label>Team:</label>
-    <select id="teamSelect">
-        <option value="home">Heim</option>
-        <option value="away">Auswärts</option>
-    </select><br>
-    <label>Spielername:</label>
-    <input type="text" id="playerName" placeholder="Name"><br>
-    <label>Nummer:</label>
-    <input type="number" id="playerNumber" min="1" max="99"><br>
-    <button onclick="addPlayer()">Spieler hinzufügen</button>
-</div>
+<h1>Startelf – GoalNewsDE</h1>
 
 <div class="team-label">Heim-Team</div>
 <div id="homeField" class="field"></div>
@@ -117,105 +26,117 @@
 <div id="awayField" class="field"></div>
 
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-    // 🔹 Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
-      authDomain: "goalnewsde-community.firebaseapp.com",
-      projectId: "goalnewsde-community",
-      storageBucket: "goalnewsde-community.firebasestorage.app",
-      messagingSenderId: "134523022055",
-      appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
+  authDomain: "goalnewsde-community.firebaseapp.com",
+  projectId: "goalnewsde-community",
+  storageBucket: "goalnewsde-community.firebasestorage.app",
+  messagingSenderId: "134523022055",
+  appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    // 🔹 Admin UIDs
-    const ADMIN_UIDS = ["g7Lsh9MshAOkwbyHcO3NFsnUpZl1", "lwRnonWRhMOeYedZLAldySkEKso2"];
+// 🔹 Admin UIDs
+const ADMIN_UIDS = ["g7Lsh9MshAOkwbyHcO3NFsnUpZl1", "lwRnonWRhMOeYedZLAldySkEKso2"];
+let isAdmin = false;
 
-    const formations = {
-        "4-4-2": [[1],[2,3,4,5],[6,7,8,9],[10,11]],
-        "4-3-3": [[1],[2,3,4,5],[6,7,8],[9,10,11]],
-        "3-5-2": [[1],[2,3,4],[5,6,7,8,9],[10,11]],
-        "4-2-3-1": [[1],[2,3,4,5],[6,7],[8,9,10],[11]]
-    };
+// 🔹 Formationen
+const formations = {
+  "4-4-2": [[1],[2,3,4,5],[6,7,8,9],[10,11]],
+  "4-3-3": [[1],[2,3,4,5],[6,7,8],[9,10,11]],
+  "3-5-2": [[1],[2,3,4],[5,6,7,8,9],[10,11]],
+  "4-2-3-1": [[1],[2,3,4,5],[6,7],[8,9,10],[11]]
+};
 
-    let teams = {
-        home: { formation: "4-4-2", players: [] },
-        away: { formation: "4-4-2", players: [] }
-    };
+let teams = {
+  home: { formation: "4-4-2", players: [] },
+  away: { formation: "4-4-2", players: [] }
+};
 
-    // 🔹 Zeigt das Adminpanel nur für Admins
-    onAuthStateChanged(auth, (user) => {
-      if (user && ADMIN_UIDS.includes(user.uid)) {
-        document.getElementById("adminPanel").style.display = "block";
-      }
-    });
+// 🔹 Initialisierung der Dokumente
+async function ensureDocsExist() {
+  for(const teamName of ["home","away"]) {
+    const ref = doc(db,"startelf",teamName);
+    const snap = await getDoc(ref);
+    if(!snap.exists()){
+      await setDoc(ref,{ formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) });
+    }
+  }
+}
 
-    // 🔹 Render-Funktion
-    function renderTeam(teamName) {
-        const field = document.getElementById(teamName + "Field");
-        field.innerHTML = "";
+// 🔹 Renderfunktion
+function renderTeam(teamName){
+  const field = document.getElementById(teamName+"Field");
+  field.innerHTML="";
+  const team = teams[teamName];
+  const form = formations[team.formation];
 
-        const team = teams[teamName];
-        const form = formations[team.formation];
+  // 🔹 echte Breite/Höhe
+  const rect = field.getBoundingClientRect();
+  const width = rect.width;
+  const height = rect.height;
+  const yGap = height/(form.length+1);
 
-        const height = field.clientHeight;
-        const width = field.clientWidth;
-        const yGap = height / (form.length + 1);
+  let playerIndex=0;
+  for(let i=0;i<form.length;i++){
+    const line = form[i];
+    const xGap = width/(line.length+1);
 
-        let playerIndex = 0;
-        for (let i = 0; i < form.length; i++) {
-            const line = form[i];
-            const xGap = width / (line.length + 1);
-            for (let j = 0; j < line.length; j++) {
-                const p = team.players[playerIndex] || {name: "?", number: "?"};
-                const x = xGap * (j + 1);
-                const y = yGap * (i + 1);
-                const div = document.createElement("div");
-                div.className = "circle";
-                div.style.left = (x - 30) + "px";
-                div.style.top = (y - 30) + "px";
-                div.innerHTML = `<div class="player-number">${p.number}</div><div>${p.name}</div>`;
-                field.appendChild(div);
-                playerIndex++;
-            }
+    for(let j=0;j<line.length;j++){
+      const p = team.players[playerIndex] || {name:"?",number:"?"};
+      const x = xGap*(j+1);
+      const y = yGap*(i+1);
+
+      const div = document.createElement("div");
+      div.className="circle";
+      div.style.left = `${x-30}px`;
+      div.style.top = `${y-30}px`;
+      div.innerHTML=`<div class="player-number">${p.number}</div><div>${p.name}</div>`;
+
+      // 🔹 Klick nur für Admin
+      if(isAdmin){
+        div.onclick=async()=>{
+          const name = prompt("Spielername eingeben:",p.name==="?"?"":p.name);
+          if(name===null) return;
+          const number = prompt("Nummer eingeben:",p.number==="?"?"":p.number);
+          if(number===null) return;
+          teams[teamName].players[playerIndex]={name,number};
+          await updateDoc(doc(db,"startelf",teamName),teams[teamName]);
         }
+      }
+
+      field.appendChild(div);
+      playerIndex++;
     }
+  }
+}
 
-    // 🔹 Spieler hinzufügen (Admin)
-    async function addPlayer() {
-        const teamName = document.getElementById("teamSelect").value;
-        const name = document.getElementById("playerName").value;
-        const number = document.getElementById("playerNumber").value;
+// 🔹 Auth prüfen und Firestore abonnieren
+window.addEventListener("load", async ()=>{
+  onAuthStateChanged(auth, async(user)=>{
+    if(user && ADMIN_UIDS.includes(user.uid)) isAdmin=true;
 
-        teams[teamName].players.push({ name, number });
-        await updateDoc(doc(db, "startelf", teamName), teams[teamName]);
-    }
+    await ensureDocsExist();
 
-    document.getElementById("formation").addEventListener("change", async (e) => {
-        const form = e.target.value;
-        const teamName = document.getElementById("teamSelect").value;
-        teams[teamName].formation = form;
-        await updateDoc(doc(db, "startelf", teamName), teams[teamName]);
+    ["home","away"].forEach(teamName=>{
+      onSnapshot(doc(db,"startelf",teamName), snap=>{
+        if(snap.exists()){
+          teams[teamName]=snap.data();
+          renderTeam(teamName);
+        }
+      });
     });
-
-    // 🔹 Realtime-Update aus Firestore
-    ["home", "away"].forEach(teamName => {
-        const ref = doc(db, "startelf", teamName);
-        onSnapshot(ref, snap => {
-            if (snap.exists()) {
-                teams[teamName] = snap.data();
-                renderTeam(teamName);
-            }
-        });
-    });
+  });
+});
 </script>
+
 </body>
 </html>
 
