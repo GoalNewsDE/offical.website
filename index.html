@@ -173,7 +173,7 @@
             }
         }, 1000);
 
-        // Live-Ticker
+        // === LIVE-TICKER ===
         document.addEventListener("DOMContentLoaded", async () => {
             const ticker = document.getElementById("ticker");
             const api = SheetsAPI.getInstance();
@@ -183,16 +183,20 @@
                 try {
                     const data = await api.fetchTicker();
                     const flatData = data.flat();
-                    ticker.textContent = flatData.join(' • ');
+                    const text = flatData.join(" • ");
+                    ticker.textContent = text;
 
-                    const textWidth = ticker.offsetWidth;
-                    const wrapperWidth = ticker.parentElement.offsetWidth;
-                    const duration = (textWidth + wrapperWidth) * 15;
-                    ticker.style.animation = `scrollTicker ${duration}ms linear infinite`;
+                    // Animation neu starten, damit sie nicht hängenbleibt
+                    ticker.style.animation = "none";
+                    void ticker.offsetWidth; // Trick: Reflow erzwingt Restart
+                    ticker.style.animation = "scrollTicker 25s linear infinite";
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
                 }
             }
+
+            // Direkt laden + regelmäßig aktualisieren
+            await updateTicker();
             autoRefresh.start(updateTicker, 5000, "Ticker");
         });
     </script>

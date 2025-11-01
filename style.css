@@ -198,22 +198,33 @@ header .logo {
     color: #111;
 }
 
-/* === TICKER === */
+/* === LIVE-TICKER === */
 .ticker-wrapper {
+    position: relative;
     overflow: hidden;
+    height: 45px;
+    /* Höhe des Tickers */
+    background: rgba(18, 18, 18, 0.95);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(255, 255, 255, 0.02);
-    padding: 0.8rem 0;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-family: "Poppins", sans-serif;
 }
 
 .ticker {
-    white-space: nowrap;
     display: inline-block;
-    animation: tickerMove 25s linear infinite;
+    white-space: nowrap;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #1db954;
+    line-height: 1;
+    will-change: transform;
+    /* Keine feste Animation hier – JS steuert Dauer und Start */
 }
 
-@keyframes tickerMove {
+@keyframes scrollTicker {
     0% {
         transform: translateX(100%);
     }
@@ -222,6 +233,13 @@ header .logo {
         transform: translateX(-100%);
     }
 }
+
+/* Optional: schöner Glow Effekt */
+.ticker span {
+    padding-right: 2rem;
+    text-shadow: 0 0 6px rgba(29, 185, 84, 0.4);
+}
+
 
 /* === REPORT SECTION === */
 #reportSection button {
