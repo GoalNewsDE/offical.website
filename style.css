@@ -285,15 +285,23 @@ footer {
     }
 
     .hero-buttons {
+        display: flex;
         flex-direction: column;
-        gap: 12px;
         align-items: center;
+        gap: 12px;
     }
 
     .hero-button {
-        width: 80%;
+        display: block;
+        width: 90%;
         max-width: 300px;
         padding: 12px 0;
+        text-align: center;
+    }
+
+    .hero-button:hover {
+        transform: scale(1.1);
+        background: #14a34a;
     }
 
     .socials {
