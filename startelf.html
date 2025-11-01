@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Startelf – GoalNewsDE</title>
-<link rel="icon" href="https://i.ibb.co/21R6p75W/icon.png">
 <style>
 body { font-family: "Poppins", sans-serif; background: radial-gradient(circle at center, #0a1a2f, #060c18); color: white; margin: 0; padding: 0; text-align: center; }
 h1 { margin-top: 20px; font-size: 28px; letter-spacing: 1px; }
@@ -50,9 +49,8 @@ h1 { margin-top: 20px; font-size: 28px; letter-spacing: 1px; }
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
   authDomain: "goalnewsde-community.firebaseapp.com",
@@ -80,23 +78,23 @@ const formations = {
 
 let teams = {};
 
-// Funktion um sicherzustellen, dass das Team-Dokument existiert
-async function ensureTeamExists(teamName) {
+// sicherstellen, dass Team existiert
+async function ensureTeamExists(teamName){
   const ref = doc(db,"startelf",teamName);
   const snap = await getDoc(ref);
-  if (!snap.exists()) {
-    await setDoc(ref,{ formation:"4-4-2", players:[] });
+  if(!snap.exists()){
+    await setDoc(ref,{formation:"4-4-2", players:[]});
   }
   return ref;
 }
 
 // Team laden & live Updates
-async function loadTeam(teamName) {
+async function loadTeam(teamName){
   const teamRef = await ensureTeamExists(teamName);
 
   onSnapshot(teamRef,(docSnap)=>{
     const data = docSnap.data();
-    if(!data.players) data.players = [];
+    if(!data.players) data.players=[];
     teams[teamName] = data;
     renderTeam(teamName);
   });
@@ -134,10 +132,9 @@ function renderTeam(teamName){
           const number = prompt("Nummer eingeben:",p?p.number:"");
           if(number===null) return;
 
-          const newPlayer = {name,number};
           const playersCopy = [...team.players];
-          playersCopy[playerIndex] = newPlayer;
-          await updateDoc(doc(db,"startelf",teamName),{players:playersCopy});
+          playersCopy[playerIndex] = {name, number};
+          await setDoc(doc(db,"startelf",teamName), {formation: team.formation, players: playersCopy});
         }
       }
 
@@ -151,13 +148,14 @@ function renderTeam(teamName){
 document.getElementById("updateFormation").onclick = async()=>{
   const teamName = document.getElementById("teamSelect").value;
   const formation = document.getElementById("formationSelect").value;
-  await updateDoc(doc(db,"startelf",teamName),{formation});
+  const team = teams[teamName];
+  await setDoc(doc(db,"startelf",teamName), {formation, players: team.players});
 }
 
 // Auth & Ladefunktion
 onAuthStateChanged(auth,user=>{
   if(user && ADMIN_UIDS.includes(user.uid)){
-    isAdmin = true;
+    isAdmin=true;
     document.getElementById("adminPanel").style.display="block";
   }
   loadTeam("home");
@@ -166,3 +164,4 @@ onAuthStateChanged(auth,user=>{
 </script>
 </body>
 </html>
+
