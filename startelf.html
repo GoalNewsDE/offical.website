@@ -78,7 +78,7 @@ const formations = {
 
 let teams = {};
 
-// sicherstellen, dass Team existiert
+// Sicherstellen, dass Team existiert
 async function ensureTeamExists(teamName){
   const ref = doc(db,"startelf",teamName);
   const snap = await getDoc(ref);
@@ -123,7 +123,7 @@ function renderTeam(teamName){
       div.className="circle";
       div.style.left=`${x-30}px`;
       div.style.top=`${y-30}px`;
-      div.innerHTML = p ? `<div class="player-number">${p.number}</div><div>${p.name}</div>` : "+";
+      div.innerHTML = p && p.name!="?" ? `<div class="player-number">${p.number}</div><div>${p.name}</div>` : "+";
 
       if(isAdmin){
         div.onclick = async()=>{
@@ -133,8 +133,12 @@ function renderTeam(teamName){
           if(number===null) return;
 
           const playersCopy = [...team.players];
+          while(playersCopy.length <= playerIndex){
+              playersCopy.push({name:"?", number:"?"});
+          }
           playersCopy[playerIndex] = {name, number};
-          await setDoc(doc(db,"startelf",teamName), {formation: team.formation, players: playersCopy});
+
+          await setDoc(doc(db,"startelf",teamName), {formation: team.formation, players: playersCopy}, {merge:true});
         }
       }
 
@@ -149,7 +153,7 @@ document.getElementById("updateFormation").onclick = async()=>{
   const teamName = document.getElementById("teamSelect").value;
   const formation = document.getElementById("formationSelect").value;
   const team = teams[teamName];
-  await setDoc(doc(db,"startelf",teamName), {formation, players: team.players});
+  await setDoc(doc(db,"startelf",teamName), {formation, players: team.players}, {merge:true});
 }
 
 // Auth & Ladefunktion
@@ -164,4 +168,3 @@ onAuthStateChanged(auth,user=>{
 </script>
 </body>
 </html>
-
