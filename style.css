@@ -132,17 +132,6 @@ header .logo {
     position: relative;
 }
 
-.bg-logo {
-    font-size: 10rem;
-    color: rgba(29, 185, 84, 0.07);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-    font-weight: 900;
-}
-
 .hero-text {
     font-size: 1.6rem;
     margin-bottom: 40px;
@@ -261,9 +250,7 @@ footer {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-    .bg-logo {
-        font-size: 6rem;
-    }
+
 
     .hero-text {
         font-size: 1.3rem;
@@ -276,9 +263,6 @@ footer {
 }
 
 @media (max-width: 480px) {
-    .bg-logo {
-        font-size: 4rem;
-    }
 
     .hero-text {
         font-size: 1.1rem;
