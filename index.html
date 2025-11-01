@@ -30,6 +30,16 @@
                 Saisonniederlage!</span>
             <span class="news-item">Sky-Experte Didi Hamann über Wagner: "Jetzt auf ihn loszugehen, halte ich nicht für
                 richtig"</span>
+            <span class="news-item">Am. Football: Am 9.11.2025: Berlin-Game Indianapolis Colts - Atlanta Falcons</span>
+            <span class="news-item">Comeback von Alphonso Davies: "Er ist schon wieder mit Ball beim Training"!</span>
+            <span class="news-item">Der Spielplan des Borussia Dortmund im November ist vollgepackt – gleich sechs
+                Pflichtspiele in Bundesliga und Champions League stehen an.</span>
+            <span class="news-item">Borussia Dortmund besiegt FC Augsburg 1:0 dank Treffer von Serhou Guirassy – ein
+                Statement vorm Kracher gegen Man City.</span>
+            <span class="news-item">Erstes Gegentor nach 25 Sekunden: Union-Frauen kassieren gegen Bremen vierte
+                Saisonniederlage!</span>
+            <span class="news-item">Sky-Experte Didi Hamann über Wagner: "Jetzt auf ihn loszugehen, halte ich nicht für
+                richtig"</span>
         </div>
     </div>
 
@@ -53,16 +63,15 @@
             <a href="login.html" class="hero-button">Secret</a>
             <a href="comments.html" class="hero-button"> Kommentar Forum</a>
             <a href="abstimmungen.html" class="hero-button">Abstimmungen</a>
-            <a href="football.html" class="hero-button">Am. Football</a>
         </div>
     </div>
     <div class="socials">
-        <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank" class="social-link">WhatsApp</a>
-        <a href="https://youtube.com/" target="_blank" class="social-link">YouTube</a>
+        <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank">WhatsApp</a>
+        <a href="https://youtube.com/" target="_blank">YouTube</a>
     </div>
 
     <div class="countdown-section">
-        <h2>⏱️ 1. Samstagsspeil (9. Spieltag) startet in:</h2>
+        <h2>⏱️ Spieltag 9 startet in:</h2>
         <div id="countdown">lade...</div>
     </div>
 
@@ -94,9 +103,8 @@
     <!-- Footer -->
     <footer>
         GoalNewsDE © 2025 – Don’t steal our stuff.
-        <a href="mailto:info@goalnewsde.de" class="footer-link">Email</a> |
-        <a href="agb.html" class="footer-link">Datenschutz</a> |
-        <a href="Sicherheit infos.html" class="footer-link">Sicherheit</a>
+        <a href="mailto:info@goalnewsde.de">Email</a> | <a href="agb.html">Datenschutz</a> | <a
+            href="Sicherheit infos.html">Sicherheit</a>
     </footer>
 
     <!-- Problem melden -->
@@ -155,7 +163,7 @@
         document.body.classList.add('dark');
 
         // Countdown
-        const matchDate = new Date("November 1, 2025 15:30:00").getTime();
+        const matchDate = new Date("October 31, 2025 20:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
 
         setInterval(() => {
@@ -198,11 +206,10 @@
         });
     </script>
 
-    <!-- Firebase Problem melden + Analytics -->
+    <!-- Firebase Problem melden -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-analytics.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
@@ -210,13 +217,11 @@
             projectId: "goalnewsde-community",
             storageBucket: "goalnewsde-community.firebasestorage.app",
             messagingSenderId: "134523022055",
-            appId: "1:134523022055:web:4f35ed7812d06e4fb55042",
-            measurementId: "G-XXXXXXX" // Optional, falls du Analytics willst
+            appId: "1:134523022055:web:4f35ed7812d06e4fb55042"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const analytics = getAnalytics(app);
 
         document.addEventListener("DOMContentLoaded", () => {
             const reportButton = document.getElementById("reportButton");
@@ -225,13 +230,10 @@
             const errorType = document.getElementById("errorType");
             const errorDescription = document.getElementById("errorDescription");
 
-            // Toggle Report Form
             reportButton.addEventListener("click", () => {
                 reportForm.style.display = reportForm.style.display === "none" ? "block" : "none";
-                logEvent(analytics, 'button_click', { button_name: 'reportButton' });
             });
 
-            // Send Report
             sendReport.addEventListener("click", async () => {
                 const type = errorType.value;
                 const description = errorDescription.value.trim();
@@ -246,32 +248,10 @@
                     alert("✅ Vielen Dank! Dein Bericht wurde anonym gesendet.");
                     errorDescription.value = "";
                     reportForm.style.display = "none";
-                    logEvent(analytics, 'report_sent', { type });
                 } catch (e) {
                     console.error("Fehler beim Senden:", e);
                     alert("❌ Fehler beim Senden. Bitte später erneut versuchen.");
                 }
-            });
-
-            // Track all Hero Buttons
-            document.querySelectorAll('.hero-button').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    logEvent(analytics, 'button_click', { button_name: btn.textContent.trim() });
-                });
-            });
-
-            // Track Social Links
-            document.querySelectorAll('.social-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    logEvent(analytics, 'social_click', { social_name: link.textContent.trim(), url: link.href });
-                });
-            });
-
-            // Track Footer Links
-            document.querySelectorAll('.footer-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    logEvent(analytics, 'footer_click', { link_name: link.textContent.trim(), url: link.href });
-                });
             });
         });
     </script>
