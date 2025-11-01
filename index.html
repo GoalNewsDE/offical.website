@@ -57,14 +57,14 @@
     </div>
 
     <div class="countdown-section">
-        <h2>⏱️ BL-Konferenz startet in:</h2>
+        <h2>⏱️ Spieltag 9 startet in:</h2>
         <div id="countdown">lade...</div>
     </div>
 
     <div class="matches">
         <h2>⚽ Bundesliga - Spieltag 9 (31. Oktober - 2. November)</h2>
         <h4>Freitag:</h4>
-        <h3>FC Augsburg 0:1 Borussia Dortmund (FT)</h3>
+        <h3>FC Augsburg - Borussia Dortmund</h3>
         <h4>Samstag:</h4>
         <h3>
             Mainz 05 - Werder Bremen (15:30 Uhr)<br>
@@ -148,7 +148,7 @@
         document.body.classList.add('dark');
 
         // Countdown
-        const matchDate = new Date("November 1, 2025 15:30:00").getTime();
+        const matchDate = new Date("October 31, 2025 20:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
 
         setInterval(() => {
@@ -164,16 +164,10 @@
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-            // Wenn weniger als 24h -> Tage nicht mehr anzeigen
-            if (diff < 86_400_000) {
-                countdownEl.textContent = `${h}h ${m}m ${s}s`;
-            } else {
-                countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
-            }
+            countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
-        // === LIVE-TICKER ===
+        // Live-Ticker
         document.addEventListener("DOMContentLoaded", async () => {
             const ticker = document.getElementById("ticker");
             const api = SheetsAPI.getInstance();
@@ -183,20 +177,16 @@
                 try {
                     const data = await api.fetchTicker();
                     const flatData = data.flat();
-                    const text = flatData.join(" • ");
-                    ticker.textContent = text;
+                    ticker.textContent = flatData.join(' • ');
 
-                    // Animation neu starten, damit sie nicht hängenbleibt
-                    ticker.style.animation = "none";
-                    void ticker.offsetWidth; // Trick: Reflow erzwingt Restart
-                    ticker.style.animation = "scrollTicker 25s linear infinite";
+                    const textWidth = ticker.offsetWidth;
+                    const wrapperWidth = ticker.parentElement.offsetWidth;
+                    const duration = (textWidth + wrapperWidth) * 15;
+                    ticker.style.animation = `scrollTicker ${duration}ms linear infinite`;
                 } catch (e) {
                     console.error("Ticker Fehler:", e);
                 }
             }
-
-            // Direkt laden + regelmäßig aktualisieren
-            await updateTicker();
             autoRefresh.start(updateTicker, 5000, "Ticker");
         });
     </script>

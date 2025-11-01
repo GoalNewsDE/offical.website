@@ -1,4 +1,4 @@
-/* ===================== Allgemein ===================== */
+/* ========== Allgemein ========== */
 * {
     margin: 0;
     padding: 0;
@@ -13,6 +13,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Links */
 a {
     color: #1db954;
     text-decoration: none;
@@ -23,16 +24,12 @@ a:hover {
     color: #14a34a;
 }
 
-/* ===================== Header ===================== */
+/* ========== Header ========== */
 header {
-    position: sticky;
-    /* bleibt beim Scrollen oben */
-    top: 0;
-    z-index: 999;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px 0;
+    padding: 20px 0;
     background: linear-gradient(90deg, #1db954, #14a34a);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
@@ -44,8 +41,7 @@ header .logo {
     letter-spacing: 2px;
 }
 
-
-/* ===================== Breaking News ===================== */
+/* ========== Breaking News ========== */
 #breakingNews {
     background: #111;
     overflow: hidden;
@@ -76,17 +72,16 @@ header .logo {
     }
 }
 
-/* ===================== Hero Section ===================== */
+/* ========== Hero Section ========== */
 .hero-container {
     text-align: center;
-    padding: 40px 20px 60px 20px;
-    /* weniger oben, damit Buttons näher an Header */
+    padding: 80px 20px;
     position: relative;
     overflow: hidden;
 }
 
 .bg-logo {
-    font-size: 8rem;
+    font-size: 10rem;
     color: rgba(29, 185, 84, 0.07);
     position: absolute;
     top: 50%;
@@ -94,30 +89,27 @@ header .logo {
     transform: translate(-50%, -50%);
     z-index: 0;
     font-weight: 900;
-    pointer-events: none;
+    letter-spacing: 10px;
+    text-transform: none;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+.bg-logo.active {
+    color: rgba(29, 255, 84, 0.5);
+    transform: translate(-50%, -50%) scale(1.08);
+    text-shadow: 0 0 25px rgba(29, 255, 84, 0.6);
 }
 
 .hero-text {
-    font-size: 1.5rem;
-    margin-bottom: 25px;
+    font-size: 1.6rem;
+    margin-bottom: 40px;
     z-index: 1;
     position: relative;
     font-weight: 500;
 }
 
-/* Hero Buttons direkt unter Text ohne Abstand */
-.hero-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    position: relative;
-    z-index: 2;
-    margin-top: 0;
-    /* entfernt Abstand nach oben */
-}
-
-/* ===================== Buttons ===================== */
+/* Hero Buttons */
 .hero-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -128,17 +120,18 @@ header .logo {
 }
 
 .hero-button {
+    background: linear-gradient(145deg, #1db954, #14a34a);
+    color: #fff;
     padding: 14px 32px;
     border-radius: 50px;
     font-weight: 700;
     text-transform: uppercase;
-    background: linear-gradient(145deg, #1db954, #14a34a);
-    color: #fff;
-    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
+    letter-spacing: 1px;
     position: relative;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     animation: glowPulse 2.5s infinite alternate;
+    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .hero-button::after {
@@ -177,7 +170,7 @@ header .logo {
     }
 }
 
-/* ===================== Socials ===================== */
+/* ========== Socials ========== */
 .socials {
     display: flex;
     justify-content: center;
@@ -200,7 +193,7 @@ header .logo {
     background: #14a34a;
 }
 
-/* ===================== Countdown ===================== */
+/* ========== Countdown ========== */
 .countdown-section {
     text-align: center;
     margin: 50px 0;
@@ -212,13 +205,7 @@ header .logo {
     color: #1db954;
 }
 
-.countdown-section #countdown {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #1db954;
-}
-
-/* ===================== Matches ===================== */
+/* ========== Matches ========== */
 .matches {
     padding: 30px 20px;
     max-width: 950px;
@@ -243,13 +230,12 @@ header .logo {
     text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
 }
 
-/* ===================== Live-Ticker ===================== */
+/* ========== Live-Ticker ========== */
 .ticker-wrapper {
     background: #1a1a1a;
     overflow: hidden;
     padding: 10px 0;
     border-left: 4px solid #1db954;
-    width: 100%;
     display: flex;
     align-items: center;
     height: 40px;
@@ -266,11 +252,6 @@ header .logo {
     will-change: transform;
 }
 
-.ticker span {
-    display: inline-block;
-    padding: 0 50px;
-}
-
 @keyframes scrollTicker {
     0% {
         transform: translateX(100%);
@@ -281,7 +262,7 @@ header .logo {
     }
 }
 
-/* ===================== Problem melden Button ===================== */
+/* ========== Problem melden Button ========== */
 #reportButton {
     background: linear-gradient(145deg, #1db954, #14a34a);
     color: #fff;
@@ -317,10 +298,9 @@ header .logo {
 
 #reportButton:hover {
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6), 0 12px 35px rgba(0, 0, 0, 0.4);
 }
 
-/* ===================== Footer ===================== */
+/* ========== Footer ========== */
 footer {
     text-align: center;
     padding: 25px;
@@ -329,80 +309,9 @@ footer {
     color: #aaa;
 }
 
-/* ===================== Mobile Optimization ===================== */
-@media (max-width: 480px) {
-    body {
-        font-size: 15px;
-        padding: 0 10px;
-    }
-
-    header .logo {
-        font-size: 1.6rem;
-        letter-spacing: 1px;
-    }
-
-    .hero-container {
-        padding: 60px 15px;
-    }
-
-    .bg-logo {
-        font-size: 4.5rem;
-        top: 55%;
-        color: rgba(29, 185, 84, 0.15);
-        text-shadow: 0 0 20px rgba(29, 255, 84, 0.2);
-    }
-
-    .hero-text {
-        font-size: 1.1rem;
-        margin-bottom: 25px;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .hero-button {
-        width: 100%;
-        max-width: 280px;
-        padding: 14px 0;
-        font-size: 1rem;
-        border-radius: 40px;
-        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.6), 0 10px 25px rgba(0, 0, 0, 0.5);
-    }
-
-    .news-item {
-        padding: 0 25px;
-    }
-
-    .matches {
-        padding: 20px 15px;
-        border-radius: 12px;
-    }
-
-    .socials {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    #reportButton {
-        width: 80%;
-        font-size: 15px;
-        padding: 12px;
-    }
-
-    .countdown-section #countdown {
-        font-size: 2rem;
-    }
-
-    footer {
-        font-size: 0.8rem;
-        padding: 15px 10px;
-    }
-}
-
+/* ========== Responsive ========== */
 @media (max-width: 768px) {
-    .bg-logo {
+    .hero-container .bg-logo {
         font-size: 4.5rem;
     }
 
@@ -425,5 +334,68 @@ footer {
 
     footer {
         font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 15px;
+        padding: 0 10px;
+    }
+
+    header .logo {
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+    }
+
+    .hero-container {
+        padding: 60px 15px;
+    }
+
+    .bg-logo {
+        font-size: 2.8rem;
+        top: 55%;
+    }
+
+    .hero-text {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hero-button {
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 0;
+        font-size: 0.95rem;
+    }
+
+    .news-item {
+        padding: 0 25px;
+    }
+
+    .matches {
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+
+    .socials {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #reportButton {
+        width: 80%;
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    footer {
+        font-size: 0.8rem;
+        padding: 15px 10px;
     }
 }
