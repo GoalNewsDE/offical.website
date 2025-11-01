@@ -68,6 +68,7 @@ const db = getFirestore(app);
 const ADMIN_UIDS = ["g7Lsh9MshAOkwbyHcO3NFsnUpZl1","lwRnonWRhMOeYedZLAldySkEKso2"];
 let isAdmin = false;
 
+// Formationen
 const formations = {
   "4-4-2": [[1],[2,3,4,5],[6,7,8,9],[10,11]],
   "4-3-3": [[1],[2,3,4,5],[6,7,8],[9,10,11]],
@@ -77,25 +78,26 @@ const formations = {
   "5-3-2": [[1],[2,3,4,5,6],[7,8,9],[10,11]]
 };
 
-let teams = { home:{formation:"4-4-2",players:Array(11).fill({name:"?",number:"?"})}, away:{formation:"4-4-2",players:Array(11).fill({name:"?",number:"?"})} };
+let teams = {
+  home: { formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) },
+  away: { formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) }
+};
 
-// 🔹 Spieler laden oder Dokument erstellen
+// Spieler aus Firebase laden oder erstellen
 async function loadTeam(teamName){
   const ref = doc(db,"startelf",teamName);
   const snap = await getDoc(ref);
   if(!snap.exists()){
     await setDoc(ref,{ formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) });
-    teams[teamName] = { formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) };
   } else {
     const data = snap.data();
-    // Sicherstellen, dass 11 Spieler da sind
     if(!data.players || data.players.length!==11) data.players = Array(11).fill({name:"?",number:"?"});
     teams[teamName] = data;
   }
   renderTeam(teamName);
 }
 
-// 🔹 Team rendern
+// Team rendern
 function renderTeam(teamName){
   const field = document.getElementById(teamName+"Field");
   field.innerHTML="";
@@ -105,11 +107,11 @@ function renderTeam(teamName){
   const width = rect.width;
   const height = rect.height;
   const yGap = height/(form.length+1);
-  let playerIndex=0;
+  let playerIndex = 0;
 
   for(let i=0;i<form.length;i++){
-    const line=form[i];
-    const xGap=width/(line.length+1);
+    const line = form[i];
+    const xGap = width/(line.length+1);
     for(let j=0;j<line.length;j++){
       const p = team.players[playerIndex] || {name:"?",number:"?"};
       const x = xGap*(j+1);
@@ -138,7 +140,7 @@ function renderTeam(teamName){
   }
 }
 
-// 🔹 Admin Panel Formation speichern
+// Admin: Formation speichern
 document.getElementById("updateFormation").onclick = async()=>{
   const teamName = document.getElementById("teamSelect").value;
   const formation = document.getElementById("formationSelect").value;
@@ -147,7 +149,7 @@ document.getElementById("updateFormation").onclick = async()=>{
   renderTeam(teamName);
 };
 
-// 🔹 Auth & Ladefunktion
+// Auth & Ladefunktion
 onAuthStateChanged(auth,user=>{
   if(user && ADMIN_UIDS.includes(user.uid)){
     isAdmin = true;
