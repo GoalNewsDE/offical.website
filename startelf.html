@@ -35,6 +35,8 @@ h1 { margin-top: 20px; font-size: 28px; letter-spacing: 1px; }
     <option value="4-3-3">4-3-3</option>
     <option value="3-5-2">3-5-2</option>
     <option value="4-2-3-1">4-2-3-1</option>
+    <option value="4-4-1-1">4-4-1-1</option>
+    <option value="5-3-2">5-3-2</option>
   </select><br>
   <button id="updateFormation">Formation speichern</button>
 </div>
@@ -48,7 +50,7 @@ h1 { margin-top: 20px; font-size: 28px; letter-spacing: 1px; }
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
@@ -70,10 +72,12 @@ const formations = {
   "4-4-2": [[1],[2,3,4,5],[6,7,8,9],[10,11]],
   "4-3-3": [[1],[2,3,4,5],[6,7,8],[9,10,11]],
   "3-5-2": [[1],[2,3,4],[5,6,7,8,9],[10,11]],
-  "4-2-3-1": [[1],[2,3,4,5],[6,7],[8,9,10],[11]]
+  "4-2-3-1": [[1],[2,3,4,5],[6,7],[8,9,10],[11]],
+  "4-4-1-1": [[1],[2,3,4,5],[6,7,8,9],[10],[11]],
+  "5-3-2": [[1],[2,3,4,5,6],[7,8,9],[10,11]]
 };
 
-let teams = { home:{formation:"4-4-2",players:[]}, away:{formation:"4-4-2",players:[]} };
+let teams = { home:{formation:"4-4-2",players:Array(11).fill({name:"?",number:"?"})}, away:{formation:"4-4-2",players:Array(11).fill({name:"?",number:"?"})} };
 
 // 🔹 Spieler laden oder Dokument erstellen
 async function loadTeam(teamName){
@@ -83,7 +87,10 @@ async function loadTeam(teamName){
     await setDoc(ref,{ formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) });
     teams[teamName] = { formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) };
   } else {
-    teams[teamName] = snap.data();
+    const data = snap.data();
+    // Sicherstellen, dass 11 Spieler da sind
+    if(!data.players || data.players.length!==11) data.players = Array(11).fill({name:"?",number:"?"});
+    teams[teamName] = data;
   }
   renderTeam(teamName);
 }
@@ -93,9 +100,7 @@ function renderTeam(teamName){
   const field = document.getElementById(teamName+"Field");
   field.innerHTML="";
   const team = teams[teamName];
-  if(!team.players || team.players.length===0) team.players=Array(11).fill({name:"?",number:"?"});
-  const form = formations[team.formation];
-
+  const form = formations[team.formation] || formations["4-4-2"];
   const rect = field.getBoundingClientRect();
   const width = rect.width;
   const height = rect.height;
@@ -109,7 +114,6 @@ function renderTeam(teamName){
       const p = team.players[playerIndex] || {name:"?",number:"?"};
       const x = xGap*(j+1);
       const y = yGap*(i+1);
-
       const div = document.createElement("div");
       div.className="circle";
       div.style.left=`${x-30}px`;
@@ -155,5 +159,3 @@ onAuthStateChanged(auth,user=>{
 </script>
 </body>
 </html>
-
-
