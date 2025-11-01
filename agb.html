@@ -4,70 +4,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGB & Datenschutz – GoalNewsDE</title>
+    <title>AGB - GoalNewsDE</title>
     <style>
+        /* ========== Allgemein ========== */
         body {
+            background-color: #0f0f0f;
+            color: #eee;
             font-family: 'Poppins', sans-serif;
-            background: #fff;
-            color: #111;
             line-height: 1.6;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            color: #1db954;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #14a34a;
+        }
+
+        /* ========== Container ========== */
+        .container {
             max-width: 900px;
-            margin: auto;
+            margin: 50px auto;
+            padding: 0 20px;
         }
 
         h1,
         h2,
         h3 {
             color: #1db954;
+            margin-bottom: 15px;
         }
 
-        a {
-            color: #1db954;
-            text-decoration: underline;
+        p {
+            margin-bottom: 15px;
         }
 
-        body.dark {
+        /* ========== Footer ========== */
+        footer {
+            text-align: center;
+            padding: 25px;
             background: #111;
-            color: #fff;
+            font-size: 0.9rem;
+            color: #aaa;
         }
 
-        body.dark a {
-            color: #00d4ff;
+        footer span {
+            display: block;
+            margin-top: 5px;
+            color: #555;
         }
     </style>
 </head>
 
 <body>
+    <div class="container">
+        <h1>Allgemeine Geschäftsbedingungen (AGB)</h1>
 
-    <h1>AGB & Datenschutz – GoalNewsDE</h1>
+        <h2>1. Datenerhebung & Nutzung</h2>
+        <p>Wir verwenden <strong>Google Analytics</strong>, um die Nutzung unserer Website zu analysieren. Dabei werden
+            Daten wie Seitenaufrufe, Nutzungsdauer und Klickverhalten anonymisiert erfasst.</p>
 
-    <p>Willkommen bei GoalNewsDE. Datenschutz ist uns wichtig – deshalb sammeln oder speichern wir keinerlei persönliche
-        oder technische Daten über dich. Keine Cookies, keine Analyse-Tools, kein Tracking.</p>
+        <h2>2. Registrierung & Benutzerkonto</h2>
+        <p>Wenn du dich bei GoalNewsDE registrierst, speichern wir deine <strong>E-Mail-Adresse</strong> und deinen
+            <strong>Username</strong>. Dein Passwort wird verschlüsselt gespeichert und kann von uns nicht eingesehen
+            werden.</p>
 
-    <h2>Welche Daten werden gesammelt?</h2>
-    <p>Gar keine. Dein Besuch auf dieser Seite wird nicht aufgezeichnet, analysiert oder weitergegeben. Wir wollen
-        Inhalte teilen, keine Profile erstellen.</p>
+        <h2>3. Antworten & Inhalte</h2>
+        <p>Alle von dir abgegebenen Antworten oder Inhalte auf unserer Plattform können von GoalNewsDE eingesehen und
+            verwaltet werden. Wir behalten uns das Recht vor, Inhalte bei Bedarf zu ändern oder zu löschen, um die
+            Plattform sicher und funktionsfähig zu halten.</p>
 
-    <h2>Persönliche Daten</h2>
-    <p>Wir speichern keine persönlichen Daten. Es gibt keine IP-Analyse, keine Standortermittlung, keine
-        pseudonymisierten Nutzerdaten. Wenn du uns per E-Mail kontaktierst, werden deine Daten nur für die Bearbeitung
-        deiner Anfrage verwendet und danach gelöscht.</p>
+        <h2>4. Zugriff & Rechte</h2>
+        <p>GoalNewsDE hat Zugriff auf die von Nutzern bereitgestellten Daten und Inhalte. Du erklärst dich damit
+            einverstanden, dass wir diese Daten verwenden, um unsere Dienste bereitzustellen, Sicherheitsfunktionen zu
+            gewährleisten und die Plattform zu optimieren.</p>
 
-    <h2>Rechtsgrundlage</h2>
-    <p>Da keine Daten erhoben oder verarbeitet werden, ist keine Einwilligung erforderlich. Es gibt auch keinen
-        Cookie-Banner, weil keine Cookies gesetzt werden. Entspann dich also: hier läuft nichts im Hintergrund.</p>
+        <h2>5. Haftung</h2>
+        <p>GoalNewsDE übernimmt keine Haftung für Schäden, die durch die Nutzung der Plattform entstehen, soweit diese
+            nicht gesetzlich zwingend vorgeschrieben sind.</p>
 
-    <h2>Deine Rechte</h2>
-    <p>Da wir keine Daten speichern, musst du auch nichts widerrufen oder löschen. Wenn du uns trotzdem kontaktieren
-        möchtest, kannst du das natürlich tun.</p>
+        <h2>6. Änderungen der AGB</h2>
+        <p>Wir behalten uns das Recht vor, diese AGB jederzeit zu ändern. Änderungen werden auf unserer Website
+            veröffentlicht und treten mit Veröffentlichung in Kraft.</p>
 
-    <h2>Kontakt</h2>
-    <p>Bei Fragen kannst du uns schreiben an: <a href="mailto:info.goalnewsde@gmail.com">info.goalnewsde@gmail.com</a>
-    </p>
+        <h2>7. Kontakt</h2>
+        <p>Wenn du Fragen hast, schreibe uns eine Mail an <a
+                href="mailto:info.goldnews.de@gmail.com">info.goldnews.de@gmail.com</a>.</p>
+    </div>
 
-    <p><a href="index.html">Zurück zur Startseite</a></p>
+    <footer>
+        &copy; 2025 GoalNewsDE | Don't Steal Our Stuff
+    </footer>
 
+    <!-- Google Analytics Beispiel (Universal Analytics) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXX-X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-XXXXXX-X');
+    </script>
 </body>
 
 </html>

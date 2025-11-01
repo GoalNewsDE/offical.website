@@ -18,6 +18,17 @@
 </head>
 
 <body>
+
+    <!-- Cookie-Banner -->
+    <div id="cookieBanner"
+        style="display:none;position:fixed;bottom:0;width:100%;background:#111;color:#eee;padding:20px;text-align:center;z-index:1000;">
+        Wir nutzen Cookies, für mehr Infos gucke in den <a href="agb.html">AGB</a> nach.
+        <button id="acceptCookies"
+            style="margin-left:15px;padding:10px 20px;background:#1db954;color:#fff;border:none;border-radius:5px;cursor:pointer;">
+            Akzeptieren
+        </button>
+    </div>
+
     <div id="breakingNews">
         <div class="news-wrapper">
             <span class="news-item">Am. Football: Am 9.11.2025: Berlin-Game Indianapolis Colts - Atlanta Falcons</span>
@@ -38,8 +49,6 @@
         <div class="logo">GoalNewsDE</div>
     </header>
 
-    <!-- Hero & Matches -->
-    <div class="hero-container"></div>
     <!-- Hero -->
     <div class="hero-container">
         <div class="bg-logo">GoalNewsDE</div>
@@ -51,18 +60,18 @@
             <a href="statistics.html" class="hero-button">Statistiken</a>
             <a href="news.html" class="hero-button">News</a>
             <a href="login.html" class="hero-button">Secret</a>
-            <a href="comments.html" class="hero-button"> Kommentar Forum</a>
+            <a href="comments.html" class="hero-button">Kommentar Forum</a>
             <a href="abstimmungen.html" class="hero-button">Abstimmungen</a>
             <a href="football.html" class="hero-button">Am. Football</a>
         </div>
     </div>
+
     <div class="socials">
         <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank" class="social-link">WhatsApp</a>
         <a href="https://youtube.com/" target="_blank" class="social-link">YouTube</a>
     </div>
 
     <div class="countdown-section">
-        <h2> Heute Liveticker nur im kanal, Sorry! <a href="https://whatsapp.com/channel/0029Vb7PDwN8V0toB3ATWZ1Y" target="_blank" class="social-link">Kanal</a> </h2> 
         <h2>⏱️ 1. Samstagsspeil (9. Spieltag) startet in:</h2>
         <div id="countdown">lade...</div>
     </div>
@@ -212,7 +221,7 @@
             storageBucket: "goalnewsde-community.firebasestorage.app",
             messagingSenderId: "134523022055",
             appId: "1:134523022055:web:4f35ed7812d06e4fb55042",
-            measurementId: "G-XXXXXXX" // Optional, falls du Analytics willst
+            measurementId: "G-XXXXXXX"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -273,6 +282,22 @@
                 link.addEventListener('click', () => {
                     logEvent(analytics, 'footer_click', { link_name: link.textContent.trim(), url: link.href });
                 });
+            });
+
+            // Cookie-Banner
+            const cookieBanner = document.getElementById('cookieBanner');
+            const acceptBtn = document.getElementById('acceptCookies');
+            if (!localStorage.getItem('cookiesAccepted')) {
+                cookieBanner.style.display = 'block';
+            }
+            acceptBtn.addEventListener('click', () => {
+                localStorage.setItem('cookiesAccepted', 'true');
+                cookieBanner.style.display = 'none';
+                // Optional: Firebase speichern
+                addDoc(collection(db, "cookieAcceptances"), {
+                    accepted: true,
+                    timestamp: serverTimestamp()
+                }).catch(err => console.error("Cookie-DB Fehler:", err));
             });
         });
     </script>
