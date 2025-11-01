@@ -48,7 +48,7 @@ h1 { margin-top: 20px; font-size: 28px; letter-spacing: 1px; }
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBmIcdFtxv4jBJKdiAkEiwnkQ8yRwiG_0w",
@@ -75,16 +75,20 @@ const formations = {
 
 let teams = { home:{formation:"4-4-2",players:[]}, away:{formation:"4-4-2",players:[]} };
 
-async function ensureDocsExist(){
-  for(const t of ["home","away"]){
-    const ref = doc(db,"startelf",t);
-    const snap = await getDoc(ref);
-    if(!snap.exists()){
-      await setDoc(ref,{ formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) });
-    }
+// 🔹 Spieler laden oder Dokument erstellen
+async function loadTeam(teamName){
+  const ref = doc(db,"startelf",teamName);
+  const snap = await getDoc(ref);
+  if(!snap.exists()){
+    await setDoc(ref,{ formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) });
+    teams[teamName] = { formation:"4-4-2", players:Array(11).fill({name:"?",number:"?"}) };
+  } else {
+    teams[teamName] = snap.data();
   }
+  renderTeam(teamName);
 }
 
+// 🔹 Team rendern
 function renderTeam(teamName){
   const field = document.getElementById(teamName+"Field");
   field.innerHTML="";
@@ -120,6 +124,7 @@ function renderTeam(teamName){
           if(number===null) return;
           teams[teamName].players[playerIndex]={name,number};
           await updateDoc(doc(db,"startelf",teamName),teams[teamName]);
+          renderTeam(teamName);
         }
       }
 
@@ -129,32 +134,23 @@ function renderTeam(teamName){
   }
 }
 
-// 🔹 Admin Panel
+// 🔹 Admin Panel Formation speichern
 document.getElementById("updateFormation").onclick = async()=>{
   const teamName = document.getElementById("teamSelect").value;
   const formation = document.getElementById("formationSelect").value;
   teams[teamName].formation = formation;
   await updateDoc(doc(db,"startelf",teamName),teams[teamName]);
+  renderTeam(teamName);
 };
 
-// 🔹 Auth + Firestore
-window.addEventListener("load",async()=>{
-  onAuthStateChanged(auth, async(user)=>{
-    if(user && ADMIN_UIDS.includes(user.uid)) {
-      isAdmin=true;
-      document.getElementById("adminPanel").style.display="block";
-    }
-    await ensureDocsExist();
-
-    ["home","away"].forEach(teamName=>{
-      onSnapshot(doc(db,"startelf",teamName),snap=>{
-        if(snap.exists()){
-          teams[teamName]=snap.data();
-          renderTeam(teamName);
-        }
-      });
-    });
-  });
+// 🔹 Auth & Ladefunktion
+onAuthStateChanged(auth,user=>{
+  if(user && ADMIN_UIDS.includes(user.uid)){
+    isAdmin = true;
+    document.getElementById("adminPanel").style.display="block";
+  }
+  loadTeam("home");
+  loadTeam("away");
 });
 </script>
 </body>
