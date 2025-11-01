@@ -1,65 +1,124 @@
-/* ========== Allgemein ========== */
+/* === GLOBAL === */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", system-ui, sans-serif;
 }
 
 body {
-    background-color: #0f0f0f;
-    color: #eee;
-    line-height: 1.6;
+    background: radial-gradient(circle at top, #0f1115, #050607);
+    color: #f2f2f2;
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
-/* Links */
-a {
-    color: #1db954;
-    text-decoration: none;
-    transition: color 0.3s;
+/* === SCROLLBAR === */
+::-webkit-scrollbar {
+    width: 10px;
 }
 
-a:hover {
-    color: #14a34a;
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #1db954, #158a3c);
+    border-radius: 6px;
 }
 
-/* ========== Header ========== */
+/* === HEADER === */
+/* === HEADER === */
 header {
+    position: sticky;
+    top: 0;
+    background: rgba(15, 17, 21, 0.8);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1rem 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 0;
-    background: linear-gradient(90deg, #1db954, #14a34a);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    z-index: 100;
 }
 
 header .logo {
-    font-size: 2rem;
     font-weight: 800;
-    color: #fff;
-    letter-spacing: 2px;
+    font-size: 1.8rem;
+    letter-spacing: 0.5px;
+    color: #1db954;
+    text-transform: none;
+    /* <— Groß-/Kleinschreibung beibehalten */
+    text-shadow: 0 0 12px rgba(29, 185, 84, 0.4);
 }
 
-/* ========== Breaking News ========== */
+
+/* === HERO === */
+.hero-container {
+    position: relative;
+    text-align: center;
+    padding: 6rem 1rem 4rem;
+}
+
+.bg-logo {
+    position: absolute;
+    inset: 0;
+    font-size: 10rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    user-select: none;
+}
+
+.hero-text {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    z-index: 1;
+    position: relative;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 2;
+    position: relative;
+}
+
+.hero-button {
+    padding: 0.9rem 1.6rem;
+    background: linear-gradient(145deg, #1db954, #17a047);
+    border-radius: 999px;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.hero-button:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 0 18px rgba(29, 185, 84, 0.4);
+}
+
+/* === BREAKING NEWS === */
 #breakingNews {
-    background: #111;
+    background: #1db954;
+    color: #fff;
     overflow: hidden;
-    border-left: 4px solid #1db954;
+    white-space: nowrap;
+    position: relative;
+    font-weight: 500;
+    padding: 0.6rem 0;
 }
 
 .news-wrapper {
-    display: flex;
-    animation: scroll 25s linear infinite;
+    display: inline-block;
+    animation: scroll 40s linear infinite;
 }
 
 .news-item {
-    padding: 0 50px;
-    font-weight: 600;
-    white-space: nowrap;
-    color: #1db954;
-    text-transform: uppercase;
-    font-size: 0.9rem;
+    margin-right: 3rem;
 }
 
 @keyframes scroll {
@@ -72,187 +131,89 @@ header .logo {
     }
 }
 
-/* ========== Hero Section ========== */
-.hero-container {
-    text-align: center;
-    padding: 80px 20px;
-    position: relative;
-    overflow: hidden;
-}
-
-.bg-logo {
-    font-size: 10rem;
-    color: rgba(29, 185, 84, 0.07);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-    font-weight: 900;
-    letter-spacing: 10px;
-    text-transform: none;
-    transition: all 0.3s ease;
-    pointer-events: auto;
-}
-
-.bg-logo.active {
-    color: rgba(29, 255, 84, 0.5);
-    transform: translate(-50%, -50%) scale(1.08);
-    text-shadow: 0 0 25px rgba(29, 255, 84, 0.6);
-}
-
-.hero-text {
-    font-size: 1.6rem;
-    margin-bottom: 40px;
-    z-index: 1;
-    position: relative;
-    font-weight: 500;
-}
-
-/* Hero Buttons */
-.hero-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    position: relative;
-    z-index: 2;
-}
-
-.hero-button {
-    background: linear-gradient(145deg, #1db954, #14a34a);
-    color: #fff;
-    padding: 14px 32px;
-    border-radius: 50px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    animation: glowPulse 2.5s infinite alternate;
-    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
-}
-
-.hero-button::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: rotate(45deg);
-    transition: all 0.5s;
-}
-
-.hero-button:hover::after {
-    top: 0;
-    left: 0;
-}
-
-.hero-button:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6), 0 12px 35px rgba(0, 0, 0, 0.5);
-}
-
-@keyframes glowPulse {
-    0% {
-        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
-    }
-
-    50% {
-        box-shadow: 0 8px 20px rgba(29, 185, 84, 0.7), 0 12px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    100% {
-        box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.4);
-    }
-}
-
-/* ========== Socials ========== */
-.socials {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    padding: 25px 0;
-}
-
-.socials a {
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 8px 15px;
-    border-radius: 25px;
-    background: #1db954;
-    transition: transform 0.2s, background 0.3s;
-    color: #fff;
-}
-
-.socials a:hover {
-    transform: scale(1.1);
-    background: #14a34a;
-}
-
-/* ========== Countdown ========== */
+/* === COUNTDOWN === */
 .countdown-section {
     text-align: center;
-    margin: 50px 0;
+    padding: 3rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .countdown-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
+    font-size: 1.6rem;
     color: #1db954;
+    margin-bottom: 0.5rem;
 }
 
-/* ========== Matches ========== */
+#countdown {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* === MATCHES === */
 .matches {
-    padding: 30px 20px;
-    max-width: 950px;
-    margin: auto;
-    background: #111;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-.matches h2,
-.matches h3,
-.matches h4 {
-    margin-bottom: 12px;
+    text-align: center;
+    padding: 3rem 1rem;
 }
 
 .matches h2 {
+    font-size: 1.8rem;
     color: #1db954;
+    margin-bottom: 1.5rem;
 }
 
-.matches h2.topspiel {
-    color: gold;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+.matches h3,
+.matches h4 {
+    font-weight: 400;
+    line-height: 1.6;
+    color: #ddd;
 }
 
-/* ========== Live-Ticker ========== */
-.ticker-wrapper {
-    background: #1a1a1a;
-    overflow: hidden;
-    padding: 10px 0;
-    border-left: 4px solid #1db954;
+.matches strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+/* === SOCIALS === */
+.socials {
     display: flex;
-    align-items: center;
-    height: 40px;
-    position: relative;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.socials a {
+    color: #fff;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.socials a:hover {
+    background: #1db954;
+    color: #111;
+}
+
+/* === TICKER === */
+.ticker-wrapper {
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.8rem 0;
 }
 
 .ticker {
-    display: inline-block;
     white-space: nowrap;
-    font-weight: 500;
-    color: #1db954;
-    font-size: 1rem;
-    line-height: 1;
-    will-change: transform;
+    display: inline-block;
+    animation: tickerMove 25s linear infinite;
 }
 
-@keyframes scrollTicker {
+@keyframes tickerMove {
     0% {
         transform: translateX(100%);
     }
@@ -262,57 +223,37 @@ header .logo {
     }
 }
 
-/* ========== Problem melden Button ========== */
-#reportButton {
-    background: linear-gradient(145deg, #1db954, #14a34a);
-    color: #fff;
-    border: none;
-    padding: 14px 26px;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 6px 15px rgba(29, 185, 84, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    animation: glowPulse 2.5s infinite alternate;
+/* === REPORT SECTION === */
+#reportSection button {
+    transition: all 0.3s ease;
 }
 
-#reportButton::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: rotate(45deg);
-    transition: all 0.5s;
+#reportSection button:hover {
+    background: #17a047;
+    transform: translateY(-2px);
 }
 
-#reportButton:hover::after {
-    top: 0;
-    left: 0;
-}
-
-#reportButton:hover {
-    transform: translateY(-2px) scale(1.05);
-}
-
-/* ========== Footer ========== */
+/* === FOOTER === */
 footer {
     text-align: center;
-    padding: 25px;
-    background: #111;
+    padding: 2rem 1rem;
     font-size: 0.9rem;
-    color: #aaa;
+    color: #888;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* ========== Responsive ========== */
+footer a {
+    color: #1db954;
+    margin: 0 8px;
+    text-decoration: none;
+}
+
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
-    .hero-container .bg-logo {
-        font-size: 4.5rem;
+    .bg-logo {
+        font-size: 5rem;
     }
 
     .hero-text {
@@ -320,82 +261,11 @@ footer {
     }
 
     .hero-buttons {
-        flex-wrap: wrap;
-        gap: 10px;
+        gap: 0.7rem;
     }
 
     .hero-button {
-        flex: 1 1 calc(50% - 10px);
-    }
-
-    .matches {
-        max-width: 95%;
-    }
-
-    footer {
-        font-size: 0.85rem;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        font-size: 15px;
-        padding: 0 10px;
-    }
-
-    header .logo {
-        font-size: 1.6rem;
-        letter-spacing: 1px;
-    }
-
-    .hero-container {
-        padding: 60px 15px;
-    }
-
-    .bg-logo {
-        font-size: 2.8rem;
-        top: 55%;
-    }
-
-    .hero-text {
-        font-size: 1.1rem;
-        margin-bottom: 25px;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .hero-button {
-        width: 100%;
-        max-width: 280px;
-        padding: 12px 0;
-        font-size: 0.95rem;
-    }
-
-    .news-item {
-        padding: 0 25px;
-    }
-
-    .matches {
-        padding: 20px 15px;
-        border-radius: 12px;
-    }
-
-    .socials {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    #reportButton {
-        width: 80%;
-        font-size: 15px;
-        padding: 12px;
-    }
-
-    footer {
-        font-size: 0.8rem;
-        padding: 15px 10px;
+        font-size: 0.9rem;
+        padding: 0.7rem 1.3rem;
     }
 }
