@@ -69,7 +69,6 @@ const db = getFirestore(app);
 const ADMIN_UIDS = ["g7Lsh9MshAOkwbyHcO3NFsnUpZl1","lwRnonWRhMOeYedZLAldySkEKso2"];
 let isAdmin = false;
 
-// Formationen
 const formations = {
   "4-4-2": [[1],[2,3,4,5],[6,7,8,9],[10,11]],
   "4-3-3": [[1],[2,3,4,5],[6,7,8],[9,10,11]],
@@ -81,14 +80,21 @@ const formations = {
 
 let teams = {};
 
-// Lade Team aus Firebase oder erstelle automatisch
-async function loadTeam(teamName){
+// Funktion um sicherzustellen, dass das Team-Dokument existiert
+async function ensureTeamExists(teamName) {
   const ref = doc(db,"startelf",teamName);
   const snap = await getDoc(ref);
-  if(!snap.exists()){
+  if (!snap.exists()) {
     await setDoc(ref,{ formation:"4-4-2", players:[] });
   }
-  onSnapshot(ref,(docSnap)=>{
+  return ref;
+}
+
+// Team laden & live Updates
+async function loadTeam(teamName) {
+  const teamRef = await ensureTeamExists(teamName);
+
+  onSnapshot(teamRef,(docSnap)=>{
     const data = docSnap.data();
     if(!data.players) data.players = [];
     teams[teamName] = data;
@@ -145,8 +151,7 @@ function renderTeam(teamName){
 document.getElementById("updateFormation").onclick = async()=>{
   const teamName = document.getElementById("teamSelect").value;
   const formation = document.getElementById("formationSelect").value;
-  const teamRef = doc(db,"startelf",teamName);
-  await updateDoc(teamRef,{formation});
+  await updateDoc(doc(db,"startelf",teamName),{formation});
 }
 
 // Auth & Ladefunktion
